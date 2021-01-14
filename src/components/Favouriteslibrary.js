@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, Dimensions, ScrollView, FlatList} from 'react-native';
+import {View, StyleSheet, Dimensions, ScrollView, FlatList} from 'react-native';
 
 import Favouriteslibrarycard from '../components/Favouriteslibrarycard';
 

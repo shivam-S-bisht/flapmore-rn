@@ -1,9 +1,10 @@
 import React from 'react';
 import {Image, Text, View, StyleSheet, TouchableOpacity} from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
+import Anticon from 'react-native-vector-icons/AntDesign';
 
 
-export default class Favouriteslibrarycard extends React.Component{
+
+export default class Mycontentslibrarycard extends React.Component{
 
     
     // state={
@@ -14,7 +15,7 @@ export default class Favouriteslibrarycard extends React.Component{
 
     render() {
 
-        const {image, title , author, totalreadtime, background} = this.props.favcard;
+        const {image, title , author, totalreadtime, background} = this.props.contentcard;
 
         return(
             <View style={{flex: 1}}>
@@ -33,7 +34,7 @@ export default class Favouriteslibrarycard extends React.Component{
                         <TouchableOpacity
                             
                         >
-                            <AntDesign name="delete" size={24} color="black" />  
+                            <Anticon name="delete" size={24} color="black" />  
                         </TouchableOpacity>
                     </View>
                 </TouchableOpacity>

@@ -1,6 +1,10 @@
 import React from 'react';
 import {View, Text, StyleSheet, FlatList, ScrollView, SafeAreaView, TextInput, TouchableOpacity, Touchable} from 'react-native';
-import { AntDesign, MaterialCommunityIcons, Feather } from '@expo/vector-icons'; 
+// import { AntDesign, MaterialCommunityIcons, Feather } from '@expo/vector-icons'; 
+import Anticon from 'react-native-vector-icons/AntDesign';
+import Feathericon from 'react-native-vector-icons/Feather';
+import Maticon from 'react-native-vector-icons/MaterialCommunityIcons';
+
 
 
 import Explorecategorycard from '../components/Explorecategorycard';
@@ -60,18 +64,18 @@ export default class Explore extends React.Component{
                         <TouchableOpacity>
                             <View style={styles.touchableviewable}>
                                 <Text style={styles.touchabletext}>Sort</Text>
-                                <AntDesign name="down" size={24} color="black" />
+                                <Anticon name="down" size={24} color="black" />
                             </View>
                         </TouchableOpacity>
                         <TouchableOpacity>
                             <View style={styles.touchableviewable}>
-                                <MaterialCommunityIcons name="theme-light-dark" size={24} color="black" />
+                                <Maticon name="theme-light-dark" size={24} color="black" />
                                 <Text style={styles.touchabletext}>Dark Mode</Text>
                             </View>
                         </TouchableOpacity>
                         <TouchableOpacity>
                             <View style={styles.touchableviewable}>
-                                <Feather name="filter" size={24} color="black" />
+                                <Feathericon name="filter" size={24} color="black" />
                                 <Text style={styles.touchabletext}>Filters</Text>
                             </View>
                         </TouchableOpacity>

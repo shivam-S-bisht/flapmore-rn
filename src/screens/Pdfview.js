@@ -21,7 +21,9 @@ class Pdfview extends React.Component {
             <View style={styles.topviewable}>
 
               <View style={styles.firstviewable}>
-                <TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => this.props.navigation.goBack()}
+                >
                     <Icon name="chevron-back-sharp" size={30} color="#151522" />
                 </TouchableOpacity>
                 <TouchableOpacity>

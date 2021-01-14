@@ -10,6 +10,7 @@ export default class ExploreCategoryCard extends React.Component{
             <View style={styles.topviewable}>
                 <TouchableOpacity
                     style={styles.explorecardtouchable}
+                    // onPress={this.props.props.navigation.navigate('BookDescription')}
                 >
                     <Image source={icon} style={{borderTopLeftRadius: 5, borderBottomLeftRadius: 5, marginRight: 10}} />                
                     <Text style={{fontSize: 15, fontWeight: 'bold', color: '#1F4966'}}>{title}</Text>

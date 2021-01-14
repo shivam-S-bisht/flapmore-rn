@@ -31,10 +31,10 @@ export default class Onboarding extends React.Component{
                         snapToInterval={Dimensions.get('window').width}
                         onScroll={e=> {
                             switch(true){
-                                case e.nativeEvent.contentOffset.x<400: this.setState({whichone: 0}); break;
-                                case e.nativeEvent.contentOffset.x<800 && 400<e.nativeEvent.contentOffset.x: this.setState({whichone: 1}); break;
-                                case e.nativeEvent.contentOffset.x<1200 && 800<e.nativeEvent.contentOffset.x: this.setState({whichone: 2}); break;
-                                case 1200<e.nativeEvent.contentOffset.x: this.setState({whichone: 3});
+                                case e.nativeEvent.contentOffset.x<300: this.setState({whichone: 0}); break;
+                                case e.nativeEvent.contentOffset.x<700 && 300<e.nativeEvent.contentOffset.x: this.setState({whichone: 1}); break;
+                                case e.nativeEvent.contentOffset.x<1100 && 700<e.nativeEvent.contentOffset.x: this.setState({whichone: 2}); break;
+                                case 1100<e.nativeEvent.contentOffset.x: this.setState({whichone: 3});
                             }      
                         }}
                     />
@@ -46,7 +46,10 @@ export default class Onboarding extends React.Component{
                     <View style={[styles.cour, {backgroundColor:this.state.whichone==3?'#3D6DFF':'#9bccf6'}]}></View>
                 </View>
                 <View style={styles.viewablestartreadingtouchable}>
-                    <TouchableOpacity style={styles.startreadingtouchable}>
+                    <TouchableOpacity 
+                        style={styles.startreadingtouchable}
+                        onPress={()=> this.props.navigation.replace('Tabbars')}
+                    >
                         <Text style={styles.startreadingtext}>Start Reading</Text>
                     </TouchableOpacity>
                 </View>

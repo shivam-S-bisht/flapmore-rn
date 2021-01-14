@@ -1,23 +1,25 @@
 import React from 'react';
 import {Image, Text, View, StyleSheet, TouchableOpacity} from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
+// import { MaterialCommunityIcons } from '@expo/vector-icons';
+import Maticon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
-export default class Mycontentslibrarycard extends React.Component{
+
+export default class Exploretabflapbookscard extends React.Component{
 
     
-    // state={
-    //     iconflag: 0
+    state={
+        iconflag: 0
 
-    // }
+    }
 
 
     render() {
 
-        const {image, title , author, totalreadtime, background} = this.props.contentcard;
+        const {image, title , author, totalreadtime, background} = this.props.explorecard;
 
         return(
-            <View style={{flex: 1}}>
+            <View>
                 <TouchableOpacity
                     style={styles.toptouchable}
                 >
@@ -31,9 +33,16 @@ export default class Mycontentslibrarycard extends React.Component{
                     </View>
                     <View style={styles.bookmarkviewable}>
                         <TouchableOpacity
-                            
+                            onPress={()=> {
+                                switch(this.state.iconflag) {
+                                    case 0: this.setState({iconflag: 1}); break;
+                                    case 1: this.setState({iconflag: 0}); break;
+                                }
+                            }}
                         >
-                            <AntDesign name="delete" size={24} color="black" />  
+                            
+                            {/* <Maticon name={this.state.iconflag?'bookmark':'bookmark-plus-outline'} size={35} color="black" />   */}
+                            <Maticon name={this.state.iconflag?'bookmark':'bookmark-plus-outline'} size={35} color="black" />  
                         </TouchableOpacity>
                     </View>
                 </TouchableOpacity>
@@ -47,7 +56,7 @@ export default class Mycontentslibrarycard extends React.Component{
 const styles=StyleSheet.create({
     toptouchable: {
         flex: 1,
-        // backgroundColor: 'red',
+        backgroundColor: 'white',
         marginRight: 15,
         borderRadius: 5,
         flexDirection: 'row'

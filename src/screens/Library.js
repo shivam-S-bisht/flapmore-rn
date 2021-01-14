@@ -1,6 +1,8 @@
 import React from 'react';
 import {View, Text, StyleSheet, FlatList, Dimensions, TouchableOpacity, Touchable} from 'react-native';
-import { Feather } from '@expo/vector-icons';
+// import { Feather } from '@expo/vector-icons';
+import Feathericon from 'react-native-vector-icons/Feather';
+
 
 
 import Librarytabs from '../components/Librarytabs';
@@ -18,7 +20,7 @@ export default class Library extends React.Component{
                 <View style={styles.headerviewable}>
                     <Text style={styles.librarytitle}>Library</Text>
                     <TouchableOpacity>
-                        <Feather name="filter" size={24} color="black" />
+                        <Feathericon name="filter" size={24} color="black" />
                     </TouchableOpacity>
                 </View>
                 <View style={styles.librarytabsviewable}>

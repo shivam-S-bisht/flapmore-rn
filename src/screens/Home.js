@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, SafeAreaView, StyleSheet, Image, FlatList, ScrollView, TouchableOpacity} from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Ionicon from 'react-native-vector-icons/Ionicons';
+// import { Ionicons } from '@expo/vector-icons';
 
 import Trendyselectioncard from '../components/Trendyselectioncard';
 import Flapbookscard from '../components/Flapbookscard'
@@ -24,8 +25,13 @@ export default class Home extends React.Component{
                     <Image source={require('../../assets/home-iconname.png')} style={{position:'absolute', top: 33, left: 20}} />
 
                     <View style={styles.firstviewable}>
-                        <Ionicons name='notifications-outline' size={24} color='#1F4966' style={{paddingHorizontal:15}} />
-                        <Ionicons name='settings-outline' size={24} color='#1F4966' />
+                        <TouchableOpacity>
+                            <Ionicon name='notifications-outline' size={24} color='#1F4966' style={{paddingHorizontal:15}} />
+                        </TouchableOpacity>
+                        
+                        <TouchableOpacity>
+                            <Ionicon name='settings-outline' size={24} color='#1F4966' />
+                        </TouchableOpacity>
                     </View>
                 </View>
                 <ScrollView>
@@ -38,7 +44,7 @@ export default class Home extends React.Component{
                             keyExtractor={item=>item.id}
                             data={trendycarddetails}
                             horizontal={true}
-                            renderItem={({item}) => <Trendyselectioncard trendycard={item} />}
+                            renderItem={({item}) => <Trendyselectioncard trendycard={item} props={this.props} />}
                             showsHorizontalScrollIndicator={false}
                         />
                         
@@ -51,7 +57,7 @@ export default class Home extends React.Component{
                             keyExtractor={item=>item.id}
                             data={explorecarddetails1}
                             horizontal={true}
-                            renderItem={({item}) => <Explorecategorycard explorecard={item} />}
+                            renderItem={({item}) => <Explorecategorycard explorecard={item} props={this.props} />}
                             showsHorizontalScrollIndicator={false}
                         />
                         <FlatList 
@@ -59,7 +65,7 @@ export default class Home extends React.Component{
                             keyExtractor={item=>item.id}
                             data={explorecarddetails2}
                             horizontal={true}
-                            renderItem={({item}) => <Explorecategorycard explorecard={item} />}
+                            renderItem={({item}) => <Explorecategorycard explorecard={item} props={this.props} />}
                             showsHorizontalScrollIndicator={false}
                         />
                     </View>
@@ -79,7 +85,7 @@ export default class Home extends React.Component{
                             keyExtractor={item=>item.id}
                             data={flapbookdetails}
                             horizontal={true}
-                            renderItem={({item}) => <Flapbookscard flapcard={item} />}
+                            renderItem={({item}) => <Flapbookscard flapcard={item} props={this.props} />}
                             showsHorizontalScrollIndicator={false}
                         />
 
@@ -93,7 +99,7 @@ export default class Home extends React.Component{
                             keyExtractor={item=>item.id}
                             data={trendingflapbookdetails}
                             horizontal={true}
-                            renderItem={({item}) => <Trendingflapbookscard trendingcard={item} />}
+                            renderItem={({item}) => <Trendingflapbookscard trendingcard={item} props={this.props} />}
                             showsHorizontalScrollIndicator={false}
                         />
                     </View>
@@ -113,7 +119,7 @@ export default class Home extends React.Component{
                             keyExtractor={item=>item.id}
                             data={flapbookdetails}
                             horizontal={true}
-                            renderItem={({item}) => <Flapbookscard flapcard={item} />}
+                            renderItem={({item}) => <Flapbookscard flapcard={item} props={this.props} />}
                             showsHorizontalScrollIndicator={false}
                         />
                     </View>

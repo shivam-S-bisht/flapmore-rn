@@ -1,6 +1,8 @@
 import React from 'react';
 import {SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View, StyleSheet} from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+// import { Ionicons } from '@expo/vector-icons';
+import Ionicon from 'react-native-vector-icons/Ionicons';
+
 
 export default class Loginviaotp extends React.Component{
 
@@ -20,7 +22,7 @@ export default class Loginviaotp extends React.Component{
                     <TouchableOpacity
                         style={{alignSelf: 'flex-start', marginLeft: -10}}
                     >
-                        <Ionicons name="chevron-back" size={35} color="black" />
+                        <Ionicon name="chevron-back" size={35} color="black" />
                     </TouchableOpacity>
                     <View style={styles.firstviewable}>
                         <Text style={styles.logintexttitle}>Login via OTP</Text>

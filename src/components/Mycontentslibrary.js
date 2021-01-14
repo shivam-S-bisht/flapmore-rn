@@ -1,9 +1,9 @@
 import React from 'react';
 import {View, Text, StyleSheet, Dimensions, ScrollView, FlatList} from 'react-native';
 
-import Mycontentslibrarycard from '../components/Mycontentslibrarycard';
+import Mycontentslibrarycard from './Mycontentslibrarycard';
 
-import mycontentslibrarybooks from '../components/mycontentslibrarybooks'
+import mycontentslibrarybooks from './mycontentslibrarybooks'
 
 export default class Mycontentslibrary extends React.Component {
     render() {

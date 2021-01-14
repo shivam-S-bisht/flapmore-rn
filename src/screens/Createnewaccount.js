@@ -1,6 +1,7 @@
 import React from 'react';
-import {View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Image, TextInput, ScrollView} from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import {View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Image, TextInput, ScrollView, StatusBar} from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
+
 
 
 export default class Createnewaccount extends React.Component{
@@ -27,9 +28,11 @@ export default class Createnewaccount extends React.Component{
     render() {
         return (
             <SafeAreaView style={styles.topviewable}>
-                <ScrollView>
+                <ScrollView
+                    showsVerticalScrollIndicator={false}
+                >
                     <TouchableOpacity style={styles.backbuttontouchable}>
-                        <Ionicons name="chevron-back" size={35} color="black" />
+                        <Icon name='chevron-back' color='black' size={30} />
                     </TouchableOpacity>
                     
                     <Text style={styles.createnewaccounttexttitle}>Create New Account</Text>
@@ -91,7 +94,8 @@ const styles = StyleSheet.create({
     topviewable: {
         flex: 1,
         paddingHorizontal: 20,
-        paddingVertical: 30
+        paddingBottom: 30,
+        paddingTop: StatusBar.currentHeight
     },
 
     backbuttontouchable:{

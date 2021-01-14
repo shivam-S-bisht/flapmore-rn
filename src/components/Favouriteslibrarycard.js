@@ -1,15 +1,25 @@
 import React from 'react';
 import {Image, Text, View, StyleSheet, TouchableOpacity} from 'react-native';
+// import { AntDesign } from '@expo/vector-icons';
+import Anticon from 'react-native-vector-icons/AntDesign';
 
 
-export default class Trendingflapbookscard extends React.Component{
+
+export default class Favouriteslibrarycard extends React.Component{
+
+    
+    // state={
+    //     iconflag: 0
+
+    // }
+
 
     render() {
 
-        const {image, title , author, totalreadtime, background} = this.props.trendingcard;
+        const {image, title , author, totalreadtime, background} = this.props.favcard;
 
         return(
-            <View>
+            <View style={{flex: 1}}>
                 <TouchableOpacity
                     style={styles.toptouchable}
                 >
@@ -21,7 +31,16 @@ export default class Trendingflapbookscard extends React.Component{
                         <Text style={{color: '#4D5156', fontSize: 15, marginBottom: 10}}>{author}</Text>
                         <Text style={{color: '#1788AC', fontSize: 15}}>Total Read {totalreadtime}: Min</Text>
                     </View>
+                    <View style={styles.bookmarkviewable}>
+                        <TouchableOpacity
+                            
+                        >
+                            <Anticon name="delete" size={24} color="black" />  
+                        </TouchableOpacity>
+                    </View>
                 </TouchableOpacity>
+                <View style={{backgroundColor: '#D8DDE5', height: 10}}></View>
+
             </View>
         );
     }
@@ -30,7 +49,7 @@ export default class Trendingflapbookscard extends React.Component{
 const styles=StyleSheet.create({
     toptouchable: {
         flex: 1,
-        backgroundColor: 'white',
+        // backgroundColor: 'red',
         marginRight: 15,
         borderRadius: 5,
         flexDirection: 'row'
@@ -39,6 +58,13 @@ const styles=StyleSheet.create({
     contentviewable: {
         paddingVertical: 10,
         paddingRight: 10,
+        paddingTop: 20
+    },
+
+    bookmarkviewable: {
+        flex: 1,
+        // justifyContent: 'center',
+        alignItems: 'center',
         paddingTop: 20
     }
 })

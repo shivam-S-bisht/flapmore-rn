@@ -1,6 +1,8 @@
 import React from 'react';
 import {View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Image, TextInput, ScrollView} from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+// import { Ionicons } from '@expo/vector-icons';
+import Ionicon from 'react-native-vector-icons/Ionicons';
+
 
 export default class Login extends React.Component{
 
@@ -29,7 +31,7 @@ export default class Login extends React.Component{
             <SafeAreaView style={styles.topviewable}>
                 <ScrollView>
                     <TouchableOpacity style={styles.backbuttontouchable}>
-                        <Ionicons name="chevron-back" size={35} color="black" />
+                        <Ionicon name="chevron-back" size={35} color="black" />
                     </TouchableOpacity>
                     
                     <Text style={styles.logintexttitle}>Login</Text>
