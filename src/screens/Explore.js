@@ -10,9 +10,9 @@ import Maticon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Explorecategorycard from '../components/Explorecategorycard';
 import Exploretabflapbookscard from "../components/Exploretabflapbookscard";
 
-import explorecarddetails1 from '../components/explorecard1';
-import explorecarddetails2 from '../components/explorecard2';
-import exploretabflapbooks from '../components/exploretabflapbooks';
+import explorecarddetails1 from '../infos/explorecard1';
+import explorecarddetails2 from '../infos/explorecard2';
+import exploretabflapbooks from '../infos/exploretabflapbooks';
 
 export default class Explore extends React.Component{
 

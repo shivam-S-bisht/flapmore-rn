@@ -8,11 +8,11 @@ import Flapbookscard from '../components/Flapbookscard'
 import Explorecategorycard from '../components/Explorecategorycard';
 import Trendingflapbookscard from '../components/Trendingflapbookscard';
 
-import trendycarddetails from '../components/trendyselection';
-import explorecarddetails1 from '../components/explorecard1';
-import explorecarddetails2 from '../components/explorecard2';
-import flapbookdetails from '../components/flapbooks';
-import trendingflapbookdetails from '../components/trendingflapbooks';
+import trendycarddetails from '../infos/trendyselection';
+import explorecarddetails1 from '../infos/explorecard1';
+import explorecarddetails2 from '../infos/explorecard2';
+import flapbookdetails from '../infos/flapbooks';
+import trendingflapbookdetails from '../infos/trendingflapbooks';
 
 
 

@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, Dimensions, ScrollView, FlatList} from 'react-na
 
 import Mycontentslibrarycard from './Mycontentslibrarycard';
 
-import mycontentslibrarybooks from './mycontentslibrarybooks'
+import mycontentslibrarybooks from '../infos/mycontentslibrarybooks'
 
 export default class Mycontentslibrary extends React.Component {
     render() {

@@ -7,7 +7,7 @@ import Anticon from 'react-native-vector-icons/AntDesign';
 import Feathericon from 'react-native-vector-icons/Feather';
 import Materialicon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import bookdescription from '../components/bookdescription';
+import bookdescription from '../infos/bookdescription';
 
 import Chaptersname from '../components/Chaptersname';
 import Similarbookscard from '../components/Similarbookscard';

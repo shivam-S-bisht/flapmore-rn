@@ -23,6 +23,7 @@ import Onboarding from "./src/screens/Onboarding";
 // import Enterotp from "./src/screens/Enterotp";
 import Pdfview from './src/screens/Pdfview';
 import Bookdescription from './src/screens/Bookdescription'
+import Selecttags from './src/screens/Selecttags';
 
 
 export default class App extends React.Component{
@@ -91,6 +92,7 @@ export default class App extends React.Component{
                     {/* <this.Stack.Screen name='Enterotp' component={Enterotp} /> */}
                     <this.Stack.Screen name='Bookdescription' component={Bookdescription} />
                     <this.Stack.Screen name='Pdfview' component={Pdfview} />
+                    <this.Stack.Screen name='Selecttags' component={Selecttags} />
                 </this.Stack.Navigator>                   
             </NavigationContainer>
         );

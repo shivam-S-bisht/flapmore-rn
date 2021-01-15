@@ -1,9 +1,9 @@
 import React from 'react';
 import {View, StyleSheet, Dimensions, ScrollView, FlatList} from 'react-native';
 
-import Favouriteslibrarycard from '../components/Favouriteslibrarycard';
+import Favouriteslibrarycard from './Favouriteslibrarycard';
 
-import favouriteslibrarybooks from '../components/favouriteslibrarybooks'
+import favouriteslibrarybooks from '../infos/favouriteslibrarybooks'
 
 export default class Favouriteslibrary extends React.Component {
     render() {

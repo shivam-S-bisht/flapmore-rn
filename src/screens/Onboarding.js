@@ -3,7 +3,8 @@ import {StyleSheet, View, TouchableOpacity, Text, FlatList, Dimensions} from 're
 
 
 import Onboard from '../components/Onboard'
-import boards from '../components/boards';
+
+import boards from '../infos/boards';
 
 
 export default class Onboarding extends React.Component{
@@ -48,7 +49,7 @@ export default class Onboarding extends React.Component{
                 <View style={styles.viewablestartreadingtouchable}>
                     <TouchableOpacity 
                         style={styles.startreadingtouchable}
-                        onPress={()=> this.props.navigation.replace('Tabbars')}
+                        onPress={()=> this.props.navigation.push('Selecttags')}
                     >
                         <Text style={styles.startreadingtext}>Start Reading</Text>
                     </TouchableOpacity>
