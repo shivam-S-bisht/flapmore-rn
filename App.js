@@ -24,6 +24,7 @@ import Onboarding from "./src/screens/Onboarding";
 import Pdfview from './src/screens/Pdfview';
 import Bookdescription from './src/screens/Bookdescription'
 import Selecttags from './src/screens/Selecttags';
+import Test from './src/screens/Test';
 
 
 export default class App extends React.Component{
@@ -81,18 +82,19 @@ export default class App extends React.Component{
             <NavigationContainer>
                 <this.Stack.Navigator screenOptions={{headerShown: false}}>
                     
-                    <this.Stack.Screen name='Splash' component={Splash} />
-                    <this.Stack.Screen name='Onboarding' component={Onboarding} />
-                    <this.Stack.Screen name='Tabbars' component={this.Tabbars} />
+                    {/* <this.Stack.Screen name='Splash' component={Splash} /> */}
+                    {/* <this.Stack.Screen name='Onboarding' component={Onboarding} /> */}
+                    {/* <this.Stack.Screen name='Tabbars' component={this.Tabbars} /> */}
 
                     {/* <this.Stack.Screen name='LoginSignupchoose' component={LoginSignupchoose} /> */}
                     {/* <this.Stack.Screen name='CreateNewAccount' component={Createnewaccount} /> */}
                     {/* <this.Stack.Screen name='Login' component={Login} /> */}
                     {/* <this.Stack.Screen name='Loginviaotp' component={Loginviaotp} /> */}
                     {/* <this.Stack.Screen name='Enterotp' component={Enterotp} /> */}
-                    <this.Stack.Screen name='Bookdescription' component={Bookdescription} />
-                    <this.Stack.Screen name='Pdfview' component={Pdfview} />
-                    <this.Stack.Screen name='Selecttags' component={Selecttags} />
+                    {/* <this.Stack.Screen name='Bookdescription' component={Bookdescription} /> */}
+                    {/* <this.Stack.Screen name='Pdfview' component={Pdfview} /> */}
+                    {/* <this.Stack.Screen name='Selecttags' component={Selecttags} /> */}
+                    <this.Stack.Screen name='Test' component={Test} />
                 </this.Stack.Navigator>                   
             </NavigationContainer>
         );
