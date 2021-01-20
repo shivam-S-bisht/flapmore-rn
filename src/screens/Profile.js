@@ -180,7 +180,8 @@ export default class Profile extends React.Component{
 const styles=StyleSheet.create({
     details: {
         flexDirection: 'row',
-        marginBottom: 10
+        marginBottom: 10,
+        alignItems: 'center'
     }
 })
 
