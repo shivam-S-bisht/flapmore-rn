@@ -1,66 +1,145 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import { Content, Item, Input } from 'native-base';
-import { Grid, Col } from 'react-native-easy-grid';
+import { StyleSheet, View, Text, SafeAreaView, TouchableOpacity} from 'react-native';
+import { TextInput } from 'react-native-gesture-handler';
+// import { Content, Item, Input } from 'native-base';
+// import { Grid, Col } from 'react-native-easy-grid';
+import Ionicon from 'react-native-vector-icons/Ionicons';
 
-class Enterotp extends React.Component {
-    state={otp:[]};
-    otpTextInput = [];
 
-    componentDidMount() {
-        this.otpTextInput[0]._root.focus();
+export default class Enterotp extends React.Component {
+
+    state={
+        firstinp: '',
+        secondinp: '',
+        thirdinp: '',
+        fourthinp: '',
     }
 
-    renderInputs() {
-        const inputs = Array(6).fill(0);
-        const txt = inputs.map(
-            (i, j) => <Col key={j} style={styles.txtMargin}><Item regular>
-                <Input
-                    style={[styles.inputRadius, { borderRadius: 10 }]}
-                    keyboardType="numeric"
-                    onChangeText={v => this.focusNext(j, v)}
-                    onKeyPress={e => this.focusPrevious(e.nativeEvent.key, j)}
-                    ref={ref => this.otpTextInput[j] = ref}
-                />
-            </Item></Col>
-        );
-        return txt;
-    }
-
-    focusPrevious(key, index) {
-        if (key === 'Backspace' && index !== 0)
-            this.otpTextInput[index - 1]._root.focus();
-    }
-
-    focusNext(index, value) {
-        if (index < this.otpTextInput.length - 1 && value) {
-            this.otpTextInput[index + 1]._root.focus();
-        }
-        if (index === this.otpTextInput.length - 1) {
-            this.otpTextInput[index]._root.blur();
-        }
-        const otp = this.state.otp;
-        otp[index] = value;
-        this.setState({ otp:otp });
-        // this.props.getOtp(otp.join(''));
-    }
-
-
-    render() {
+    render () {
         return (
-            <Content padder>
-                <Grid style={styles.gridPad}>
-                    {this.renderInputs()}
-                </Grid>
-            </Content>
-        );
+            <SafeAreaView style={styles.topviewable}>
+                <View style={{flexDirection: 'row'}}>
+                    <TouchableOpacity>
+                        <Ionicon name='chevron-back-outline' size={30} color='black' />
+                    </TouchableOpacity>
+                </View>
+                <View>
+                    <Text style={styles.otptitle}>Login via OTP</Text>
+                    <Text style={styles.otpcontent}>Please enter the OTP sent to your  Mobile No. to login</Text>
+                    <Text style={styles.inputtitle}>Enter OTP</Text>
+                </View>
+                <View style={styles.textinputview}>
+                    <TextInput 
+                        maxLength={1}
+                        keyboardType='numeric'
+                        onChangeText={(val)=> {
+                            this.secondTextinput.focus()
+                            this.setState({firstinp: val})
+                        }}
+                        style={styles.textinput}
+                        
+                    />
+                    <TextInput 
+                        maxLength={1}
+                        keyboardType='numeric'
+                        ref={input=>this.secondTextinput=input}
+                        onChangeText={(val)=> {
+                            this.thirdTextinput.focus()
+                            this.setState({secondinp: val})
+                            
+                        }}
+                        style={styles.textinput}
+                        
+                    />
+                    <TextInput 
+                        maxLength={1}
+                        keyboardType='numeric'
+                        ref={input=>this.thirdTextinput=input}
+                        onChangeText={(val)=> {
+                            this.fourthTextinput.focus()
+                            this.setState({thirdinp: val})
+                        }}
+                        style={styles.textinput}
+                        
+                    />
+                    <TextInput 
+                        maxLength={1}
+                        keyboardType='numeric'
+                        ref={input=>this.fourthTextinput=input}
+                        style={styles.textinput}
+                        onChangeText={(val)=> {
+                            this.setState({fourthinp: val})
+                        }}
+                    />
+                </View>
+                <View>
+                    <TouchableOpacity
+                        style={styles.touchable}
+                    >
+                        <Text style={styles.touchabletext}>Continue</Text>
+                    </TouchableOpacity>
+                </View>
+            </SafeAreaView>
+        )
     }
 }
 
 const styles = StyleSheet.create({
-    gridPad: { padding: 30 },
-    txtMargin: { margin: 3 },
-    inputRadius: { textAlign: 'center' }
-});
+    topviewable: {
+        paddingHorizontal: 20,
+        paddingVertical: 20
+    },
 
-export default Enterotp;
+    otptitle: {
+        fontWeight: 'bold',
+        fontSize: 20,
+        paddingVertical: 15,
+        
+    },  
+
+    otpcontent: {
+        fontSize: 16,
+        color: '#7F7F97',
+        letterSpacing: 0.7,
+        paddingBottom: 20
+    },  
+
+    inputtitle: {
+        fontSize: 15,
+        fontWeight: 'bold',
+        color: '#626779',
+        paddingBottom: 10
+    },
+
+    textinputview: {
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+
+    textinput: {
+        width: 65,
+        height: 50,
+        borderRadius: 5,
+        borderColor: '#BFC4D4',
+        borderWidth: 2,
+        marginBottom: 20,
+        fontSize: 18,
+        color: '#626779',
+        textAlign: 'center',
+        fontWeight: 'bold',
+    },
+
+    touchable: {
+        backgroundColor: '#3D6DFF',
+        paddingVertical: 15,
+        borderRadius: 5
+    },
+
+    touchabletext: {
+        alignSelf: 'center',
+        fontSize: 17,
+        fontWeight: 'bold',
+        color: '#fff',
+        letterSpacing: 0.5
+    }
+})

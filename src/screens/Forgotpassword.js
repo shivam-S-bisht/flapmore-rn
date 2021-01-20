@@ -69,7 +69,12 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         borderColor: '#BFC4D4',
         borderWidth: 2,
-        marginBottom: 15
+        marginBottom: 15,
+        letterSpacing: 0.8,
+        paddingLeft: 10,
+        fontSize: 16,
+        // fontWeight: 'bold'
+        color: '#626779'
     },
 
     touchable: {
