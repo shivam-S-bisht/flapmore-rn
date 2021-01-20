@@ -27,6 +27,7 @@ import Selecttags from './src/screens/Selecttags';
 import Test from './src/screens/Test';
 import Forgotpassword from './src/screens/Forgotpassword';
 import TagScreen from './src/screens/Tagscreen';
+import Profile from './src/screens/Profile';
 
 
 export default class App extends React.Component{
@@ -98,7 +99,8 @@ export default class App extends React.Component{
                     {/* <this.Stack.Screen name='Selecttags' component={Selecttags} /> */}
                     {/* <this.Stack.Screen name='Test' component={Test} /> */}
                     {/* <this.Stack.Screen name='Forgotpassword' component={Forgotpassword} /> */}
-                    <this.Stack.Screen name='Tagscreen' component={TagScreen} />
+                    {/* <this.Stack.Screen name='Tagscreen' component={TagScreen} /> */}
+                    <this.Stack.Screen name='Profile' component={Profile} />
                 </this.Stack.Navigator>                   
             </NavigationContainer>
         );
