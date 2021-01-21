@@ -4,6 +4,7 @@ export default {
         title : 'Title of Book',
         author : 'Author Name',
         totalreadtime : 14,
+        playbookuri: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
         chapter: 9,
         description: 'The adventurous life of Robinson Crusoe.',
         popularity: 75,

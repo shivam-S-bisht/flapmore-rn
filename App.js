@@ -29,6 +29,7 @@ import Forgotpassword from './src/screens/Forgotpassword';
 import TagScreen from './src/screens/Tagscreen';
 import Profile from './src/screens/Profile';
 import Settings from './src/screens/Settings';
+import Musicplayer from './src/screens/Musicplayer';
 
 
 export default class App extends React.Component{
@@ -102,7 +103,8 @@ export default class App extends React.Component{
                     {/* <this.Stack.Screen name='Forgotpassword' component={Forgotpassword} /> */}
                     {/* <this.Stack.Screen name='Tagscreen' component={TagScreen} /> */}
                     {/* <this.Stack.Screen name='Profile' component={Profile} /> */}
-                    <this.Stack.Screen name='Settings' component={Settings} />
+                    {/* <this.Stack.Screen name='Settings' component={Settings} /> */}
+                    <this.Stack.Screen name='Musicplayer' component={Musicplayer} />
                 </this.Stack.Navigator>                   
             </NavigationContainer>
         );
