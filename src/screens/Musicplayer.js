@@ -12,15 +12,47 @@ export default class Musicplayer extends React.Component{
 
 
     state={
-        isplay: 1
+        isplay: 1,
+
+        currenttime: '--:--',
+        duration: '--:--',
+
+        maxvalue: 0,
+        currvalue: 0.1
     }
 
-    playbook () {
-        try{
-            console.log('hello')
 
+    componentDidMount () {
+        SoundPlayer.onFinishedLoading(() => {
+            this.timer = setInterval(()=>this.getcurrenttime(), 500)
+        });
+        this.playbook()
+    }
+
+    componentWillUnmount () {
+        this.timer && clearInterval(this.timer);
+    }
+
+    async playbook () {
+        try{
             SoundPlayer.playUrl(bookdescription.playbookuri)
-            console.log('hello')
+
+            const info = await SoundPlayer.getInfo()
+
+            var duration = info['duration'];
+            var min = Math.floor(duration/60);
+            var sec = Math.floor(duration%60);
+
+            if (`${min}`.length == 1) {
+                min = `0${min}`
+            }
+
+            if (`${sec}`.length == 1) {
+                sec = `0${sec}`
+            }
+
+            this.setState({duration: `${min}:${sec}`, maxvalue: duration})
+
         } catch (e) {
             console.log(`error : ${e}`)
         }
@@ -43,11 +75,25 @@ export default class Musicplayer extends React.Component{
         }
     }
 
-    async getinfo () {
+    async getcurrenttime () {
 
         try {
             const info = await SoundPlayer.getInfo()
-            console.log(info)
+
+            var currenttime = info['currentTime']
+            var min = Math.floor(currenttime/60);
+            var sec = Math.floor(currenttime%60);
+
+            if (`${min}`.length == 1) {
+                min = `0${min}`
+            }
+
+            if (`${sec}`.length == 1) {
+                sec = `0${sec}`
+            }
+
+            this.setState({currenttime: `${min}:${sec}`, currvalue: currenttime})
+
         } catch (e) {
             console.log(`ERROR: ${e}`)
         }
@@ -55,37 +101,25 @@ export default class Musicplayer extends React.Component{
     }
 
 
+    seekbook (val) {
+        try {
+            SoundPlayer.seek(val);
+            this.getcurrenttime();
+            // if (this.state.currvalue == this.state.maxvalue) {
+            this.setState({isplay: 0})
+            this.pausebook()
+            // }
+
+        } catch (e) {
+            console.log(`ERROR ${e}`)
+        }
+    }
+
     render () {
         return (
             <SafeAreaView
                 style={styles.topviewable}
             >
-                {/* <Text>Music player</Text>
-
-                <TouchableOpacity
-                    onPress={this.playbook}
-                >
-                    <Text>Play</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                    onPress={this.pausebook}
-                >
-                    <Text>Pause</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                    onPress={this.resumebook}
-                >
-                    <Text>Resume</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                    onPress={this.getinfo}
-                >
-                    <Text>Info</Text>
-                </TouchableOpacity> */}
-                
                 <View
                     style={styles.firstviewable}
                 >
@@ -149,6 +183,18 @@ export default class Musicplayer extends React.Component{
                         style={{
                             borderRadius: 30 
                         }}
+
+                        onPress={()=>{
+                            const isplay = this.state.isplay;
+                            if (isplay) {
+                                this.setState({isplay: 0})
+                                this.pausebook()
+                            } else {
+                                this.setState({isplay: 1})
+                                this.resumebook()
+                            }
+
+                        }}
                     >   
                         <Anticon name={this.state.isplay? 'pausecircle': 'play'} size={50} color='#3D6DFF' />
                     </TouchableOpacity>
@@ -162,13 +208,14 @@ export default class Musicplayer extends React.Component{
                     }
                 >
                     <Slider 
+                        minimumValue={0}
+                        maximumValue={this.state.maxvalue}
                         minimumTrackTintColor="#3D6DFF"
                         thumbTintColor='#fff'
                         maximumTrackTintColor='#72889D'
-                        // backgroundColor='#35355E'
-                        // color='#35355E'
                         trackImage='#35355E'
-
+                        value={this.state.currvalue}
+                        onValueChange={(val)=> this.seekbook(val)}
                     />
                     <View 
                         style={{
@@ -183,14 +230,14 @@ export default class Musicplayer extends React.Component{
                                 fontSize: 18,
                                 fontWeight: 'bold'
                             }}
-                        >00:00</Text>
+                        >{this.state.currenttime}</Text>
                         <Text
                             style={{
                                 color: '#fff',
                                 fontSize: 18,
                                 fontWeight: 'bold'
                             }}
-                        >50:00</Text>
+                        >{this.state.duration}</Text>
                     </View>
                 </View>
             </SafeAreaView>
