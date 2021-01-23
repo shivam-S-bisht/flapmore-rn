@@ -49,7 +49,7 @@ export default class Onboarding extends React.Component{
                 <View style={styles.viewablestartreadingtouchable}>
                     <TouchableOpacity 
                         style={styles.startreadingtouchable}
-                        onPress={()=> this.props.navigation.push('Selecttags')}
+                        onPress={()=> this.props.navigation.push('Tabbars')}
                     >
                         <Text style={styles.startreadingtext}>Start Reading</Text>
                     </TouchableOpacity>

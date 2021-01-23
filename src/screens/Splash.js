@@ -13,9 +13,23 @@ export default class Splash extends React.Component{
     }
 
     
+    tabbarfunc () {
+        this.props.navigation.push(this.props.route.params.to);
+    }
+
+    createnewaccountfunc () {
+        return true
+    }
+
 
     componentDidMount() {
+        // console.log(this.props.route.params)
+        this.animatedpromise()
+        
+    }
 
+
+    animatedpromise () {
         const animatedpromise = new Promise (async res=> {
             Animated.timing(this.state.animatedValue, {
                 toValue: 210,
@@ -29,9 +43,30 @@ export default class Splash extends React.Component{
 
         animatedpromise.then(async () => {
 
-            this.navigate()
+            return this.istoken()
             
-        }).catch(e => console.log(e))   
+        }).then(() => {
+
+                switch (this.props.route.params.from) {
+                    case 'Tabbars': this.tabbarfunc(); break;
+                    case 'Createnewaccount': this.createnewaccountfunc(); break;
+                    // case 'Tabbars':  break;
+                    default: this.props.navigation.replace('Tabbars')
+                }
+            
+            
+        }).catch(() => {
+
+            try {
+                console.log(this.props.route.params.from)
+                this.props.navigation.replace('LoginSignupchoose')
+                
+            } catch {
+                this.props.navigation.replace('Onboarding')
+
+            }
+
+        }) 
     }
 
 
@@ -43,26 +78,43 @@ export default class Splash extends React.Component{
         })
     }
 
-    async navigate () {
 
-        await axios.post('/login', {
 
-            emailMobile: 9315254391,
-            password: 'test'
+    // async navigate () {
 
-        }).then(() => {
-            // console.log('hello2')
+    //     await axios.post('/login', {
 
-            this.props.navigation.replace('Tabbars')
-        }).catch(() => {
-            // console.log('hello3')
+    //         emailMobile: 9315254391,
+    //         password: 'test'
 
-            this.props.navigation.replace('Onboarding')
-        })
-    }
+    //     }).then(() => {
+
+    //         this.props.navigation.replace('Tabbars')
+    //     }).catch(() => {
+
+    //         this.props.navigation.replace('Onboarding')
+    //     })
+    // }
     
 
    
+    async istoken () {
+      
+        return new Promise(async (res, rej) => {
+            try {
+                const token = await AsyncStorage.getItem('@token')
+                // console.log(token)
+                // res(token)
+                if (token != null) {
+                    res()
+                } else {
+                    rej()
+                }
+            } catch (e){
+                rej()
+            }
+        })
+    }
 
     
 

@@ -31,7 +31,10 @@ export default class Createnewaccount extends React.Component{
                 <ScrollView
                     showsVerticalScrollIndicator={false}
                 >
-                    <TouchableOpacity style={styles.backbuttontouchable}>
+                    <TouchableOpacity 
+                        style={styles.backbuttontouchable}
+                        onPress={()=>this.props.navigation.goBack()}
+                    >
                         <Icon name='chevron-back' color='black' size={30} />
                     </TouchableOpacity>
                     

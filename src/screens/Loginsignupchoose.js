@@ -23,12 +23,14 @@ export default class LoginSignupchoose extends React.Component{
 
                     <TouchableOpacity
                         style={styles.loginsignuptouchable}
+                        onPress={() => this.props.navigation.navigate('Login')}
                     >
                         <Text style={styles.loginsignuptexttouchable}>Login/Sign up</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
                         style={styles.createnewaccounttouchable}
+                        onPress={() => this.props.navigation.navigate('Createnewaccount')}
                     >
                         <Text style={styles.createnewaccounttexttouchable}>CREATE NEW ACCOUNT</Text>
                     </TouchableOpacity>

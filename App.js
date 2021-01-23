@@ -16,9 +16,9 @@ import Explore from './src/screens/Explore';
 // // stack navigation screens
 import Splash from './src/screens/Splash';
 import Onboarding from "./src/screens/Onboarding";
-// import LoginSignupchoose from './src/screens/Loginsignupchoose';
-// import Createnewaccount from "./src/screens/Createnewaccount";
-// import Login from './src/screens/Login';
+import LoginSignupchoose from './src/screens/Loginsignupchoose';
+import Createnewaccount from "./src/screens/Createnewaccount";
+import Login from './src/screens/Login';
 import Loginviaotp from './src/screens/Loginviaotp';
 import Enterotp from "./src/screens/Enterotp";
 import Pdfview from './src/screens/Pdfview';
@@ -91,14 +91,14 @@ export default class App extends React.Component{
                     <this.Stack.Screen name='Onboarding' component={Onboarding} />
                     <this.Stack.Screen name='Tabbars' component={this.Tabbars} />
 
-                    {/* <this.Stack.Screen name='LoginSignupchoose' component={LoginSignupchoose} /> */}
-                    {/* <this.Stack.Screen name='CreateNewAccount' component={Createnewaccount} /> */}
-                    {/* <this.Stack.Screen name='Login' component={Login} /> */}
-                    {/* <this.Stack.Screen name='Loginviaotp' component={Loginviaotp} /> */}
-                    {/* <this.Stack.Screen name='Enterotp' component={Enterotp} /> */}
+                    <this.Stack.Screen name='LoginSignupchoose' component={LoginSignupchoose} />
+                    <this.Stack.Screen name='Createnewaccount' component={Createnewaccount} />
+                    <this.Stack.Screen name='Login' component={Login} />
+                    <this.Stack.Screen name='Loginviaotp' component={Loginviaotp} />
+                    <this.Stack.Screen name='Enterotp' component={Enterotp} />
                     {/* <this.Stack.Screen name='Bookdescription' component={Bookdescription} /> */}
                     {/* <this.Stack.Screen name='Pdfview' component={Pdfview} /> */}
-                    {/* <this.Stack.Screen name='Selecttags' component={Selecttags} /> */}
+                    <this.Stack.Screen name='Selecttags' component={Selecttags} />
                     {/* <this.Stack.Screen name='Test' component={Test} /> */}
                     {/* <this.Stack.Screen name='Forgotpassword' component={Forgotpassword} /> */}
                     {/* <this.Stack.Screen name='Tagscreen' component={TagScreen} /> */}

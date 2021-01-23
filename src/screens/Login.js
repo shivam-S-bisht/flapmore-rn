@@ -18,9 +18,6 @@ export default class Login extends React.Component{
     }
 
 
-    async componentDidMount () {
-
-    }
 
 
     checkAllTextFilled() {
@@ -37,7 +34,10 @@ export default class Login extends React.Component{
             
             <SafeAreaView style={styles.topviewable}>
                 <ScrollView>
-                    <TouchableOpacity style={styles.backbuttontouchable}>
+                    <TouchableOpacity 
+                        style={styles.backbuttontouchable}
+                        onPress={()=>this.props.navigation.goBack()}
+                    >
                         <Ionicon name="chevron-back" size={35} color="black" />
                     </TouchableOpacity>
                     
@@ -222,7 +222,3 @@ const styles = StyleSheet.create({
     }
 })
 
-{
-    status: 0,
-    message: 'User not found'
-}
