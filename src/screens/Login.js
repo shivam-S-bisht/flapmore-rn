@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Image, TextInput, ScrollView} from 'react-native';
-// import { Ionicons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import Ionicon from 'react-native-vector-icons/Ionicons';
 
 
@@ -15,6 +16,12 @@ export default class Login extends React.Component{
             touchabledisabled: true
         }
     }
+
+
+    async componentDidMount () {
+
+    }
+
 
     checkAllTextFilled() {
         if (this.state.emailorphonevalue.length && this.state.passwordvalue.length) {
@@ -214,3 +221,8 @@ const styles = StyleSheet.create({
         letterSpacing: 0.7
     }
 })
+
+{
+    status: 0,
+    message: 'User not found'
+}

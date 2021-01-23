@@ -87,9 +87,9 @@ export default class App extends React.Component{
             <NavigationContainer>
                 <this.Stack.Navigator screenOptions={{headerShown: false}}>
                     
-                    {/* <this.Stack.Screen name='Splash' component={Splash} /> */}
-                    {/* <this.Stack.Screen name='Onboarding' component={Onboarding} /> */}
-                    {/* <this.Stack.Screen name='Tabbars' component={this.Tabbars} /> */}
+                    <this.Stack.Screen name='Splash' component={Splash} />
+                    <this.Stack.Screen name='Onboarding' component={Onboarding} />
+                    <this.Stack.Screen name='Tabbars' component={this.Tabbars} />
 
                     {/* <this.Stack.Screen name='LoginSignupchoose' component={LoginSignupchoose} /> */}
                     {/* <this.Stack.Screen name='CreateNewAccount' component={Createnewaccount} /> */}
@@ -104,7 +104,7 @@ export default class App extends React.Component{
                     {/* <this.Stack.Screen name='Tagscreen' component={TagScreen} /> */}
                     {/* <this.Stack.Screen name='Profile' component={Profile} /> */}
                     {/* <this.Stack.Screen name='Settings' component={Settings} /> */}
-                    <this.Stack.Screen name='Musicplayer' component={Musicplayer} />
+                    {/* <this.Stack.Screen name='Musicplayer' component={Musicplayer} /> */}
                 </this.Stack.Navigator>                   
             </NavigationContainer>
         );

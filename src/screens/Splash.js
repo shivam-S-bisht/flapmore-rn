@@ -1,5 +1,7 @@
 import React from 'react';
 import {Text, View, Image, Animated} from 'react-native';
+import axios from 'react-native-axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default class Splash extends React.Component{
 
@@ -10,43 +12,54 @@ export default class Splash extends React.Component{
         }
     }
 
-    navigate (val) {
-        return new Promise(res=> {
-            setTimeout(()=> {
-                res(val)
-            }, 1000)
-        })
-    }
+    
 
     componentDidMount() {
 
-        const probj = new Promise(res=> {
-            setTimeout(()=>{
-                res('found');
-            }, 2000)
-        })
-
-        probj.then((res) => {
+        const animatedpromise = new Promise (async res=> {
             Animated.timing(this.state.animatedValue, {
                 toValue: 210,
                 duration: 1000,
                 useNativeDriver: false
             }).start();
 
-            return this.navigate(res)
-
-        }).then((res)=> {
-            // if (res=="found"){
-            //     this.props.navigation.replace('Tabbars')
-            // } else {
-            //     this.props.navigation.replace('Onboarding')
-            // }
-            this.props.navigation.replace('Onboarding')
-
+            await this.timer()
+            res()
         })
+
+        animatedpromise.then(async () => {
+
+            this.navigate()
+            
+        }).catch(e => console.log(e))   
     }
 
 
+    timer () {
+        return  new Promise(res=> {
+            setTimeout(()=> {
+                res()
+            }, 1000)
+        })
+    }
+
+    async navigate () {
+
+        await axios.post('/login', {
+
+            emailMobile: 9315254391,
+            password: 'test'
+
+        }).then(() => {
+            // console.log('hello2')
+
+            this.props.navigation.replace('Tabbars')
+        }).catch(() => {
+            // console.log('hello3')
+
+            this.props.navigation.replace('Onboarding')
+        })
+    }
     
 
    
