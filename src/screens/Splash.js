@@ -14,11 +14,20 @@ export default class Splash extends React.Component{
 
     
     tabbarfunc () {
-        this.props.navigation.push(this.props.route.params.to);
+        this.gettoken()
+
     }
 
-    createnewaccountfunc () {
-        return true
+    async createnewaccountfunc () {
+        axios.post('/signup', {
+            emailMobile: this.props.route.params.emailorphone,
+            password: this.props.route.params.password
+        }).then((res)=> {
+            if (res.status == 200) {
+                console.log(res.data)
+            }
+        })
+        // this.props.navigation.replace(this.props.route.params.to)
     }
 
 
@@ -41,32 +50,22 @@ export default class Splash extends React.Component{
             res()
         })
 
-        animatedpromise.then(async () => {
+        animatedpromise.then(() => {
 
-            return this.istoken()
-            
-        }).then(() => {
-
+            try {
                 switch (this.props.route.params.from) {
                     case 'Tabbars': this.tabbarfunc(); break;
                     case 'Createnewaccount': this.createnewaccountfunc(); break;
                     // case 'Tabbars':  break;
                     default: this.props.navigation.replace('Tabbars')
                 }
-            
-            
-        }).catch(() => {
-
-            try {
-                console.log(this.props.route.params.from)
-                this.props.navigation.replace('LoginSignupchoose')
-                
             } catch {
-                this.props.navigation.replace('Onboarding')
-
+                this.props.navigation.navigate('Onboarding')
             }
-
-        }) 
+                
+            
+            
+        })
     }
 
 
@@ -98,24 +97,29 @@ export default class Splash extends React.Component{
     
 
    
-    async istoken () {
+    async gettoken () {
       
-        return new Promise(async (res, rej) => {
-            try {
-                const token = await AsyncStorage.getItem('@token')
-                // console.log(token)
-                // res(token)
-                if (token != null) {
-                    res()
-                } else {
-                    rej()
-                }
-            } catch (e){
-                rej()
-            }
-        })
+        const token = await AsyncStorage.getItem('@token')
+        
+        if (token != null) {
+            this.props.navigation.replace(this.props.route.params.to)
+
+        } else {
+            this.props.navigation.replace('LoginSignupchoose')
+
+        }
+            
     }
 
+
+    async puttoken (val) {
+        
+        try {
+            await AsyncStorage.setItem('@token', val)
+        } catch (e) {
+            console.log(e)
+        }
+    }
     
 
 

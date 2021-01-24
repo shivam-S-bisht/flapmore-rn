@@ -82,7 +82,15 @@ export default class Createnewaccount extends React.Component{
                         <TouchableOpacity 
                             disabled={this.state.touchabledisabled}
                             style={[styles.createnewaccounttouchable, {opacity: this.state.touchabledisabled?0.7:1}]}
-                        >
+                            onPress={()=> {
+                                this.props.navigation.navigate('Splash', {
+                                    from: 'Createnewaccount', 
+                                    to: 'Enterotp', 
+                                    emailorphone: this.state.emailorphonevalue, 
+                                    password: this.state.passwordvalue
+                                })}
+                            }
+                        >   
                             <Text style={styles.createnewaccounttexttouchable}>Create New Account</Text>
                         </TouchableOpacity>
                     
