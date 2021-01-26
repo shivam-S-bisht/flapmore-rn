@@ -13,8 +13,20 @@ export default class Splash extends React.Component{
     }
 
     
-    tabbarfunc () {
-        this.gettoken()
+    async splashfunc () {
+        const {found, _} = await this.gettoken()
+        if (found) {
+            this.props.navigation.replace('Tabbars')
+        } else {
+            this.props.navigation.replace('Onboarding')
+        }
+
+    }
+
+    async tabbarfunc () {
+        const {_, to} = await this.gettoken()
+        // console.log(to)
+        this.props.navigation.replace(to)
 
     }
 
@@ -24,10 +36,27 @@ export default class Splash extends React.Component{
             password: this.props.route.params.password
         }).then((res)=> {
             if (res.status == 200) {
-                console.log(res.data)
+                // console.log(res.data)
+                this.puttoken(res.data.token)
             }
         })
         // this.props.navigation.replace(this.props.route.params.to)
+    }
+
+    async loginfunc () {
+
+        // console.log('im here')
+        axios.post('/login', {
+            emailMobile: this.props.route.params.emailorphone,
+            password: this.props.route.params.password
+        }).then((res)=> {
+            if (res.status == 200) {
+                this.puttoken(res.data.token)
+                this.props.navigation.replace(this.props.route.params.to)
+            }
+        })
+        // console.log('im here')
+
     }
 
 
@@ -53,14 +82,19 @@ export default class Splash extends React.Component{
         animatedpromise.then(() => {
 
             try {
+                console.log('im here')
+
                 switch (this.props.route.params.from) {
                     case 'Tabbars': this.tabbarfunc(); break;
                     case 'Createnewaccount': this.createnewaccountfunc(); break;
+                    case 'Login': this.loginfunc(); break;
                     // case 'Tabbars':  break;
-                    default: this.props.navigation.replace('Tabbars')
+                    // default: this.props.navigation.replace('Tabbars')
                 }
-            } catch {
-                this.props.navigation.navigate('Onboarding')
+            } catch (e) {
+                // this.props.navigation.navigate('Onboarding')
+                this.splashfunc()
+                // console.log(e)
             }
                 
             
@@ -100,14 +134,25 @@ export default class Splash extends React.Component{
     async gettoken () {
       
         const token = await AsyncStorage.getItem('@token')
-        
-        if (token != null) {
-            this.props.navigation.replace(this.props.route.params.to)
+        console.log(this.props)
 
-        } else {
-            this.props.navigation.replace('LoginSignupchoose')
+        try {
+
+            if (token != null) {
+                // this.props.navigation.replace(this.props.route.params.to)
+                return {found: true, to: this.props.route.params.to}
+
+            } else {
+                // this.props.navigation.replace('LoginSignupchoose')
+                return {found: false, to: 'LoginSignupchoose'}
+
+            }
+
+        } catch {
+            return {found: true, to: 'Onboarding'}
 
         }
+            
             
     }
 

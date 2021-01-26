@@ -89,6 +89,14 @@ export default class Login extends React.Component{
                         <TouchableOpacity 
                             disabled={this.state.touchabledisabled}
                             style={[styles.logintouchable, {opacity: this.state.touchabledisabled?0.7:1}]}
+                            onPress={()=> {
+                                this.props.navigation.replace('Splash', {
+                                    from: 'Login', 
+                                    to: 'Tabbars', 
+                                    emailorphone: this.state.emailorphonevalue, 
+                                    password: this.state.passwordvalue
+                                })}
+                            }
                         >
                             <Text style={styles.logintexttouchable}>Login</Text>
                         </TouchableOpacity>
