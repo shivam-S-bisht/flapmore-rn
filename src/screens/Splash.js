@@ -13,6 +13,13 @@ export default class Splash extends React.Component{
     }
 
     
+
+    componentDidMount() {
+        this.animatedpromise() 
+    }
+
+
+
     async splashfunc () {
         const {found, _} = await this.gettoken()
         if (found) {
@@ -23,12 +30,15 @@ export default class Splash extends React.Component{
 
     }
 
+
+
     async tabbarfunc () {
         const {_, to} = await this.gettoken()
-        // console.log(to)
         this.props.navigation.replace(to)
 
     }
+
+
 
     async createnewaccountfunc () {
         axios.post('/signup', {
@@ -36,16 +46,14 @@ export default class Splash extends React.Component{
             password: this.props.route.params.password
         }).then((res)=> {
             if (res.status == 200) {
-                // console.log(res.data)
                 this.puttoken(res.data.token)
             }
         })
-        // this.props.navigation.replace(this.props.route.params.to)
     }
 
-    async loginfunc () {
 
-        // console.log('im here')
+
+    async loginfunc () {
         axios.post('/login', {
             emailMobile: this.props.route.params.emailorphone,
             password: this.props.route.params.password
@@ -55,16 +63,8 @@ export default class Splash extends React.Component{
                 this.props.navigation.replace(this.props.route.params.to)
             }
         })
-        // console.log('im here')
-
     }
 
-
-    componentDidMount() {
-        // console.log(this.props.route.params)
-        this.animatedpromise()
-        
-    }
 
 
     animatedpromise () {
@@ -80,27 +80,19 @@ export default class Splash extends React.Component{
         })
 
         animatedpromise.then(() => {
-
             try {
-                console.log('im here')
-
                 switch (this.props.route.params.from) {
                     case 'Tabbars': this.tabbarfunc(); break;
                     case 'Createnewaccount': this.createnewaccountfunc(); break;
                     case 'Login': this.loginfunc(); break;
-                    // case 'Tabbars':  break;
                     // default: this.props.navigation.replace('Tabbars')
                 }
             } catch (e) {
-                // this.props.navigation.navigate('Onboarding')
                 this.splashfunc()
-                // console.log(e)
-            }
-                
-            
-            
+            }   
         })
     }
+
 
 
     timer () {
@@ -113,52 +105,23 @@ export default class Splash extends React.Component{
 
 
 
-    // async navigate () {
-
-    //     await axios.post('/login', {
-
-    //         emailMobile: 9315254391,
-    //         password: 'test'
-
-    //     }).then(() => {
-
-    //         this.props.navigation.replace('Tabbars')
-    //     }).catch(() => {
-
-    //         this.props.navigation.replace('Onboarding')
-    //     })
-    // }
-    
-
-   
     async gettoken () {
       
         const token = await AsyncStorage.getItem('@token')
-        console.log(this.props)
-
         try {
-
             if (token != null) {
-                // this.props.navigation.replace(this.props.route.params.to)
                 return {found: true, to: this.props.route.params.to}
-
             } else {
-                // this.props.navigation.replace('LoginSignupchoose')
                 return {found: false, to: 'LoginSignupchoose'}
-
             }
-
         } catch {
             return {found: true, to: 'Onboarding'}
-
-        }
-            
-            
+        }   
     }
 
 
+
     async puttoken (val) {
-        
         try {
             await AsyncStorage.setItem('@token', val)
         } catch (e) {
@@ -166,6 +129,28 @@ export default class Splash extends React.Component{
         }
     }
     
+
+
+
+// API CALLS -> INFOS 
+    async bookdescreiption () {
+
+        const token = await AsyncStorage.getItem('@token')
+
+        await axios.get('/flapmore/search', {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            },
+            params: {
+                category_id: 1
+            }
+        }
+        
+        ).then ((res)=> {
+            console.log(res, '\n', JSON.stringify(res.data))
+        }).catch (e=> console.log(e))
+    }
+
 
 
     render () {

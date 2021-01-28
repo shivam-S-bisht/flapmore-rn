@@ -1,7 +1,8 @@
 import React from 'react';
 import {View, Text, SafeAreaView, StyleSheet, Image, FlatList, ScrollView, TouchableOpacity} from 'react-native';
 import Ionicon from 'react-native-vector-icons/Ionicons';
-// import { Ionicons } from '@expo/vector-icons';
+import axios from 'react-native-axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Trendyselectioncard from '../components/Trendyselectioncard';
 import Flapbookscard from '../components/Flapbookscard'
@@ -14,6 +15,7 @@ import explorecarddetails2 from '../infos/explorecard2';
 import flapbookdetails from '../infos/flapbooks';
 import trendingflapbookdetails from '../infos/trendingflapbooks';
 
+import freetrendybooks from '../axiosgetdatacalls';
 
 
 
