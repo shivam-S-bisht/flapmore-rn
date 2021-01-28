@@ -169,7 +169,7 @@ async createnewaccountapifunc (emailMobile, password) {
             password
         }).then((res)=> {
             if (res.status == 200) {
-                resolve()
+                resolve('OTP sent')
             } else {
                 reject('Account already exists')
             }
@@ -182,19 +182,41 @@ async createnewaccountapifunc (emailMobile, password) {
 
 
 
-// API CALLS -> create new account
+// API CALLS -> verify create new account
 async verifysignupapifunc (emailMobile, userId, otp) {
 
     return new Promise ((resolve, reject) => {
-        axios.post('/signup', {
+        axios.post('/verifySignup', {
             emailMobile,
-            password,
+            userId,
             otp
         }).then((res)=> {
             if (res.status == 200) {
-                resolve()
+                resolve('Success')
             } else {
-                reject(res.data.message)
+                reject('OTP Already verified')
+            }
+        }) .catch (() => {
+            reject('response from server:400, Some error occured')
+        })
+        
+    }) 
+}
+
+
+
+// API CALLS -> resend otp
+async resendotpapifunc   (emailMobile, userId) {
+
+    return new Promise ((resolve, reject) => {
+        axios.post('/resendotp', {
+            emailMobile,
+            userId
+        }).then((res)=> {
+            if (res.status == 200) {
+                resolve('OTP resent successfully')
+            } else {
+                reject('User not present, Signup to continue')
             }
         }) .catch (() => {
             reject('response from server:400, Some error occured')
@@ -206,7 +228,7 @@ async verifysignupapifunc (emailMobile, userId, otp) {
 
 
 // API CALLS -> forget pass
-async forgetpassapifunc (phone) {
+async forgetpassapifunc (emailMobile) {
 
     return new Promise ((resolve, reject) => {
         axios.post('/forgetPassword', {
@@ -226,15 +248,15 @@ async forgetpassapifunc (phone) {
 
 
 
-// API CALLS -> forget pass
+// API CALLS -> verify forget pass
 async verifyforgetpassapifunc (emailMobile, userId, otp, password) {
 
     return new Promise ((resolve, reject) => {
-        axios.post('/forgetPassword', {
+        axios.post('/verifyForgetPassword', {
             emailMobile,
             userId,
             otp,
-            password
+            password 
         }).then((res) => {
             if (res.status == 200) {
                 resolve()  
