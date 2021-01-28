@@ -46,8 +46,8 @@ export default class Splash extends React.Component{
     async createnewaccountfunc () {
 
         const res = this.createnewaccountapifunc(this.props.route.params.emailorphone, this.props.route.params.password)
-        res.then(()=> {
-            this.puttoken(res.data.token)
+        res.then((token)=> {
+            this.puttoken(token)
             this.props.navigation.replace(this.props.route.params.to)
         }).catch (err => {
             console.log(`ERROR: ${err}`)
@@ -60,8 +60,8 @@ export default class Splash extends React.Component{
     async loginfunc () {
         
         const res = this.loginapifunc(this.props.route.params.emailorphone, this.props.route.params.password)
-        res.then(() => {
-            this.puttoken(res.data.token)
+        res.then((token) => {
+            this.puttoken(token)
             this.props.navigation.replace(this.props.route.params.to)
         }) .catch (err => {
             console.log(`ERROR: ${err}`)
@@ -148,7 +148,7 @@ async loginapifunc (emailMobile, password) {
             password
         }).then((res)=> {
             if (res.status == 200) {
-                resolve()
+                resolve(res.data.token)
             } else {
                 reject('No account found')
             }
@@ -172,6 +172,27 @@ async createnewaccountapifunc (emailMobile, password) {
                 resolve()
             } else {
                 reject('Account already exists')
+            }
+        }) .catch (() => {
+            reject('response from server:400, Some error occured')
+        })
+        
+    }) 
+}
+
+
+
+// API CALLS -> forget pass
+async forgetpassapifunc (phone) {
+
+    return new Promise ((resolve, reject) => {
+        axios.post('/forgetPassword', {
+            emailMobile
+        }).then((res) => {
+            if (res.status == 200) {
+                resolve(res.data.userId)
+            } else {
+                reject('Account does not exists')
             }
         }) .catch (() => {
             reject('response from server:400, Some error occured')
