@@ -190,7 +190,7 @@ async forgetpassapifunc (phone) {
             emailMobile
         }).then((res) => {
             if (res.status == 200) {
-                resolve(res.data.userId)
+                resolve(res.data)  // userId, mobile
             } else {
                 reject('Account does not exists')
             }
@@ -201,6 +201,29 @@ async forgetpassapifunc (phone) {
     }) 
 }
 
+
+
+// API CALLS -> forget pass
+async verifyforgetpassapifunc (emailMobile, userId, otp, password) {
+
+    return new Promise ((resolve, reject) => {
+        axios.post('/forgetPassword', {
+            emailMobile,
+            userId,
+            otp,
+            password
+        }).then((res) => {
+            if (res.status == 200) {
+                resolve()  
+            } else {
+                reject('Account does not exists')
+            }
+        }) .catch (() => {
+            reject('response from server:400, Some error occured')
+        })
+        
+    }) 
+}
 
 
 // API CALLS -> search 
