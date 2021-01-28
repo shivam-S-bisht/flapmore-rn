@@ -182,6 +182,29 @@ async createnewaccountapifunc (emailMobile, password) {
 
 
 
+// API CALLS -> create new account
+async verifysignupapifunc (emailMobile, userId, otp) {
+
+    return new Promise ((resolve, reject) => {
+        axios.post('/signup', {
+            emailMobile,
+            password,
+            otp
+        }).then((res)=> {
+            if (res.status == 200) {
+                resolve()
+            } else {
+                reject(res.data.message)
+            }
+        }) .catch (() => {
+            reject('response from server:400, Some error occured')
+        })
+        
+    }) 
+}
+
+
+
 // API CALLS -> forget pass
 async forgetpassapifunc (phone) {
 
