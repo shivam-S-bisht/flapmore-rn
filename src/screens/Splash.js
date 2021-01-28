@@ -1,3 +1,4 @@
+// PRE-PROCESSESS
 import React from 'react';
 import {Text, View, Image, Animated} from 'react-native';
 import axios from 'react-native-axios';
@@ -12,14 +13,15 @@ export default class Splash extends React.Component{
         }
     }
 
-    
 
+// FIRST
+// called before mounting
     componentDidMount() {
         this.animatedpromise() 
     }
 
 
-
+// FIRST splash
     async splashfunc () {
         const {found, _} = await this.gettoken()
         if (found) {
@@ -31,7 +33,7 @@ export default class Splash extends React.Component{
     }
 
 
-
+// tabbar props ...
     async tabbarfunc () {
         const {_, to} = await this.gettoken()
         this.props.navigation.replace(to)
@@ -40,6 +42,7 @@ export default class Splash extends React.Component{
 
 
 
+// createnewaccount props ...
     async createnewaccountfunc () {
         axios.post('/signup', {
             emailMobile: this.props.route.params.emailorphone,
@@ -53,6 +56,7 @@ export default class Splash extends React.Component{
 
 
 
+// login props ...
     async loginfunc () {
         axios.post('/login', {
             emailMobile: this.props.route.params.emailorphone,
@@ -67,6 +71,8 @@ export default class Splash extends React.Component{
 
 
 
+// FIRST
+// splash animation
     animatedpromise () {
         const animatedpromise = new Promise (async res=> {
             Animated.timing(this.state.animatedValue, {
@@ -95,6 +101,7 @@ export default class Splash extends React.Component{
 
 
 
+// timeout for splash animation
     timer () {
         return  new Promise(res=> {
             setTimeout(()=> {
@@ -105,6 +112,7 @@ export default class Splash extends React.Component{
 
 
 
+// read token from device's storage
     async gettoken () {
       
         const token = await AsyncStorage.getItem('@token')
@@ -121,6 +129,7 @@ export default class Splash extends React.Component{
 
 
 
+// save tooken to device's storage
     async puttoken (val) {
         try {
             await AsyncStorage.setItem('@token', val)
@@ -133,7 +142,7 @@ export default class Splash extends React.Component{
 
 
 // API CALLS -> INFOS 
-    async bookdescreiption () {
+    async searchapi (category_id, tags, from, to) {
 
         const token = await AsyncStorage.getItem('@token')
 
@@ -142,7 +151,8 @@ export default class Splash extends React.Component{
               'Authorization': `Bearer ${token}`
             },
             params: {
-                category_id: 1
+                category_id,
+                tags
             }
         }
         
@@ -153,6 +163,7 @@ export default class Splash extends React.Component{
 
 
 
+// MAIN -------->>>>
     render () {
         return(
             <View style={{flex:1, alignItems:'center', justifyContent:'center', backgroundColor:'white'}}>
