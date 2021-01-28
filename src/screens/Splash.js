@@ -33,7 +33,7 @@ export default class Splash extends React.Component{
     }
 
 
-// tabbar props ...
+// tabbar props handler ...
     async tabbarfunc () {
         const {_, to} = await this.gettoken()
         this.props.navigation.replace(to)
@@ -42,30 +42,29 @@ export default class Splash extends React.Component{
 
 
 
-// createnewaccount props ...
+// createnewaccount props handler ...
     async createnewaccountfunc () {
-        axios.post('/signup', {
-            emailMobile: this.props.route.params.emailorphone,
-            password: this.props.route.params.password
-        }).then((res)=> {
-            if (res.status == 200) {
-                this.puttoken(res.data.token)
-            }
+
+        const res = this.createnewaccountapifunc(this.props.route.params.emailorphone, this.props.route.params.password)
+        res.then(()=> {
+            this.puttoken(res.data.token)
+            this.props.navigation.replace(this.props.route.params.to)
+        }).catch (err => {
+            console.log(`ERROR: ${err}`)
         })
     }
 
 
 
-// login props ...
+// login props handler ...
     async loginfunc () {
-        axios.post('/login', {
-            emailMobile: this.props.route.params.emailorphone,
-            password: this.props.route.params.password
-        }).then((res)=> {
-            if (res.status == 200) {
-                this.puttoken(res.data.token)
-                this.props.navigation.replace(this.props.route.params.to)
-            }
+        
+        const res = this.loginapifunc(this.props.route.params.emailorphone, this.props.route.params.password)
+        res.then(() => {
+            this.puttoken(res.data.token)
+            this.props.navigation.replace(this.props.route.params.to)
+        }) .catch (err => {
+            console.log(`ERROR: ${err}`)
         })
     }
 
@@ -112,7 +111,7 @@ export default class Splash extends React.Component{
 
 
 
-// read token from device's storage
+// read token 
     async gettoken () {
       
         const token = await AsyncStorage.getItem('@token')
@@ -129,7 +128,7 @@ export default class Splash extends React.Component{
 
 
 
-// save tooken to device's storage
+// save token 
     async puttoken (val) {
         try {
             await AsyncStorage.setItem('@token', val)
@@ -140,9 +139,51 @@ export default class Splash extends React.Component{
     
 
 
+// API CALLS -> login
+async loginapifunc (emailMobile, password) {
 
-// API CALLS -> INFOS 
-    async searchapi (category_id, tags, from, to) {
+    return new Promise ((resolve, reject) => {
+        axios.post('/login', {
+            emailMobile,
+            password
+        }).then((res)=> {
+            if (res.status == 200) {
+                resolve()
+            } else {
+                reject('No account found')
+            }
+        }).catch (()=> {
+            reject('response from server:400, Some error occured')
+        })
+    }) 
+}
+
+
+
+// API CALLS -> create new account
+async createnewaccountapifunc (emailMobile, password) {
+
+    return new Promise ((resolve, reject) => {
+        axios.post('/signup', {
+            emailMobile,
+            password
+        }).then((res)=> {
+            if (res.status == 200) {
+                resolve()
+            } else {
+                reject('Account already exists')
+            }
+        }) .catch (() => {
+            reject('response from server:400, Some error occured')
+        })
+        
+    }) 
+}
+
+
+
+// API CALLS -> search 
+    async searchapifunc (category_id, tags, from, to) {
 
         const token = await AsyncStorage.getItem('@token')
 
@@ -160,6 +201,84 @@ export default class Splash extends React.Component{
             console.log(res, '\n', JSON.stringify(res.data))
         }).catch (e=> console.log(e))
     }
+
+
+
+// API CALLS -> product details
+    async productdetailsapifunc (product_id) {
+        const token = await AsyncStorage.getItem('@token')
+
+        await axios.get('/flapmore/product', {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            },
+            params: {
+                product_id
+            }
+        }
+        
+        ).then ((res)=> {
+            console.log(res, '\n', JSON.stringify(res.data))
+        }).catch (e=> console.log(e))
+    }
+
+    
+
+// API CALLS -> product all tags 
+    async producttagsapifunc (product_id) {
+        const token = await AsyncStorage.getItem('@token')
+
+        await axios.get('/flapmore/product/tags', {
+            headers: {
+            'Authorization': `Bearer ${token}`
+            },
+            params: {
+                product_id
+            }
+        }
+        
+        ).then ((res)=> {
+            console.log(res, '\n', JSON.stringify(res.data))
+        }).catch (e=> console.log(e))
+    }
+
+
+
+// API CALLS -> product all files 
+    async productfilesapifunc (product_id) {
+        const token = await AsyncStorage.getItem('@token')
+
+        await axios.get('/flapmore/product/files', {
+            headers: {
+            'Authorization': `Bearer ${token}`
+            },
+            params: {
+                product_id
+            }
+        }
+        
+        ).then ((res)=> {
+            console.log(res, '\n', JSON.stringify(res.data))
+        }).catch (e=> console.log(e))
+    }
+
+
+
+// API CALLS -> list all categories 
+    async getallcategoriesapifunc (product_id) {
+        const token = await AsyncStorage.getItem('@token')
+
+        await axios.get('/flapmore/categories', {
+            headers: {
+            'Authorization': `Bearer ${token}`
+            }
+        }
+        
+        ).then ((res)=> {
+            console.log(res, '\n', JSON.stringify(res.data))
+        }).catch (e=> console.log(e))
+    }
+
 
 
 
