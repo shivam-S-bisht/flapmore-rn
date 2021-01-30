@@ -81,7 +81,7 @@ export default class App extends React.Component{
         </Tab.Navigator> 
       )
     }
-
+    
     render() {
         return (
             <NavigationContainer>

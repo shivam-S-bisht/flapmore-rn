@@ -274,20 +274,27 @@ async verifyforgetpassapifunc (emailMobile, userId, otp, password) {
 // API CALLS -> search 
     async searchapifunc (category_id, tags, from, to) {
 
+        let params = {}
         const token = await AsyncStorage.getItem('@token')
+        if (category_id) params.category_id = category_id
+        if (tags) params.tags = tags
 
         await axios.get('/flapmore/search', {
             headers: {
               'Authorization': `Bearer ${token}`
             },
-            params: {
-                category_id,
-                tags
-            }
+            params
         }
         
         ).then ((res)=> {
-            console.log(res, '\n', JSON.stringify(res.data))
+            if (from == 'besttrendy') {
+                console.log(res, '\n', JSON.stringify(res.data.hits.hits))
+                res.data.hits.hits.forEach(elm => {
+                    console.log(elm.product_id)
+                });
+            }
+            
+            // return res.data
         }).catch (e=> console.log(e))
     }
 
@@ -354,7 +361,7 @@ async verifyforgetpassapifunc (emailMobile, userId, otp, password) {
 
 
 // API CALLS -> list all categories 
-    async getallcategoriesapifunc (product_id) {
+    async getallcategoriesapifunc () {
         const token = await AsyncStorage.getItem('@token')
 
         await axios.get('/flapmore/categories', {
@@ -371,8 +378,23 @@ async verifyforgetpassapifunc (emailMobile, userId, otp, password) {
 
 
 
+
+
+// Tabbars
+// BEST TRENDY SELECTION
+    async searchwithcategory () {
+        this.searchapifunc (1, "", "besttrendy", "")
+    }
+
+
+
+
+
+
 // MAIN -------->>>>
     render () {
+
+        this.searchwithcategory()
         return(
             <View style={{flex:1, alignItems:'center', justifyContent:'center', backgroundColor:'white'}}>
                 <Image source={require('../../assets/splash-icon.jpg')} style={{marginBottom:5}} />
