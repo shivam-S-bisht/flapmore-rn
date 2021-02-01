@@ -288,9 +288,9 @@ async verifyforgetpassapifunc (emailMobile, userId, otp, password) {
         
         ).then ((res)=> {
             if (from == 'besttrendy') {
-                console.log(res, '\n', JSON.stringify(res.data.hits.hits))
+                // console.log(res, '\n', JSON.stringify(res.data.hits.hits))
                 res.data.hits.hits.forEach(elm => {
-                    console.log(elm.product_id)
+                    console.log(elm._source, "\n")
                 });
             }
             

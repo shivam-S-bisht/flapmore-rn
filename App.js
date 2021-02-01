@@ -104,7 +104,7 @@ export default class App extends React.Component{
                     {/* <this.Stack.Screen name='Tagscreen' component={TagScreen} /> */}
                     {/* <this.Stack.Screen name='Profile' component={Profile} /> */}
                     {/* <this.Stack.Screen name='Settings' component={Settings} /> */}
-                    {/* <this.Stack.Screen name='Musicplayer' component={Musicplayer} /> */}
+                    <this.Stack.Screen name='Musicplayer' component={Musicplayer} />
                 </this.Stack.Navigator>                   
             </NavigationContainer>
         );  

@@ -128,7 +128,11 @@ export default class Musicplayer extends React.Component{
                             position: 'absolute',    
                         }}
                     >
-                        <TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={()=> {
+                                this.props.navigation.goBack()
+                            }}
+                        >
                             <Ionicon name='chevron-down' size={30} color='#fff' />
                         </TouchableOpacity>
                     </View>   
