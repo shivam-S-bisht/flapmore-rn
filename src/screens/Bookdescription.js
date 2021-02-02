@@ -83,7 +83,10 @@ export default class Bookdescription extends React.Component {
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={[styles.touchable, { borderColor: '#3D6DFF', backgroundColor: '#3D6DFF'}]}
-                                onPress={()=> this.props.navigation.push('Musicplayer')}
+                                onPress={()=> this.props.navigation.push('Splash', {
+                                    from: 'Bookdescription', 
+                                    to: 'Musicplayer'
+                                })}
                             >
                                 <View style={{flexDirection: 'row'}}>
                                     <Feathericon name='headphones' color='#fff' size={29} />
