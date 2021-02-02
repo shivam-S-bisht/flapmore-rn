@@ -3,6 +3,9 @@ import React from 'react';
 import {Text, View, Image, Animated} from 'react-native';
 import axios from 'react-native-axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import SoundPlayer from 'react-native-sound-player';
+
+import bookdescription from '../infos/bookdescription';
 
 export default class Splash extends React.Component{
 
@@ -70,8 +73,41 @@ export default class Splash extends React.Component{
 
 
 
-    bookdescriptionfunc () {
-        this.props.navigation.replace (this.props.route.params.to)
+    async isplayingfunc () {
+        const isplaying = await AsyncStorage.getItem('@isplaying')
+        console.log(isplaying)
+        return isplaying
+    }
+
+    async isbackgroundfunc () {
+        const isbackground = await AsyncStorage.getItem('@background')
+        return isbackground
+    }
+
+    async loadsoundfunc () {
+        SoundPlayer.loadUrl(bookdescription.playbookuri)
+        await AsyncStorage.setItem('@background', true)
+        await AsyncStorage.setItem('@isplaying', false)
+    }
+
+
+
+    async bookdescriptionfunc () {
+
+        const to = this.props.route.params.to
+        if (to == 'Pdfview') {
+            this.props.navigation.replace(this.props.route.params.to)
+
+        } else if (to == 'Musicplayer'){
+            const isplaying = await this.isplayingfunc()
+            const isbackground = await this.isbackgroundfunc()
+            
+            this.props.navigation.replace(this.props.route.params.to, {isplaying, isbackground})
+
+
+
+        }
+
     }
 
 
@@ -91,6 +127,7 @@ export default class Splash extends React.Component{
         })
 
         animatedpromise.then(() => {
+            // console.log(this.props.route.params)
             try {
                 switch (this.props.route.params.from) {
                     case 'Tabbars': this.tabbarfunc(); break;

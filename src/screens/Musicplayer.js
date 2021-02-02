@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Image} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Image, AppState} from 'react-native';
 import SoundPlayer from 'react-native-sound-player';
 import Slider from '@react-native-community/slider';
 
@@ -10,16 +10,14 @@ import bookdescription from '../infos/bookdescription';
 
 export default class Musicplayer extends React.Component{
 
-
     constructor(props) {
         super(props);
     
-        // this._isMounted = false;
+        this._isMounted = false;
     // rest of your code
     }
-
     state={
-        isplay: 1,
+        isplay: null,
 
         currenttime: '--:--',
         duration: '--:--',
@@ -29,47 +27,63 @@ export default class Musicplayer extends React.Component{
     }
 
 
-    componentDidMount () {
-
-        // this._isMounted = true;
-
-        // SoundPlayer.onFinishedLoading(() => {
-            console.log('here')
-        this.playbook()
-        //     this.timer = setInterval(()=>this.getcurrenttime(), 500)
-        // SoundPlayer.onFinishedPlaying((success) => { // success is true when the sound is played
-        //     console.log('finished playing', success)
-        //   })
-        // });
-    }
-
-    // componentWillUnmount () {
-    //     // this._isMounted = false
-    //     // this.timer && clearInterval(this.timer);
-    //     // this.setState({maxvalue: 0})
-    //     // SoundPlayer.unmount()
-
+    // playsong () {
+    //     SoundPlayer.loadUrl(bookdescription.playbookuri)
     // }
 
-    async playbook () {
+    async componentDidMount () {
+        this._isMounted = true;
+
+        console.log(this.props.route.params.isbackground, this.props.route.params.isplaying)
+        if (this.props.route.params.isbackground != true || this.props.route.params.isplaying) {
+            this.setState({isplay: 1})
+        } else  {
+            this.setState({isplay: 0})
+            SoundPlayer.playUrl()
+            SoundPlayer.pause()
+
+        } 
+        
+
+        SoundPlayer.onFinishedLoading(() => {
+            this.initiatestate()
+
+            this.timer = setInterval(()=>this.getcurrenttime(), 500)
+        });
+
+    }
+
+    componentWillUnmount () {
+        // this.timer && clearInterval(this.timer);
+        this._isMounted = false;
+    }
+
+
+
+    async initiatestate () {
+        
+        
+        
+        
         try{
-            SoundPlayer.playUrl(bookdescription.playbookuri)
+            // SoundPlayer.playUrl(bookdescription.playbookuri)
 
-            // const info = await SoundPlayer.getInfo()
+            const info = await SoundPlayer.getInfo()
 
-            // var duration = info['duration'];
-            // var min = Math.floor(duration/60);
-            // var sec = Math.floor(duration%60);
+            var duration = info['duration'];
+            console.log(duration)
+            var min = Math.floor(duration/60);
+            var sec = Math.floor(duration%60);
 
-            // if (`${min}`.length == 1) {
-            //     min = `0${min}`
-            // }
+            if (`${min}`.length == 1) {
+                min = `0${min}`
+            }
 
-            // if (`${sec}`.length == 1) {
-            //     sec = `0${sec}`
-            // }
-            
-            // this.setState({duration: `${min}:${sec}`, maxvalue: duration})
+            if (`${sec}`.length == 1) {
+                sec = `0${sec}`
+            }
+
+            this.setState({duration: `${min}:${sec}`, maxvalue: duration})
 
         } catch (e) {
             console.log(`error : ${e}`)
@@ -86,6 +100,7 @@ export default class Musicplayer extends React.Component{
     }
 
     resumebook () {
+
         try {
             SoundPlayer.resume()
         } catch (e) {
@@ -119,19 +134,19 @@ export default class Musicplayer extends React.Component{
     }
 
 
-    // seekbook (val) {
-    //     try {
-    //         SoundPlayer.seek(val);
-    //         this.getcurrenttime();
-    //         // if (this.state.currvalue == this.state.maxvalue) {
-    //         this.setState({isplay: 0})
-    //         this.pausebook()
-    //         // }
+    seekbook (val) {
+        try {
+            SoundPlayer.seek(val);
+            this.getcurrenttime();
+            // if (this.state.currvalue == this.state.maxvalue) {
+            this.setState({isplay: 0})
+            this.pausebook()
+            // }
 
-    //     } catch (e) {
-    //         console.log(`ERROR ${e}`)
-    //     }
-    // }
+        } catch (e) {
+            console.log(`ERROR ${e}`)
+        }
+    }
 
     render () {
         return (
@@ -207,6 +222,7 @@ export default class Musicplayer extends React.Component{
                         }}
 
                         onPress={()=>{
+
                             const isplay = this.state.isplay;
                             if (isplay) {
                                 this.setState({isplay: 0})
@@ -224,7 +240,7 @@ export default class Musicplayer extends React.Component{
                         <Ionicon name='play-skip-forward-outline' size={30} color='#72889D' />
                     </TouchableOpacity>
                 </View>
-                {/* <View
+                <View
                     style={
                         styles.fifthviewable
                     }
@@ -261,7 +277,7 @@ export default class Musicplayer extends React.Component{
                             }}
                         >{this.state.duration}</Text>
                     </View>
-                </View> */}
+                </View>
             </SafeAreaView>
         )
     }

@@ -12,6 +12,7 @@ import bookdescription from '../infos/bookdescription';
 import Chaptersname from '../components/Chaptersname';
 import Similarbookscard from '../components/Similarbookscard';
 
+
 LogBox.ignoreAllLogs();
 
 export default class Bookdescription extends React.Component {
@@ -74,7 +75,10 @@ export default class Bookdescription extends React.Component {
                         <View style={styles.fourthviewable}>
                             <TouchableOpacity
                                 style={[styles.touchable, {borderColor: '#3D6DFF'}]}
-                                onPress={()=> this.props.navigation.push('Pdfview')}
+                                onPress={()=> this.props.navigation.push('Splash', {
+                                    from: 'Bookdescription', 
+                                    to: 'Pdfview'
+                                })}
                             >
                                 <View style={{flexDirection: 'row'}}>
                                     <Anticon name='book' size={29} color={'#3D6DFF'} />
