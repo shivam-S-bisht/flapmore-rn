@@ -70,6 +70,12 @@ export default class Splash extends React.Component{
 
 
 
+    bookdescriptionfunc () {
+        this.props.navigation.replace (this.props.route.params.to)
+    }
+
+
+
 // FIRST
 // splash animation
     animatedpromise () {
@@ -90,6 +96,7 @@ export default class Splash extends React.Component{
                     case 'Tabbars': this.tabbarfunc(); break;
                     case 'Createnewaccount': this.createnewaccountfunc(); break;
                     case 'Login': this.loginfunc(); break;
+                    case 'Bookdescription': this.bookdescriptionfunc(); break;
                     // default: this.props.navigation.replace('Tabbars')
                 }
             } catch (e) {

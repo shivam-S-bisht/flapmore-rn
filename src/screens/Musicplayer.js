@@ -11,6 +11,13 @@ import bookdescription from '../infos/bookdescription';
 export default class Musicplayer extends React.Component{
 
 
+    constructor(props) {
+        super(props);
+    
+        // this._isMounted = false;
+    // rest of your code
+    }
+
     state={
         isplay: 1,
 
@@ -23,35 +30,46 @@ export default class Musicplayer extends React.Component{
 
 
     componentDidMount () {
-        SoundPlayer.onFinishedLoading(() => {
-            this.timer = setInterval(()=>this.getcurrenttime(), 500)
-        });
+
+        // this._isMounted = true;
+
+        // SoundPlayer.onFinishedLoading(() => {
+            console.log('here')
         this.playbook()
+        //     this.timer = setInterval(()=>this.getcurrenttime(), 500)
+        // SoundPlayer.onFinishedPlaying((success) => { // success is true when the sound is played
+        //     console.log('finished playing', success)
+        //   })
+        // });
     }
 
-    componentWillUnmount () {
-        this.timer && clearInterval(this.timer);
-    }
+    // componentWillUnmount () {
+    //     // this._isMounted = false
+    //     // this.timer && clearInterval(this.timer);
+    //     // this.setState({maxvalue: 0})
+    //     // SoundPlayer.unmount()
+
+    // }
 
     async playbook () {
         try{
             SoundPlayer.playUrl(bookdescription.playbookuri)
 
-            const info = await SoundPlayer.getInfo()
+            // const info = await SoundPlayer.getInfo()
 
-            var duration = info['duration'];
-            var min = Math.floor(duration/60);
-            var sec = Math.floor(duration%60);
+            // var duration = info['duration'];
+            // var min = Math.floor(duration/60);
+            // var sec = Math.floor(duration%60);
 
-            if (`${min}`.length == 1) {
-                min = `0${min}`
-            }
+            // if (`${min}`.length == 1) {
+            //     min = `0${min}`
+            // }
 
-            if (`${sec}`.length == 1) {
-                sec = `0${sec}`
-            }
-
-            this.setState({duration: `${min}:${sec}`, maxvalue: duration})
+            // if (`${sec}`.length == 1) {
+            //     sec = `0${sec}`
+            // }
+            
+            // this.setState({duration: `${min}:${sec}`, maxvalue: duration})
 
         } catch (e) {
             console.log(`error : ${e}`)
@@ -101,19 +119,19 @@ export default class Musicplayer extends React.Component{
     }
 
 
-    seekbook (val) {
-        try {
-            SoundPlayer.seek(val);
-            this.getcurrenttime();
-            // if (this.state.currvalue == this.state.maxvalue) {
-            this.setState({isplay: 0})
-            this.pausebook()
-            // }
+    // seekbook (val) {
+    //     try {
+    //         SoundPlayer.seek(val);
+    //         this.getcurrenttime();
+    //         // if (this.state.currvalue == this.state.maxvalue) {
+    //         this.setState({isplay: 0})
+    //         this.pausebook()
+    //         // }
 
-        } catch (e) {
-            console.log(`ERROR ${e}`)
-        }
-    }
+    //     } catch (e) {
+    //         console.log(`ERROR ${e}`)
+    //     }
+    // }
 
     render () {
         return (
@@ -206,7 +224,7 @@ export default class Musicplayer extends React.Component{
                         <Ionicon name='play-skip-forward-outline' size={30} color='#72889D' />
                     </TouchableOpacity>
                 </View>
-                <View
+                {/* <View
                     style={
                         styles.fifthviewable
                     }
@@ -243,7 +261,7 @@ export default class Musicplayer extends React.Component{
                             }}
                         >{this.state.duration}</Text>
                     </View>
-                </View>
+                </View> */}
             </SafeAreaView>
         )
     }
