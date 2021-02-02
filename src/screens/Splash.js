@@ -14,15 +14,25 @@ export default class Splash extends React.Component{
         this.state={
             animatedValue: new Animated.Value(0)
         }
+
+        this._isMounted = false;
+
     }
 
 
 // FIRST
 // called before mounting
     componentDidMount() {
+        this._isMounted = true;
+
         this.animatedpromise() 
     }
 
+
+    componentWillUnmount () {
+        // this.timer && clearInterval(this.timer);
+        this._isMounted = false;
+    }
 
 // FIRST splash
     async splashfunc () {
@@ -73,21 +83,40 @@ export default class Splash extends React.Component{
 
 
 
-    async isplayingfunc () {
-        const isplaying = await AsyncStorage.getItem('@isplaying')
-        console.log(isplaying)
-        return isplaying
-    }
+    // async isplayingfunc () {
+    //     const isplaying = await AsyncStorage.getItem('@isplaying')
+    //     console.log(isplaying)
+    //     return isplaying
+    // }
 
-    async isbackgroundfunc () {
-        const isbackground = await AsyncStorage.getItem('@background')
-        return isbackground
-    }
 
-    async loadsoundfunc () {
-        SoundPlayer.loadUrl(bookdescription.playbookuri)
-        await AsyncStorage.setItem('@background', true)
-        await AsyncStorage.setItem('@isplaying', false)
+    async getduration () {
+
+        // const background = await AsyncStorage.getItem('@background')
+        // if (background == 'true') {
+        //     // await AsyncStorage.setItem('@background', 'false')
+        //     SoundPlayer.stop()
+
+        // }
+        // SoundPlayer.loadUrl(bookdescription.playbookuri)
+        // SoundPlayer.stop()
+
+        // const info = await SoundPlayer.getInfo()
+        // console.log(info)
+        var duration = bookdescription.duration;
+
+        var min = Math.floor(duration/60);
+        var sec = Math.floor(duration%60);
+
+        if (`${min}`.length == 1) {
+            min = `0${min}`
+        }
+
+        if (`${sec}`.length == 1) {
+            sec = `0${sec}`
+        }
+
+        return {duration: `${min}:${sec}`, maxvalue: duration}
     }
 
 
@@ -99,10 +128,11 @@ export default class Splash extends React.Component{
             this.props.navigation.replace(this.props.route.params.to)
 
         } else if (to == 'Musicplayer'){
-            const isplaying = await this.isplayingfunc()
-            const isbackground = await this.isbackgroundfunc()
-            
-            this.props.navigation.replace(this.props.route.params.to, {isplaying, isbackground})
+
+            const infos =  await this.getduration()
+
+            this.props.navigation.replace(this.props.route.params.to, {from: 'Bookdescription', ...infos})
+
 
 
 

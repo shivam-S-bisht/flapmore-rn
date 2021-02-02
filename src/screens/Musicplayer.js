@@ -1,10 +1,11 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Image, AppState} from 'react-native';
-import SoundPlayer from 'react-native-sound-player';
+import SoundPlayer from 'react-native-sound';
 import Slider from '@react-native-community/slider';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Ionicon from 'react-native-vector-icons/Ionicons';
-import Anticon from 'react-native-vector-icons/AntDesign';  //play, pause
+import Anticon from 'react-native-vector-icons/AntDesign';  //play, Pause
 
 import bookdescription from '../infos/bookdescription';
 
@@ -13,11 +14,10 @@ export default class Musicplayer extends React.Component{
     constructor(props) {
         super(props);
     
-        this._isMounted = false;
     // rest of your code
     }
     state={
-        isplay: null,
+        isplay: 1,
 
         currenttime: '--:--',
         duration: '--:--',
@@ -25,84 +25,81 @@ export default class Musicplayer extends React.Component{
         maxvalue: 0,
         currvalue: 0.1
     }
-
-
-    // playsong () {
-    //     SoundPlayer.loadUrl(bookdescription.playbookuri)
-    // }
-
+    
     async componentDidMount () {
-        this._isMounted = true;
+        // this._isMounted = true;
+        this.sound = new SoundPlayer(bookdescription.playbookuri, null, (error) => {
+            if (error) {
+              // do something
+            }
+            // play when loaded
+            this.sound.play();
+          });
 
-        console.log(this.props.route.params.isbackground, this.props.route.params.isplaying)
-        if (this.props.route.params.isbackground != true || this.props.route.params.isplaying) {
-            this.setState({isplay: 1})
-        } else  {
-            this.setState({isplay: 0})
-            SoundPlayer.playUrl()
-            SoundPlayer.pause()
+        // if (this.props.route.params.from == 'Bookdescription') {
+        //     SoundPlayer.loadUrl(bookdescription.playbookuri)
 
-        } 
-        
+        //     SoundPlayer.play()
+        //     await AsyncStorage.setItem('@background', 'true')
+        // }
 
-        SoundPlayer.onFinishedLoading(() => {
-            this.initiatestate()
-
+        // SoundPlayer.onFinishedLoading(() => {
             this.timer = setInterval(()=>this.getcurrenttime(), 500)
-        });
+        // });
+
+        // this.setState({duration: this.props.route.params.duration, maxvalue: this.props.route.params.maxvalue})
 
     }
 
     componentWillUnmount () {
-        // this.timer && clearInterval(this.timer);
+        this.timer && clearInterval(this.timer);
+
         this._isMounted = false;
     }
 
 
 
-    async initiatestate () {
+    // async initiatestate () {
         
         
-        
-        
-        try{
-            // SoundPlayer.playUrl(bookdescription.playbookuri)
+    //     try{
+    //         // SoundPlayer.playUrl(bookdescription.playbookuri)
 
-            const info = await SoundPlayer.getInfo()
+    //         const info = await SoundPlayer.getInfo()
 
-            var duration = info['duration'];
-            console.log(duration)
-            var min = Math.floor(duration/60);
-            var sec = Math.floor(duration%60);
+    //         var duration = info['duration'];
+    //         console.log(duration)
+    //         var min = Math.floor(duration/60);
+    //         var sec = Math.floor(duration%60);
 
-            if (`${min}`.length == 1) {
-                min = `0${min}`
-            }
+    //         if (`${min}`.length == 1) {
+    //             min = `0${min}`
+    //         }
 
-            if (`${sec}`.length == 1) {
-                sec = `0${sec}`
-            }
+    //         if (`${sec}`.length == 1) {
+    //             sec = `0${sec}`
+    //         }
 
-            this.setState({duration: `${min}:${sec}`, maxvalue: duration})
+    //         this.setState({duration: `${min}:${sec}`, maxvalue: duration})
 
-        } catch (e) {
-            console.log(`error : ${e}`)
-        }
-    }
+    //     } catch (e) {
+    //         console.log(`error : ${e}`)
+    //     }
+    // }
 
 
-    pausebook () {
+    Pausebook () {
         try {
-            SoundPlayer.pause()
+            this.sound.pause()
         } catch (e) {
             console.log(`ERROR: ${e}`)
         }
     }
 
-    resumebook () {
-
+    Resumebook () {
+        
         try {
-            SoundPlayer.resume()
+            this.sound.play()
         } catch (e) {
             console.log(`ERROR: ${e}`)
         }
@@ -111,7 +108,7 @@ export default class Musicplayer extends React.Component{
     async getcurrenttime () {
 
         try {
-            const info = await SoundPlayer.getInfo()
+            const info = await this.sound.getDuration()
 
             var currenttime = info['currentTime']
             var min = Math.floor(currenttime/60);
@@ -136,11 +133,11 @@ export default class Musicplayer extends React.Component{
 
     seekbook (val) {
         try {
-            SoundPlayer.seek(val);
+            this.sound.setCurrentTime(val);
             this.getcurrenttime();
             // if (this.state.currvalue == this.state.maxvalue) {
             this.setState({isplay: 0})
-            this.pausebook()
+            this.Pausebook()
             // }
 
         } catch (e) {
@@ -226,15 +223,15 @@ export default class Musicplayer extends React.Component{
                             const isplay = this.state.isplay;
                             if (isplay) {
                                 this.setState({isplay: 0})
-                                this.pausebook()
+                                this.Pausebook()
                             } else {
                                 this.setState({isplay: 1})
-                                this.resumebook()
+                                this.Resumebook()
                             }
 
                         }}
                     >   
-                        <Anticon name={this.state.isplay? 'pausecircle': 'play'} size={50} color='#3D6DFF' />
+                        <Anticon name={this.state.isplay? 'Pausecircle': 'play'} size={50} color='#3D6DFF' />
                     </TouchableOpacity>
                     <TouchableOpacity>
                         <Ionicon name='play-skip-forward-outline' size={30} color='#72889D' />
