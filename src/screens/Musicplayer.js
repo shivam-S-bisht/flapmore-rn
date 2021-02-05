@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Image} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Image, BackHandler} from 'react-native';
 import SoundPlayer from 'react-native-sound';
 import Slider from '@react-native-community/slider';
 
@@ -10,11 +10,11 @@ import bookdescription from '../infos/bookdescription';
 
 export default class Musicplayer extends React.Component{
 
-    constructor(props) {
-        super(props);
-    
-    // rest of your code
+    constructor (props) {
+        super(props)
+        this._handleBackPress = this._handleBackPress.bind(this);
     }
+
     state={
         isplay: 1,
         disable: true, 
@@ -24,9 +24,22 @@ export default class Musicplayer extends React.Component{
         maxvalue: 0,
         currvalue: 0.1
     }
-    
+
+    _handleBackPress () {
+        // this.props.navigation.navigate(this.props.route.params.from)
+        console.log(this.props)
+        
+    }
+
+
     async componentDidMount () {
+        // console.log(this.props)
         // this._isMounted = true;
+        BackHandler.addEventListener("hardwareBackPress", ()=> {
+            this.props.navigation.navigate(this.props.route.params.from)
+            return true
+        }); 
+
         this.sound = new SoundPlayer(bookdescription.playbookuri, null, (error) => {
             if (error) {
               console.log(error)
@@ -40,6 +53,13 @@ export default class Musicplayer extends React.Component{
        
         this.initiatestate()
 
+    }
+
+
+    async componentWillUnmount () {
+        BackHandler.removeEventListener("hardwareBackPress", ()=>{return false});
+        // this.sound.release()
+        clearInterval(this.timer)
     }
 
 
@@ -103,7 +123,7 @@ export default class Musicplayer extends React.Component{
 
                 this.setState({duration: `${min}:${sec}`, maxvalue: duration})
 
-            }, 1500)
+            },2000)
             
         } catch (e) {
             console.log(`error : ${e}`)

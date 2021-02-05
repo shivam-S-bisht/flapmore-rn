@@ -23,7 +23,7 @@ export default class Splash extends React.Component{
 // FIRST
 // called before mounting
     componentDidMount() {
-        this._isMounted = true;
+        // this._isMounted = true;
 
         this.animatedpromise() 
     }
@@ -31,7 +31,7 @@ export default class Splash extends React.Component{
 
     componentWillUnmount () {
         // this.timer && clearInterval(this.timer);
-        this._isMounted = false;
+        // this._isMounted = false;
     }
 
 // FIRST splash
