@@ -14,12 +14,28 @@ import Musicplayer from './Musicplayer';
 
 export default class Tabbars extends React.Component {
 
+    state = {
+      visible: 0
+    }
+
     Tab = createMaterialBottomTabNavigator()
 
 
     componentDidMount() {
-      this._unsubscribe = navigation.addListener('focus', () => {
-      console.log('mount')
+      this._unsubscribe = this.props.navigation.addListener('focus', () => {
+
+        console.log(this.props)
+        if ("from" in this.props.route.params.from == 'Bookdescription')
+          this.props.navigation.navigate(this.props.route.params.to, {from: 'Tabbars'})
+        else
+          console.log('key not present')
+
+        if ("soundobj" in this.props.route.params) 
+          this.setState({visible: 1})
+        else
+          this.setState({visible: 0})
+        
+
       // do something
       });
     }
@@ -73,10 +89,10 @@ export default class Tabbars extends React.Component {
                       component={Library} 
                       />
               </this.Tab.Navigator>
-              <View style={{position: 'absolute', bottom: 60}}>
+              <View style={{position: 'absolute', bottom: 60, visible: this.state.visible}}>
 
                   <TouchableOpacity
-                    onPress={()=> this.props.navigation.navigate('Musicplayer')}
+                    onPress={()=> this.props.navigation.navigate('Musicplayer', {from: 'minimize', soundobj, timeelapsed, totaltime})}
                   >
                     <Text>Open Music</Text>
                   </TouchableOpacity>

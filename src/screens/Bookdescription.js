@@ -98,8 +98,9 @@ export default class Bookdescription extends React.Component {
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={[styles.touchable, { borderColor: '#3D6DFF', backgroundColor: '#3D6DFF'}]}
-                                onPress={()=> this.props.navigation.replace('Musicplayer', {
-                                    from: 'Bookdescription'
+                                onPress={()=> this.props.navigation.replace('Tabbars', {
+                                    from: 'Bookdescription',
+                                    to: 'Musicplayer'
                                 })}
                             >
                                 <View style={{flexDirection: 'row'}}>

@@ -36,7 +36,8 @@ export default class Musicplayer extends React.Component{
         // console.log(this.props)
         // this._isMounted = true;
         BackHandler.addEventListener("hardwareBackPress", ()=> {
-            this.props.navigation.navigate(this.props.route.params.from)
+            // if (this.props.route.from == 'Tabbars')
+                this.props.navigation.replace(this.props.route.params.from, {from: 'Musicplayer'})
             return true
         }); 
 
@@ -147,7 +148,7 @@ export default class Musicplayer extends React.Component{
                     >
                         <TouchableOpacity
                             onPress={()=> {
-                                this.props.navigation.goBack()
+                                this.props.navigation.replace(this.props.route.params.from, {from: 'Musicplayer'})
                             }}
                         >
                             <Ionicon name='chevron-down' size={30} color='#fff' />
