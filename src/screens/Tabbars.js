@@ -25,19 +25,35 @@ export default class Tabbars extends React.Component {
       this._unsubscribe = this.props.navigation.addListener('focus', () => {
 
         console.log(this.props)
-        if ("from" in this.props.route.params.from == 'Bookdescription')
-          this.props.navigation.navigate(this.props.route.params.to, {from: 'Tabbars'})
-        else
-          console.log('key not present')
+        // if ("from" in this.props.route.params){
+        //   if (this.props.route.params.from == 'Bookdescription')
+        //      this.props.navigation.navigate(this.props.route.params.to, {from: 'Tabbars'})
+        // }
+        // else
+        //   console.log('key not present')
 
-        if ("soundobj" in this.props.route.params) 
-          this.setState({visible: 1})
-        else
-          this.setState({visible: 0})
+        // if ("soundobj" in this.props.route.params) 
+        //   this.setState({visible: 1})
+        // else
+        //   this.setState({visible: 0})
         
 
       // do something
       });
+    }
+
+
+    showplayer () {
+      return (
+        <View style={{position: 'absolute', bottom: 60, visible: this.state.visible}}>
+
+            <TouchableOpacity
+              onPress={()=> this.props.navigation.navigate('Musicplayer', {from: 'minimize', soundobj, timeelapsed, totaltime})}
+            >
+              <Text>Open Music</Text>
+            </TouchableOpacity>
+        </View>
+      )
     }
 
     componentWillUnmount () {
@@ -89,14 +105,8 @@ export default class Tabbars extends React.Component {
                       component={Library} 
                       />
               </this.Tab.Navigator>
-              <View style={{position: 'absolute', bottom: 60, visible: this.state.visible}}>
-
-                  <TouchableOpacity
-                    onPress={()=> this.props.navigation.navigate('Musicplayer', {from: 'minimize', soundobj, timeelapsed, totaltime})}
-                  >
-                    <Text>Open Music</Text>
-                  </TouchableOpacity>
-              </View>
+              {this.state.visible?this.showplayer():null}
+              
           </View>
 
         )
