@@ -9,12 +9,24 @@ import Home from './Home';
 import Library from './Library';
 import Explore from './Explore';
 
+import Musicplayer from './Musicplayer';
 
 
 export default class Tabbars extends React.Component {
 
     Tab = createMaterialBottomTabNavigator()
 
+
+    componentDidMount() {
+      this._unsubscribe = navigation.addListener('focus', () => {
+      console.log('mount')
+      // do something
+      });
+    }
+
+    componentWillUnmount () {
+      console.log('unmount')
+    }
 
     render () {
         
@@ -48,15 +60,15 @@ export default class Tabbars extends React.Component {
                     },
                   })}
                   >
-                  <Tab.Screen 
+                  <this.Tab.Screen 
                       name='Home' 
                       component={Home}  
                       />
-                  <Tab.Screen 
+                  <this.Tab.Screen 
                       name='Explore' 
                       component={Explore} 
                       />
-                  <Tab.Screen 
+                  <this.Tab.Screen 
                       name='Library' 
                       component={Library} 
                       />
@@ -64,7 +76,7 @@ export default class Tabbars extends React.Component {
               <View style={{position: 'absolute', bottom: 60}}>
 
                   <TouchableOpacity
-                    onPress={()=> console.log('hello')}
+                    onPress={()=> this.props.navigation.navigate('Musicplayer')}
                   >
                     <Text>Open Music</Text>
                   </TouchableOpacity>

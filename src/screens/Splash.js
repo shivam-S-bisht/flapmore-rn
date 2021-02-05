@@ -132,7 +132,7 @@ export default class Splash extends React.Component{
             const infos =  await this.getduration()
 
             this.props.navigation.replace(this.props.route.params.to, {from: 'Bookdescription', ...infos})
-
+            
 
 
 

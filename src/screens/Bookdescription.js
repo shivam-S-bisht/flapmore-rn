@@ -1,5 +1,6 @@
 import React from 'react';
 import {StyleSheet, LogBox, ScrollView, SafeAreaView, View, TouchableOpacity, Image, Text, Touchable, StatusBar, Dimensions, FlatList} from 'react-native';
+import SoundPlayer from 'react-native-sound';
 
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import Fontawesomeicon from 'react-native-vector-icons/FontAwesome';
@@ -21,6 +22,16 @@ export default class Bookdescription extends React.Component {
         bookmarked:0
     }
 
+
+    componentDidMount () {
+        this.sound = new SoundPlayer(bookdescription.playbookuri, null, (error) => {
+            if (error) {
+              console.log(error)
+            }
+            
+          });
+
+    }
 
 
     render() {
@@ -87,9 +98,8 @@ export default class Bookdescription extends React.Component {
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={[styles.touchable, { borderColor: '#3D6DFF', backgroundColor: '#3D6DFF'}]}
-                                onPress={()=> this.props.navigation.push('Splash', {
-                                    from: 'Bookdescription', 
-                                    to: 'Musicplayer'
+                                onPress={()=> this.props.navigation.replace('Musicplayer', {
+                                    from: 'Bookdescription'
                                 })}
                             >
                                 <View style={{flexDirection: 'row'}}>
