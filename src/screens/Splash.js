@@ -125,14 +125,16 @@ export default class Splash extends React.Component{
 
         const to = this.props.route.params.to
         if (to == 'Pdfview') {
-            this.props.navigation.replace(this.props.route.params.to)
+            this.props.navigation.replace(to)
 
         } else if (to == 'Musicplayer'){
 
-            const infos =  await this.getduration()
-
-            this.props.navigation.replace(this.props.route.params.to, {from: 'Bookdescription', ...infos})
             
+            const sound = this.props.route.params.soundobj
+            sound.play()
+
+            this.props.navigation.replace(to, {from: 'Bookdescription', soundobj: sound})
+
 
 
 

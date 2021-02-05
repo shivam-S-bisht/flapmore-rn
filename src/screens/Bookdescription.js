@@ -24,13 +24,8 @@ export default class Bookdescription extends React.Component {
 
 
     componentDidMount () {
-        this.sound = new SoundPlayer(bookdescription.playbookuri, null, (error) => {
-            if (error) {
-              console.log(error)
-            }
-            
-          });
-
+        this.sound = new SoundPlayer(bookdescription.playbookuri)
+        this.sound.play()
     }
 
 
@@ -98,10 +93,14 @@ export default class Bookdescription extends React.Component {
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={[styles.touchable, { borderColor: '#3D6DFF', backgroundColor: '#3D6DFF'}]}
-                                onPress={()=> this.props.navigation.replace('Tabbars', {
-                                    from: 'Bookdescription',
-                                    to: 'Musicplayer'
-                                })}
+                                onPress={()=> {
+                                    
+                                        this.props.navigation.replace('Splash', {
+                                            from: 'Bookdescription',
+                                            to: 'Musicplayer',
+                                            soundobj: this.sound
+                                        })
+                                    }}
                             >
                                 <View style={{flexDirection: 'row'}}>
                                     <Feathericon name='headphones' color='#fff' size={29} />

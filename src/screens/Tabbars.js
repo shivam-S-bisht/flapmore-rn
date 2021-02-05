@@ -1,5 +1,5 @@
 import React from "react";
-import  {View, Text, TouchableOpacity} from 'react-native'
+import  {View, Text, TouchableOpacity, BackHandler} from 'react-native'
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 
 import Ionicon from 'react-native-vector-icons/Ionicons';
@@ -22,20 +22,32 @@ export default class Tabbars extends React.Component {
 
 
     componentDidMount() {
+
       this._unsubscribe = this.props.navigation.addListener('focus', () => {
 
-        console.log(this.props)
-        // if ("from" in this.props.route.params){
-        //   if (this.props.route.params.from == 'Bookdescription')
-        //      this.props.navigation.navigate(this.props.route.params.to, {from: 'Tabbars'})
-        // }
-        // else
-        //   console.log('key not present')
 
-        // if ("soundobj" in this.props.route.params) 
-        //   this.setState({visible: 1})
-        // else
-        //   this.setState({visible: 0})
+        if (this.props.route.params != undefined){
+
+          if (this.props.route.params.from == 'Bookdescription') {
+            this.sound = this.props.route.params.soundobj
+            this.sound.play()
+
+            this.props.navigation.push(this.props.route.params.to, {from: 'Tabbars', soundobj: this.sound})
+          }
+          
+          if ("soundobj" in this.props.route.params){
+            
+            this.setState({visible: 1})
+          }
+
+          else
+            console.log('there')
+            this.setState({visible: 0})
+        }
+        
+
+
+        
         
 
       // do something

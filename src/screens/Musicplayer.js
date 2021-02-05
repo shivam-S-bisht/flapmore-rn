@@ -21,8 +21,8 @@ export default class Musicplayer extends React.Component{
         currenttime: '--:--',
         duration: '--:--',
 
-        maxvalue: 0,
-        currvalue: 0.1
+        maxvalue: 9999,
+        currvalue: 0
     }
 
     _handleBackPress () {
@@ -35,22 +35,23 @@ export default class Musicplayer extends React.Component{
     async componentDidMount () {
         // console.log(this.props)
         // this._isMounted = true;
-        BackHandler.addEventListener("hardwareBackPress", ()=> {
+        this.backhandler = BackHandler.addEventListener("hardwareBackPress", ()=> {
             // if (this.props.route.from == 'Tabbars')
-                this.props.navigation.replace(this.props.route.params.from, {from: 'Musicplayer'})
+                this.props.navigation.replace(this.props.route.params.from, {from: 'Musicplayer', soundobj: this.sound, isplay: this.state.isplay})
             return true
         }); 
 
-        this.sound = new SoundPlayer(bookdescription.playbookuri, null, (error) => {
-            if (error) {
-              console.log(error)
-            }
-            // play when loaded
-            this.sound.play();
-          });
+        this.sound = this.props.route.params.soundobj
+        // this.sound.play()
 
-        
-        this.timer = setInterval(()=>this.getcurrenttime(), 100)
+        this.timer = setInterval(()=>{
+            if (this.state.isplay) 
+                this.getcurrenttime(this.state.currvalue)
+
+            if (this.state.currvalue>this.state.maxvalue) 
+                clearInterval(this.timer)
+
+        }, 1000)
        
         this.initiatestate()
 
@@ -58,7 +59,8 @@ export default class Musicplayer extends React.Component{
 
 
     async componentWillUnmount () {
-        BackHandler.removeEventListener("hardwareBackPress", ()=>{return false});
+        console.log('here')
+        this.backhandler.remove()
         // this.sound.release()
         clearInterval(this.timer)
     }
@@ -76,11 +78,14 @@ export default class Musicplayer extends React.Component{
     }
 
 
-    getcurrenttime () {
-        this.sound.getCurrentTime((currenttime, _) => {
+    getcurrenttime (val) {
+
+        var currvalue = val+1;
+
+        
             
-            var min = Math.floor(currenttime/60);
-            var sec = Math.floor(currenttime%60);
+            var min = Math.floor(currvalue/60);
+            var sec = Math.floor(currvalue%60);
 
             if (`${min}`.length == 1) {
                 min = `0${min}`
@@ -89,9 +94,8 @@ export default class Musicplayer extends React.Component{
             if (`${sec}`.length == 1) {
                 sec = `0${sec}`
             }
-
-            this.setState({currenttime: `${min}:${sec}`, currvalue: currenttime, disable: false})
-        })
+            console.log(this.state.currvalue)
+            this.setState({currenttime: `${min}:${sec}`, currvalue, disable: false})
     }
 
 
@@ -100,12 +104,12 @@ export default class Musicplayer extends React.Component{
 
         this.pause()
         this.sound.setCurrentTime(val)
-        this.getcurrenttime()
+        this.getcurrenttime(val)
     }
 
 
     async initiatestate () {
-     
+        
         try{
            setTimeout(async ()=> {
                 const duration = await this.sound.getDuration()
@@ -148,7 +152,7 @@ export default class Musicplayer extends React.Component{
                     >
                         <TouchableOpacity
                             onPress={()=> {
-                                this.props.navigation.replace(this.props.route.params.from, {from: 'Musicplayer'})
+                                this.props.navigation.replace(this.props.route.params.from, {from: 'Musicplayer', soundobj: this.sound, isplay: this.state.isplay})
                             }}
                         >
                             <Ionicon name='chevron-down' size={30} color='#fff' />
