@@ -106,7 +106,7 @@ export default class Tabbars extends React.Component {
                   >
                   <this.Tab.Screen 
                       name='Home' 
-                      component={Home}  
+                      children={()=> <Home props={this.props}  />}
                       />
                   <this.Tab.Screen 
                       name='Explore' 

@@ -38,7 +38,7 @@ export default class Musicplayer extends React.Component{
         this.backhandler = BackHandler.addEventListener("hardwareBackPress", ()=> {
             // if (this.props.route.from == 'Tabbars')
                 this.props.navigation.replace(this.props.route.params.from, {from: 'Musicplayer', soundobj: this.sound, isplay: this.state.isplay})
-            return true
+            return false
         }); 
 
         this.sound = this.props.route.params.soundobj
@@ -60,7 +60,7 @@ export default class Musicplayer extends React.Component{
 
     async componentWillUnmount () {
         console.log('here')
-        this.backhandler.remove()
+        // this.backhandler.remove()
         // this.sound.release()
         clearInterval(this.timer)
     }
