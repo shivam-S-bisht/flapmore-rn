@@ -24,7 +24,7 @@ export default class Bookdescription extends React.Component {
 
 
     componentDidMount () {
-        this.sound = new SoundPlayer(bookdescription.playbookuri)
+        // this.sound = new SoundPlayer(bookdescription.playbookuri)
         // this.sound.play()
     }
 
@@ -98,7 +98,7 @@ export default class Bookdescription extends React.Component {
                                         this.props.navigation.replace('Tabbars', {
                                             from: 'Bookdescription',
                                             to: 'Musicplayer',
-                                            soundobj: this.sound
+                                            playbookuri: bookdescription.playbookuri
                                         })
                                     }}
                             >
