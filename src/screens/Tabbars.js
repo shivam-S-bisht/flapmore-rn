@@ -19,7 +19,13 @@ import bookdescription from '../infos/bookdescription';
 
 export default class Tabbars extends React.Component {
 
-    state = {
+    constructor(props) {
+      super(props)
+      this.pause = this.pause.bind(this)
+    }  
+  
+  
+  state = {
       visible: 0,
       playertype: 's',
       content: null,
@@ -29,12 +35,14 @@ export default class Tabbars extends React.Component {
       duration: '--:--',
 
       maxvalue: 9999,
-      currvalue: 0
+      currvalue: 0,
+
+      soundobj: null
       
     }
 
     Tab = createMaterialBottomTabNavigator()
-
+    // sound = null
 
     componentDidMount() {
 
@@ -50,14 +58,12 @@ export default class Tabbars extends React.Component {
             if (e) {
               console.log('error loading track:', e)
             } else {
-              this.sound.play()
+                this.initiatestate()
+                this.sound.play()
             }
           })
 
-            // console.log(this.props.route.params.playbookuri)
-            // this.sound.play()
-
-            this.setState({content: <this.Smallplayer />})
+            
           }
           
         }
@@ -67,72 +73,21 @@ export default class Tabbars extends React.Component {
 
 
 
-    Smallplayer () {
-      return (
-        <View>
-          <TouchableOpacity
-
-          >
-            <Text>Music Player</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-              onPress={this.pause()}
-          >
-            <Text>Pause</Text>
-          </TouchableOpacity>
-        </View>
-      )
-    }
-
-
-
-
-
-
     play () {
-        this.setState({isplay: 1})
+        // this.setState({isplay: 1})
         this.sound.play()
     }
 
 
     pause () {
-        this.setState({isplay: 0})
+        // this.setState({isplay: 0})
+        // console.log(this.state)
         this.sound.pause()
     }
 
 
-    getcurrenttime (val) {
 
-        var currvalue = val+1;
-
-        
-            
-            var min = Math.floor(currvalue/60);
-            var sec = Math.floor(currvalue%60);
-
-            if (`${min}`.length == 1) {
-                min = `0${min}`
-            }
-
-            if (`${sec}`.length == 1) {
-                sec = `0${sec}`
-            }
-            console.log(this.state.currvalue)
-            this.setState({currenttime: `${min}:${sec}`, currvalue, disable: false})
-    }
-
-
-    seekbook (val) {
-        this.setState({currvalue: val})
-
-        this.pause()
-        this.sound.setCurrentTime(val)
-        this.getcurrenttime(val)
-    }
-
-
-    async initiatestate () {
+    async initiatestate () {    // get and set duration and max value initially
         
         try{
            setTimeout(async ()=> {
@@ -159,6 +114,30 @@ export default class Tabbars extends React.Component {
         }
     }
 
+    Smallplayer () {
+      return (
+        <View style={{position: 'absolute', bottom: 0, visible: this.state.visible}}>
+          <TouchableOpacity
+            onPress={()=> {
+              this.setState({playertype: 'l'})
+
+            }}
+          >
+            <Text>Music Player</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+              onPress={()=> this.pause(this)}
+          >
+            <Text>Pause</Text>
+          </TouchableOpacity>
+        </View>
+      )
+    }
+
+
+
+
 
 
     Musicplayer () {
@@ -176,7 +155,7 @@ export default class Tabbars extends React.Component {
                     >
                         <TouchableOpacity
                             onPress={()=> {
-                                this.props.navigation.replace(this.props.route.params.from, {from: 'Musicplayer', soundobj: this.sound, isplay: this.state.isplay})
+                                this.setState({playertype: 's'})
                             }}
                         >
                             <Ionicon name='chevron-down' size={30} color='#fff' />
@@ -300,56 +279,6 @@ export default class Tabbars extends React.Component {
 
 
 
-
-
-
-
-
-    showplayer () {
-      return (
-        <View style={{position: 'absolute', bottom: 0, visible: this.state.visible}}>
-
-            <TouchableOpacity
-                onPress={()=> {
-                  if (this.state.playertype == 's') {
-                  this.initiatestate()
-                  this.setState({playertype: 'l', content: <this.Musicplayer />})
-
-                  this.timer = setInterval(()=>{
-                    if (this.state.isplay) 
-                        this.getcurrenttime(this.state.currvalue)
-        
-                    if (this.state.currvalue>this.state.maxvalue) 
-                        clearInterval(this.timer)
-        
-                  }, 1000)
-              
-                  this.initiatestate()
-
-                    }
-                }}
-            >
-              <Text>{this.state.content}</Text>
-            </TouchableOpacity>
-        </View>
-      )
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-    componentWillUnmount () {
-      console.log('unmount')
-    }
-
     render () {
         
         return (
@@ -395,7 +324,7 @@ export default class Tabbars extends React.Component {
                       component={Library} 
                       />
               </this.Tab.Navigator>
-              {this.showplayer()}
+              {this.state.playertype == 's'? this.Smallplayer(): this.Musicplayer()}
               
           </View>
 
@@ -405,39 +334,37 @@ export default class Tabbars extends React.Component {
 
 
 const styles = StyleSheet.create ({
-  topviewable: {
-      flex: 1,
-      paddingVertical: 30,
-      paddingHorizontal: 20,
-      backgroundColor: '#151522'
-  },
+    topviewable: {
+        flex: 1,
+        paddingVertical: 30,
+        paddingHorizontal: 20,
+        backgroundColor: '#151522'
+    },
 
-  firstviewable: {
-      marginBottom: 20
-  },
+    firstviewable: {
+        marginBottom: 20
+    },
 
-  secondviewable: {
-      overflow: 'hidden',
-      justifyContent: 'center',
-      alignItems: 'center',
-      borderRadius: 5
-  },
+    secondviewable: {
+        overflow: 'hidden',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 5
+    },
 
-  thirdviewable: {
-      alignItems: 'center',
-      justifyContent: 'center',
-      paddingVertical: 20
-  },
+    thirdviewable: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 20
+    },
 
-  fourthviewable: {
-      flexDirection: 'row',
-      justifyContent: 'space-around',
-      alignItems: 'center'
-  },
+    fourthviewable: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center'
+    },
 
-  fifthviewable: {
-      marginVertical: 20
-  }
+    fifthviewable: {
+        marginVertical: 20
+    }
 })
-
-
