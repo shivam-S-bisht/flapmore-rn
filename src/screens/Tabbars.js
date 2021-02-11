@@ -1,5 +1,5 @@
 import React from "react";
-import  {View, Text, TouchableOpacity, StyleSheet, Image} from 'react-native'
+import  {View, Text, TouchableOpacity, StyleSheet, Image, Dimensions} from 'react-native'
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import Sound from 'react-native-sound';
 import Slider from '@react-native-community/slider';
@@ -27,7 +27,7 @@ export default class Tabbars extends React.Component {
   
   state = {
       visible: 0,
-      playertype: 's',
+      playertype: 'l',
       content: null,
       isplay: 1,
       disable: true, 
@@ -37,7 +37,6 @@ export default class Tabbars extends React.Component {
       maxvalue: 9999,
       currvalue: 0,
 
-      soundobj: null
       
     }
 
@@ -58,6 +57,17 @@ export default class Tabbars extends React.Component {
             if (e) {
               console.log('error loading track:', e)
             } else {
+
+                this.timer = setInterval(()=>{
+                    if (this.state.isplay) 
+                        this.getcurrenttime(this.state.currvalue)
+        
+                    if (this.state.currvalue>this.state.maxvalue) 
+                        clearInterval(this.timer)
+        
+                }, 1000)
+
+
                 this.initiatestate()
                 this.sound.play()
             }
@@ -85,6 +95,31 @@ export default class Tabbars extends React.Component {
         this.sound.pause()
     }
 
+
+    seekbook (val) {
+        this.pause()
+        this.sound.setCurrentTime(val)
+        this.getcurrenttime(val)
+    }
+
+
+    getcurrenttime (val) {
+
+        var currvalue = val+1;
+
+        var min = Math.floor(currvalue/60);
+        var sec = Math.floor(currvalue%60);
+
+        if (`${min}`.length == 1) {
+            min = `0${min}`
+        }
+
+        if (`${sec}`.length == 1) {
+            sec = `0${sec}`
+        }
+        console.log(this.state.currvalue)
+        this.setState({currenttime: `${min}:${sec}`, currvalue, disable: false})
+    }
 
 
     async initiatestate () {    // get and set duration and max value initially
@@ -116,7 +151,7 @@ export default class Tabbars extends React.Component {
 
     Smallplayer () {
       return (
-        <View style={{position: 'absolute', bottom: 0, visible: this.state.visible}}>
+        <View>
           <TouchableOpacity
             onPress={()=> {
               this.setState({playertype: 'l'})
@@ -246,7 +281,10 @@ export default class Tabbars extends React.Component {
                         maximumTrackTintColor='#72889D'
                         trackImage='#35355E'
                         value={this.state.currvalue}
-                        onValueChange={(val)=> this.seekbook(val)}
+                        onValueChange={(val)=> {
+                            this.setState({currvalue: val})
+                            this.seekbook(val)
+                        }}
                     />
                     <View 
                         style={{
@@ -285,46 +323,51 @@ export default class Tabbars extends React.Component {
           <View style={{flex: 1, backgroundColor: 'red'}}>
           
 
-              <this.Tab.Navigator
-                  
-                  initialRouteName='Home'
-                  activeColor='#fff'
-                  inactiveColor='#7B84AC'
-                  barStyle={{backgroundColor:'#151522', height: 60}}
-                  screenOptions={({ route }) => ({
-                    tabBarIcon: ({ focused, color, _ }) => {
-                      let iconName;
-                      
-                      if (route.name === 'Home') {
-                        iconName = focused ? 'ios-home-sharp' : 'ios-home-outline';
-                        return <Ionicon name={iconName} size={24} color={color} />;
-                        
-                      } else if (route.name === 'Explore') {
-                        iconName = focused ? 'ios-search' : 'ios-search-outline';
-                        return <Ionicon name={iconName} size={24} color={color} />;
-                        
-                      } else if (route.name === 'Library') {
-                        iconName = focused ? 'bookmark' : 'bookmark-o';
-                        return <FontAwesomeIcon name={iconName} size={24} color={color} />;
-                        
-                      }
-                    },
-                  })}
-                  >
-                  <this.Tab.Screen 
-                      name='Home' 
-                      children={()=> <Home props={this.props}  />}
-                      />
-                  <this.Tab.Screen 
-                      name='Explore' 
-                      component={Explore} 
-                      />
-                  <this.Tab.Screen 
-                      name='Library' 
-                      component={Library} 
-                      />
-              </this.Tab.Navigator>
-              {this.state.playertype == 's'? this.Smallplayer(): this.Musicplayer()}
+            <this.Tab.Navigator
+                
+                initialRouteName='Home'
+                activeColor='#fff'
+                inactiveColor='#7B84AC'
+                barStyle={{backgroundColor:'#151522', height: 60}}
+                screenOptions={({ route }) => ({
+                tabBarIcon: ({ focused, color, _ }) => {
+                    let iconName;
+                    
+                    if (route.name === 'Home') {
+                    iconName = focused ? 'ios-home-sharp' : 'ios-home-outline';
+                    return <Ionicon name={iconName} size={24} color={color} />;
+                    
+                    } else if (route.name === 'Explore') {
+                    iconName = focused ? 'ios-search' : 'ios-search-outline';
+                    return <Ionicon name={iconName} size={24} color={color} />;
+                    
+                    } else if (route.name === 'Library') {
+                    iconName = focused ? 'bookmark' : 'bookmark-o';
+                    return <FontAwesomeIcon name={iconName} size={24} color={color} />;
+                    
+                    }
+                },
+                })}
+                >
+                <this.Tab.Screen 
+                    name='Home' 
+                    children={()=> <Home props={this.props}  />}
+                    />
+                <this.Tab.Screen 
+                    name='Explore' 
+                    component={Explore} 
+                    />
+                <this.Tab.Screen 
+                    name='Library' 
+                    component={Library} 
+                    />
+            </this.Tab.Navigator>
+
+            <View style={{position: 'absolute', bottom: 0, left: 0, right: 0, visible: this.state.visible}}>
+                {this.state.playertype == 's'? this.Smallplayer(): this.Musicplayer()}
+
+            </View>
+
               
           </View>
 
@@ -335,8 +378,9 @@ export default class Tabbars extends React.Component {
 
 const styles = StyleSheet.create ({
     topviewable: {
-        flex: 1,
-        paddingVertical: 30,
+        
+        paddingVertical: 60,
+        // position: 'absolute',
         paddingHorizontal: 20,
         backgroundColor: '#151522'
     },

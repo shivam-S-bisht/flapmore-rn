@@ -139,7 +139,7 @@ export default class Musicplayer extends React.Component{
 
     render () {
         return (
-            <View
+            <SafeAreaView
                 style={styles.topviewable}
             >
                 <View
@@ -268,14 +268,14 @@ export default class Musicplayer extends React.Component{
                         >{this.state.duration}</Text>
                     </View>
                 </View>
-            </View>
+            </SafeAreaView>
         )
     }
 }
 
 const styles = StyleSheet.create ({
     topviewable: {
-        flex: 1,
+        // flex: 1,
         paddingVertical: 30,
         paddingHorizontal: 20,
         backgroundColor: '#151522'
