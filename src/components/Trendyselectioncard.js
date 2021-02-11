@@ -12,7 +12,7 @@ export default class Trendyselectioncard extends React.Component{
             <View>
                 <TouchableOpacity
                     style={styles.toptouchable}
-                    onPress={() => this.props.props.navigation.push('Splash', {to: 'Bookdescription', from: 'Tabbars'})}
+                    onPress={() => this.props.props.props.navigation.push('Splash', {to: 'Bookdescription', from: 'Tabbars'})}
                 >
                     <Image source={image} style={{borderTopLeftRadius: 5, borderBottomLeftRadius: 5}} />
                     <View style={styles.contentviewable}>

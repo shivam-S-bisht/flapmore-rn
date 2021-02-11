@@ -25,7 +25,7 @@ export default class Bookdescription extends React.Component {
 
     componentDidMount () {
         this.sound = new SoundPlayer(bookdescription.playbookuri)
-        this.sound.play()
+        // this.sound.play()
     }
 
 
@@ -95,7 +95,7 @@ export default class Bookdescription extends React.Component {
                                 style={[styles.touchable, { borderColor: '#3D6DFF', backgroundColor: '#3D6DFF'}]}
                                 onPress={()=> {
                                     
-                                        this.props.navigation.replace('Splash', {
+                                        this.props.navigation.replace('Tabbars', {
                                             from: 'Bookdescription',
                                             to: 'Musicplayer',
                                             soundobj: this.sound

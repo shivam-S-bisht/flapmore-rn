@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Animated, StyleSheet, Text, TouchableOpacity, Dimensions, FlatList} from 'react-native';
+import {View, Animated, StyleSheet, Text, TouchableOpacity, Dimensions, FlatList, SafeAreaView} from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 import Anticon from 'react-native-vector-icons/AntDesign'
 
@@ -33,7 +33,7 @@ export default class Test extends React.Component {
 
     render () {
         return (
-            <View style={styles.topviewable}>
+            <SafeAreaView style={styles.topviewable}>
                 <TouchableOpacity
                     style={{backgroundColor: 'blue'}}
                     onPress={()=>{
@@ -67,7 +67,7 @@ export default class Test extends React.Component {
                     
                 </Animated.View>
                 
-            </View>
+            </SafeAreaView>
         )
     }
 }

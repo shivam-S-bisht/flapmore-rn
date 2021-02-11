@@ -139,7 +139,7 @@ export default class Musicplayer extends React.Component{
 
     render () {
         return (
-            <SafeAreaView
+            <View
                 style={styles.topviewable}
             >
                 <View
@@ -268,7 +268,7 @@ export default class Musicplayer extends React.Component{
                         >{this.state.duration}</Text>
                     </View>
                 </View>
-            </SafeAreaView>
+            </View>
         )
     }
 }

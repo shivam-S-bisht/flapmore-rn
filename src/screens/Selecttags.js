@@ -1,5 +1,5 @@
 import React from 'react';
-import {SafeAreaView, Text, StyleSheet, FlatList, View, Image, TouchableOpacity, Touchable} from 'react-native';
+import {SafeAreaView, Text, StyleSheet, FlatList, View, Image, TouchableOpacity} from 'react-native';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 
 import selecttags from '../infos/selecttags'
