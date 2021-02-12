@@ -5,6 +5,7 @@ import Sound from 'react-native-sound';
 import Slider from '@react-native-community/slider';
 
 import Ionicon from 'react-native-vector-icons/Ionicons';
+import Maticon from 'react-native-vector-icons/MaterialIcons';
 import Anticon from 'react-native-vector-icons/AntDesign';  //play, Pause
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
@@ -27,9 +28,9 @@ export default class Tabbars extends React.Component {
   
   state = {
       visible: 0,
-      playertype: 'l',
+      playertype: 's',
       content: null,
-      isplay: 1,
+      isplay: null,
       disable: true, 
       currenttime: '--:--',
       duration: '--:--',
@@ -50,7 +51,7 @@ export default class Tabbars extends React.Component {
 
         if (this.props.route.params != undefined){
 
-          if (this.props.route.params.from == 'Bookdescription') {
+          if (this.props.route.params.from == 'Bookdescription' && this.state.isplay == null) {
             console.log('Play')
 
             this.sound = new Sound(this.props.route.params.playbookuri, null, (e) => {
@@ -59,7 +60,7 @@ export default class Tabbars extends React.Component {
             } else {
 
                 this.timer = setInterval(()=>{
-                    if (this.state.isplay) 
+                    if (this.state.isplay || this.state.isplay == null) 
                         this.getcurrenttime(this.state.currvalue)
         
                     if (this.state.currvalue>this.state.maxvalue) 
@@ -95,12 +96,14 @@ export default class Tabbars extends React.Component {
         this.sound.pause()
     }
 
+    
 
     seekbook (val) {
         this.pause()
         this.sound.setCurrentTime(val)
         this.getcurrenttime(val)
     }
+
 
 
     getcurrenttime (val) {
@@ -149,28 +152,103 @@ export default class Tabbars extends React.Component {
         }
     }
 
+
+
+
+
     Smallplayer () {
       return (
-        <View>
+        <View
+            style={{backgroundColor: '#383854', paddingHorizontal: 10, height: 60, justifyContent: 'center'}}
+        >
           <TouchableOpacity
             onPress={()=> {
               this.setState({playertype: 'l'})
 
             }}
           >
-            <Text>Music Player</Text>
+            
+
+
+            <View
+                style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}
+            >
+
+
+            <View
+                style={{flexDirection: 'row', alignItems: 'center'}}
+            >
+                <Image 
+                    source={bookdescription.image}
+                    style={{height: 50,width: 65, borderRadius: 5}}
+                />
+                <View
+                    style={{paddingHorizontal: 15}}
+                >
+                    <Text style={{color: '#FFF', fontSize: 18}}>{(bookdescription.title).length > 15?`${(bookdescription.title).slice(0, 13)}...`:bookdescription.title}</Text>
+                    <Text style={{color: '#7A7A97', fontSize: 15}}>Now Playing...</Text>
+                </View>
+            </View>
+
+
+                <View
+                    style={{flexDirection: 'row'}}
+                >
+                    <TouchableOpacity
+                        // onPress={()=> {
+                        //     const isplay = this.state.isplay;
+                        //     if (isplay || isplay == null) {
+                        //         this.setState({isplay: 0})
+                        //         this.pause()
+                        //     } else {
+                        //         this.setState({isplay: 1})
+                        //         this.play()
+                        //     }
+                        // }}
+
+                        style={{backgroundColor: '#3D6DFF',  height: 40, borderRadius: 80, width: 40, alignItems: 'center', justifyContent: 'center', margin: 10}}
+                    >
+                        <Maticon name={(this.state.isplay == null || this.state.isplay)? 'pause': 'play-arrow'} size={25} color='#fff' />
+                    </TouchableOpacity>
+                
+
+                
+                    <TouchableOpacity
+                        // onPress={()=> {
+                        //     const isplay = this.state.isplay;
+                        //     if (isplay || isplay == null) {
+                        //         this.setState({isplay: 0})
+                        //         this.pause()
+                        //     } else {
+                        //         this.setState({isplay: 1})
+                        //         this.play()
+                        //     }
+                        // }}
+
+                        style={{alignItems: 'center', justifyContent: 'center', margin: 10}}
+                    >
+                        <Maticon name='replay-10' size={35} color='#fff' />
+                    </TouchableOpacity>
+                
+                </View>
+                
+                
+
+            </View>
+
           </TouchableOpacity>
 
-          <TouchableOpacity
-              onPress={()=> this.pause(this)}
+          {/* <TouchableOpacity
+              onPress={()=> {
+                this.setState({isplay: 0})
+                this.pause()
+              }}
           >
             <Text>Pause</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       )
     }
-
-
 
 
 
@@ -252,7 +330,7 @@ export default class Tabbars extends React.Component {
                         onPress={()=>{
 
                             const isplay = this.state.isplay;
-                            if (isplay) {
+                            if (isplay || isplay == null) {
                                 this.setState({isplay: 0})
                                 this.pause()
                             } else {
@@ -262,7 +340,7 @@ export default class Tabbars extends React.Component {
 
                         }}
                     >   
-                        <Anticon name={this.state.isplay? 'pausecircle': 'play'} size={50} color='#3D6DFF' />
+                        <Anticon name={(this.state.isplay == null || this.state.isplay)? 'pausecircle': 'play'} size={50} color='#3D6DFF' />
                     </TouchableOpacity>
                     <TouchableOpacity>
                         <Ionicon name='play-skip-forward-outline' size={30} color='#72889D' />
@@ -282,7 +360,7 @@ export default class Tabbars extends React.Component {
                         trackImage='#35355E'
                         value={this.state.currvalue}
                         onValueChange={(val)=> {
-                            this.setState({currvalue: val})
+                            this.setState({currvalue: val, isplay: 0})
                             this.seekbook(val)
                         }}
                     />
@@ -363,7 +441,7 @@ export default class Tabbars extends React.Component {
                     />
             </this.Tab.Navigator>
 
-            <View style={{position: 'absolute', bottom: 0, left: 0, right: 0, visible: this.state.visible}}>
+            <View style={{position: 'absolute', bottom: this.state.playertype == 's'?60:0, left: 0, right: 0, visible: this.state.visible}}>
                 {this.state.playertype == 's'? this.Smallplayer(): this.Musicplayer()}
 
             </View>
