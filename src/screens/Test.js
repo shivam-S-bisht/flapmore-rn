@@ -7,7 +7,7 @@ export default class Test extends React.Component {
     
 
     state = {
-        animatedValue: new Animated.Value(-300),
+        animatedValue: new Animated.Value(-400),
         tovalue: 0,
         filter: 0,
         
@@ -53,7 +53,7 @@ export default class Test extends React.Component {
                         style={[styles.filtertouchable, {borderRightWidth: 2, borderColor: this.state.show == 'category'?'#3D6DFF':'#EDF1FF'}]}
                     >
                         <Text
-                            style={styles.filtertext}
+                            style={[styles.filtertext, {color: this.state.show == 'category'? 'black' : '#75757C'}]}
                         >Category</Text>
                     </TouchableOpacity>
                 </View>
@@ -64,7 +64,7 @@ export default class Test extends React.Component {
 
                     >
                         <Text
-                            style={styles.filtertext}
+                            style={[styles.filtertext, {color: this.state.show == 'language'? 'black' : '#75757C'}]}
                         >Language</Text>
                     </TouchableOpacity>
                 </View>
@@ -75,7 +75,7 @@ export default class Test extends React.Component {
 
                     >
                         <Text
-                            style={styles.filtertext}
+                            style={[styles.filtertext, {color: this.state.show == 'mode'? 'black' : '#75757C'}]}
                         >Mode</Text>
                     </TouchableOpacity>
                 </View>
@@ -86,7 +86,7 @@ export default class Test extends React.Component {
 
                     >
                         <Text
-                            style={styles.filtertext}
+                            style={[styles.filtertext, {color: this.state.show == 'customer'? 'black' : '#75757C'}]}
                         >Customer Rating</Text>
                     </TouchableOpacity>
                 </View>
@@ -97,7 +97,7 @@ export default class Test extends React.Component {
 
                     >
                         <Text
-                            style={styles.filtertext}
+                            style={[styles.filtertext, {color: this.state.show == 'author'? 'black' : '#75757C'}]}
                         >Author</Text>
                     </TouchableOpacity>
                 </View>
@@ -108,7 +108,7 @@ export default class Test extends React.Component {
 
                     >
                         <Text
-                            style={styles.filtertext}
+                            style={[styles.filtertext, {color: this.state.show == 'duration'? 'black' : '#75757C'}]}
                         >Duration</Text>
                     </TouchableOpacity>
                 </View>
@@ -234,14 +234,14 @@ export default class Test extends React.Component {
                     <Text>Filter</Text>
                 </TouchableOpacity>
                 
-                <Animated.View style={[styles.animatedviewable, {bottom: 0}]}>
+                <Animated.View style={[styles.animatedviewable, {bottom: this.state.animatedValue}]}>
                     
                     <View style={styles.firstviewable}>
                         <Text style={{fontSize: 20, fontWeight: 'bold', paddingLeft: 10}}>Filter</Text>
                         <TouchableOpacity
                             onPress={()=> {
                                 
-                            this.onpressfilter(-200)
+                            this.onpressfilter(-400)
 
                             }}
                         >
@@ -299,6 +299,7 @@ export default class Test extends React.Component {
 const styles = StyleSheet.create({
     topviewable: {
         flex: 1,
+        backgroundColor: 'red'
         // alignItems: 'center',
         // justifyContent: 'center',
     },
@@ -308,7 +309,9 @@ const styles = StyleSheet.create({
         width: Dimensions.get('window').width,
         position: 'absolute',
         height: 400,
-        paddingVertical: 20
+        paddingVertical: 20,
+        borderTopRightRadius: 20,
+        borderTopLeftRadius: 20,
     },
 
     firstviewable: {
