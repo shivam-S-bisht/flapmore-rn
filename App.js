@@ -63,9 +63,9 @@ export default class App extends React.Component{
                     <this.Stack.Screen name='Bookdescription' component={Bookdescription} />
                     <this.Stack.Screen name='Pdfview' component={Pdfview} />
                     <this.Stack.Screen name='Selecttags' component={Selecttags} /> */}
-                    <this.Stack.Screen name='Test' component={Test} />
+                    {/* <this.Stack.Screen name='Test' component={Test} /> */}
                     {/* <this.Stack.Screen name='Forgotpassword' component={Forgotpassword} /> */}
-                    {/* <this.Stack.Screen name='Tagscreen' component={TagScreen} /> */}
+                    <this.Stack.Screen name='Tagscreen' component={TagScreen} />
                     {/* <this.Stack.Screen name='Profile' component={Profile} /> */}
                     {/* <this.Stack.Screen name='Settings' component={Settings} /> */}
                     {/* <this.Stack.Screen name='Musicplayer' component={Musicplayer} /> */}
