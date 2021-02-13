@@ -96,7 +96,7 @@ export default class Tabbars extends React.Component {
         this.sound.pause()
     }
 
-    
+      
 
     seekbook (val) {
         this.pause()
