@@ -85,7 +85,8 @@ const styles = StyleSheet.create({
     startreadingtext: {
         color:'white', 
         fontWeight:'bold', 
-        fontSize:20
+        fontSize:20,
+        textAlign: 'center'
     },
 
     viewableslider: {

@@ -11,6 +11,8 @@ export default class Test extends React.Component {
         tovalue: 0,
         filter: 0,
         
+        show: 'category',
+
         fiction:0,
         spiritual:0,
         motivational:0,
@@ -35,17 +37,108 @@ export default class Test extends React.Component {
 
 
 
+
+    selectcategory () {
+        return (
+            <View
+                style={{
+                    backgroundColor: '#EDF1FF',
+                    flex: 1,
+                    paddingLeft: 30,
+                }}
+            >
+                <View>
+                    <TouchableOpacity
+                        onPress={()=> this.setState({show: 'category'})}
+                        style={[styles.filtertouchable, {borderRightWidth: 2, borderColor: this.state.show == 'category'?'#3D6DFF':'#EDF1FF'}]}
+                    >
+                        <Text
+                            style={styles.filtertext}
+                        >Category</Text>
+                    </TouchableOpacity>
+                </View>
+                <View>
+                    <TouchableOpacity
+                        onPress={()=> this.setState({show: 'language'})}
+                        style={[styles.filtertouchable, {borderRightWidth: 2, borderColor: this.state.show == 'language'?'#3D6DFF':'#EDF1FF'}]}
+
+                    >
+                        <Text
+                            style={styles.filtertext}
+                        >Language</Text>
+                    </TouchableOpacity>
+                </View>
+                <View>
+                    <TouchableOpacity
+                        onPress={()=> this.setState({show: 'mode'})}
+                        style={[styles.filtertouchable, {borderRightWidth: 2, borderColor: this.state.show == 'mode'?'#3D6DFF':'#EDF1FF'}]}
+
+                    >
+                        <Text
+                            style={styles.filtertext}
+                        >Mode</Text>
+                    </TouchableOpacity>
+                </View>
+                <View>
+                    <TouchableOpacity
+                        onPress={()=> this.setState({show: 'customer'})}
+                        style={[styles.filtertouchable, {borderRightWidth: 2, borderColor: this.state.show == 'customer'?'#3D6DFF':'#EDF1FF'}]}
+
+                    >
+                        <Text
+                            style={styles.filtertext}
+                        >Customer Rating</Text>
+                    </TouchableOpacity>
+                </View>
+                <View>
+                    <TouchableOpacity
+                        onPress={()=> this.setState({show: 'author'})}
+                        style={[styles.filtertouchable, {borderRightWidth: 2, borderColor: this.state.show == 'author'?'#3D6DFF':'#EDF1FF'}]}
+
+                    >
+                        <Text
+                            style={styles.filtertext}
+                        >Author</Text>
+                    </TouchableOpacity>
+                </View>
+                <View>
+                    <TouchableOpacity
+                        onPress={()=> this.setState({show: 'duration'})}
+                        style={[styles.filtertouchable, {borderRightWidth: 2, borderColor: this.state.show == 'duration'?'#3D6DFF':'#EDF1FF'}]}
+
+                    >
+                        <Text
+                            style={styles.filtertext}
+                        >Duration</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+        )
+    }
+
+
+
     onselectcategory () {
         return (
-            <View>
+            <View
+                style={{
+                    flex: 1,
+                    paddingLeft: 20,
+                    paddingVertical: 10
+
+                }}
+            >
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
                     <CheckBox 
                         disabled={false}
                         value={this.state.fiction}
                         onValueChange={newval => this.setState({fiction: newval})}
                         onFillColor='#3D6DFF'
+        
                     />
-                    <Text>Fiction</Text>
+                    <Text
+                        style={styles.checkboxtext}
+                    >Fiction</Text>
                 </View>
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
                     <CheckBox 
@@ -53,8 +146,11 @@ export default class Test extends React.Component {
                         value={this.state.spiritual}
                         onValueChange={newval => this.setState({spiritual: newval})}
                         onFillColor='#3D6DFF'
+        
                     />
-                    <Text>Spiritual</Text>
+                    <Text
+                        style={styles.checkboxtext}
+                    >Spiritual</Text>
                 </View>
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
                     <CheckBox 
@@ -62,8 +158,11 @@ export default class Test extends React.Component {
                         value={this.state.motivational}
                         onValueChange={newval => this.setState({motivational: newval})}
                         onFillColor='#3D6DFF'
+        
                     />
-                    <Text>Motivational</Text>
+                    <Text
+                        style={styles.checkboxtext}
+                    >Motivational</Text>
                 </View>
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
                     <CheckBox 
@@ -71,8 +170,11 @@ export default class Test extends React.Component {
                         value={this.state.history}
                         onValueChange={newval => this.setState({history: newval})}
                         onFillColor='#3D6DFF'
+        
                     />
-                    <Text>History</Text>
+                    <Text
+                        style={styles.checkboxtext}
+                    >History</Text>
                 </View>
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
                     <CheckBox 
@@ -80,8 +182,11 @@ export default class Test extends React.Component {
                         value={this.state.technology}
                         onValueChange={newval => this.setState({technology: newval})}
                         onFillColor='#3D6DFF'
+        
                     />
-                    <Text>Technology</Text>
+                    <Text
+                        style={styles.checkboxtext}
+                    >Technology</Text>
                 </View>
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
                     <CheckBox 
@@ -89,8 +194,11 @@ export default class Test extends React.Component {
                         value={this.state.philosophy}
                         onValueChange={newval => this.setState({philosophy: newval})}
                         onFillColor='#3D6DFF'
+        
                     />
-                    <Text>Philosophy</Text>
+                    <Text
+                        style={styles.checkboxtext}
+                    >Philosophy</Text>
                 </View>
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
                     <CheckBox 
@@ -98,8 +206,11 @@ export default class Test extends React.Component {
                         value={this.state.biography}
                         onValueChange={newval => this.setState({biography: newval})}
                         onFillColor='#3D6DFF'
+        
                     />
-                    <Text>Biography</Text>
+                    <Text
+                        style={styles.checkboxtext}
+                    >Biography</Text>
                 </View>
             </View>
         )
@@ -124,8 +235,9 @@ export default class Test extends React.Component {
                 </TouchableOpacity>
                 
                 <Animated.View style={[styles.animatedviewable, {bottom: 0}]}>
+                    
                     <View style={styles.firstviewable}>
-                        <Text style={{fontSize: 18, fontWeight: 'bold'}}>Filter</Text>
+                        <Text style={{fontSize: 20, fontWeight: 'bold', paddingLeft: 10}}>Filter</Text>
                         <TouchableOpacity
                             onPress={()=> {
                                 
@@ -137,22 +249,43 @@ export default class Test extends React.Component {
                         </TouchableOpacity>
                     </View>
                     <View
-                        style={{flexDirection: 'row'}}
+                        style={{
+                            borderColor: '#DDE1F2',
+                            borderTopWidth: 2,
+                        }}
+                    />
+                    <View
+                        style={{
+                            flexDirection: 'row', 
+                            justifyContent: 'space-between', 
+                            paddingRight: 20,
+                           
+                        }}
                     >
-                        <View>
-                            <TouchableOpacity>
-                                
-                            </TouchableOpacity>
-                        </View>
 
-                        <View>
+                        {this.selectcategory()}
+                        {this.onselectcategory()}
 
-                        </View>
+                        
                     </View>
-                    
-                    <View>
-                        <TouchableOpacity>
-                            <Text>Apply</Text>
+                    <View
+                        style={{
+                            borderColor: '#DDE1F2',
+                            borderTopWidth: 2,
+                            marginBottom: 20,
+                            
+                        }}
+                    />
+                    <View
+                        style={{
+                            paddingHorizontal: 20,
+
+                        }}
+                    >
+                        <TouchableOpacity 
+                            style={styles.startreadingtouchable}
+                        >
+                            <Text style={styles.startreadingtext}>Apply</Text>
                         </TouchableOpacity>
                     </View>
                     
@@ -171,10 +304,9 @@ const styles = StyleSheet.create({
     },
 
     animatedviewable: {
-        backgroundColor: 'red',
+        backgroundColor: '#fff',
         width: Dimensions.get('window').width,
         position: 'absolute',
-        paddingHorizontal: 20,
         height: 400,
         paddingVertical: 20
     },
@@ -183,6 +315,37 @@ const styles = StyleSheet.create({
         // flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        // paddingHorizontal: 20
+        paddingHorizontal: 20,
+        paddingBottom: 10
+        
+    },
+
+    startreadingtouchable: {
+        backgroundColor:'#3D6DFF', 
+        paddingHorizontal:'26%', 
+        paddingVertical:15, 
+        borderRadius:5
+    },
+
+    startreadingtext: {
+        color:'white', 
+        fontWeight:'bold', 
+        fontSize:20,
+        textAlign: 'center'
+    },
+
+    checkboxtext: {
+        fontSize: 17,
+        paddingLeft: 6
+    },
+
+    filtertext: {
+        fontSize: 17,
+
+    },
+
+    filtertouchable: {
+        paddingVertical: 8
+
     }
 })
