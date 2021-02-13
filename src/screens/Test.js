@@ -137,7 +137,7 @@ export default class Test extends React.Component {
         
                     />
                     <Text
-                        style={styles.checkboxtext}
+                        style={styles.filtercheckboxtext}
                     >Fiction</Text>
                 </View>
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -149,7 +149,7 @@ export default class Test extends React.Component {
         
                     />
                     <Text
-                        style={styles.checkboxtext}
+                        style={styles.filtercheckboxtext}
                     >Spiritual</Text>
                 </View>
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -161,7 +161,7 @@ export default class Test extends React.Component {
         
                     />
                     <Text
-                        style={styles.checkboxtext}
+                        style={styles.filtercheckboxtext}
                     >Motivational</Text>
                 </View>
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -173,7 +173,7 @@ export default class Test extends React.Component {
         
                     />
                     <Text
-                        style={styles.checkboxtext}
+                        style={styles.filtercheckboxtext}
                     >History</Text>
                 </View>
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -185,7 +185,7 @@ export default class Test extends React.Component {
         
                     />
                     <Text
-                        style={styles.checkboxtext}
+                        style={styles.filtercheckboxtext}
                     >Technology</Text>
                 </View>
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -197,7 +197,7 @@ export default class Test extends React.Component {
         
                     />
                     <Text
-                        style={styles.checkboxtext}
+                        style={styles.filtercheckboxtext}
                     >Philosophy</Text>
                 </View>
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -209,7 +209,7 @@ export default class Test extends React.Component {
         
                     />
                     <Text
-                        style={styles.checkboxtext}
+                        style={styles.filtercheckboxtext}
                     >Biography</Text>
                 </View>
             </View>
@@ -223,7 +223,7 @@ export default class Test extends React.Component {
 
     render () {
         return (
-            <SafeAreaView style={styles.topviewable}>
+            <SafeAreaView style={styles.filtertopviewable}>
                 <TouchableOpacity
                     style={{backgroundColor: 'blue'}}
                     onPress={()=>{
@@ -234,9 +234,9 @@ export default class Test extends React.Component {
                     <Text>Filter</Text>
                 </TouchableOpacity>
                 
-                <Animated.View style={[styles.animatedviewable, {bottom: this.state.animatedValue}]}>
+                <Animated.View style={[styles.filteranimatedviewable, {bottom: this.state.animatedValue}]}>
                     
-                    <View style={styles.firstviewable}>
+                    <View style={styles.filterfirstviewable}>
                         <Text style={{fontSize: 20, fontWeight: 'bold', paddingLeft: 10}}>Filter</Text>
                         <TouchableOpacity
                             onPress={()=> {
@@ -283,9 +283,9 @@ export default class Test extends React.Component {
                         }}
                     >
                         <TouchableOpacity 
-                            style={styles.startreadingtouchable}
+                            style={styles.filterapplytouchable}
                         >
-                            <Text style={styles.startreadingtext}>Apply</Text>
+                            <Text style={styles.filterapplytext}>Apply</Text>
                         </TouchableOpacity>
                     </View>
                     
@@ -297,14 +297,12 @@ export default class Test extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    topviewable: {
+    filtertopviewable: {
         flex: 1,
         backgroundColor: 'red'
-        // alignItems: 'center',
-        // justifyContent: 'center',
     },
 
-    animatedviewable: {
+    filteranimatedviewable: {
         backgroundColor: '#fff',
         width: Dimensions.get('window').width,
         position: 'absolute',
@@ -314,7 +312,7 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 20,
     },
 
-    firstviewable: {
+    filterfirstviewable: {
         // flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -323,21 +321,21 @@ const styles = StyleSheet.create({
         
     },
 
-    startreadingtouchable: {
+    filterapplytouchable: {
         backgroundColor:'#3D6DFF', 
         paddingHorizontal:'26%', 
         paddingVertical:15, 
         borderRadius:5
     },
 
-    startreadingtext: {
+    filterapplytext: {
         color:'white', 
         fontWeight:'bold', 
         fontSize:20,
         textAlign: 'center'
     },
 
-    checkboxtext: {
+    filtercheckboxtext: {
         fontSize: 17,
         paddingLeft: 6
     },
