@@ -18,7 +18,12 @@ import trendingflapbookdetails from '../infos/trendingflapbooks';
 
 
 export default class Home extends React.Component{
+
+
     render(){
+
+        console.log(this.props.visible)
+
         return(
             <SafeAreaView style={styles.topviewable}>
                 <View style={{marginBottom: 10}}>
@@ -137,7 +142,7 @@ const styles=StyleSheet.create({
     topviewable:{
         flex:1, 
         backgroundColor: 'white',
-        
+        // paddingBottom:
     },
 
     firstviewable: {

@@ -51,7 +51,7 @@ export default class App extends React.Component{
         <NavigationContainer>
                 <this.Stack.Navigator screenOptions={{headerShown: false}}>
                     
-                    {/* <this.Stack.Screen name='Splash' component={Splash} />
+                    <this.Stack.Screen name='Splash' component={Splash} />
                     <this.Stack.Screen name='Onboarding' component={Onboarding} />
                     <this.Stack.Screen name='Tabbars' component={Tabbars} />
 
@@ -62,13 +62,13 @@ export default class App extends React.Component{
                     <this.Stack.Screen name='Enterotp' component={Enterotp} />
                     <this.Stack.Screen name='Bookdescription' component={Bookdescription} />
                     <this.Stack.Screen name='Pdfview' component={Pdfview} />
-                    <this.Stack.Screen name='Selecttags' component={Selecttags} /> */}
+                    <this.Stack.Screen name='Selecttags' component={Selecttags} />
                     {/* <this.Stack.Screen name='Test' component={Test} /> */}
                     {/* <this.Stack.Screen name='Forgotpassword' component={Forgotpassword} /> */}
                     <this.Stack.Screen name='Tagscreen' component={TagScreen} />
                     {/* <this.Stack.Screen name='Profile' component={Profile} /> */}
                     {/* <this.Stack.Screen name='Settings' component={Settings} /> */}
-                    {/* <this.Stack.Screen name='Musicplayer' component={Musicplayer} /> */}
+                    <this.Stack.Screen name='Musicplayer' component={Musicplayer} />
                     {/* <this.Stack.Screen name='Navigate' component={Navigate} />
                     <this.Stack.Screen name='MusicTest' component={MusicTest} /> */}
                 </this.Stack.Navigator>                   

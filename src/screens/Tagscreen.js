@@ -242,7 +242,18 @@ export default class Tagscreen extends React.Component {
         return (
             <SafeAreaView style={styles.filtertopviewable}>
 
-                {this.state.filter? <View style={{backgroundColor: 'rgba(0,0,0, 0.8)', top: 0, bottom: 0, right: 0, left: 0,  position: 'absolute', zIndex: 400}}/> : null}
+                {this.state.filter? 
+                    <View style={{
+                        backgroundColor: 'rgba(0,0,0, 0.8)', 
+                        top: 0, 
+                        bottom: 0, 
+                        right: 0, 
+                        left: 0,  
+                        position: 'absolute', 
+                        zIndex: 400
+                        }}
+                    /> 
+                    : null}
 
                 <ScrollView style={styles.sixthviewable}>
 

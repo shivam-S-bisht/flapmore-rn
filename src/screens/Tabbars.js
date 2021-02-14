@@ -71,6 +71,7 @@ export default class Tabbars extends React.Component {
 
                 this.initiatestate()
                 this.sound.play()
+                this.setState({visible: 1})
             }
           })
 
@@ -120,7 +121,7 @@ export default class Tabbars extends React.Component {
         if (`${sec}`.length == 1) {
             sec = `0${sec}`
         }
-        console.log(this.state.currvalue)
+        // console.log(this.state.currvalue)
         this.setState({currenttime: `${min}:${sec}`, currvalue, disable: false})
     }
 
@@ -131,7 +132,7 @@ export default class Tabbars extends React.Component {
            setTimeout(async ()=> {
                 const duration = await this.sound.getDuration()
 
-                console.log(duration)
+                // console.log(duration)
                 var min = Math.floor(duration/60);
                 var sec = Math.floor(duration%60);
 
@@ -195,16 +196,16 @@ export default class Tabbars extends React.Component {
                     style={{flexDirection: 'row'}}
                 >
                     <TouchableOpacity
-                        // onPress={()=> {
-                        //     const isplay = this.state.isplay;
-                        //     if (isplay || isplay == null) {
-                        //         this.setState({isplay: 0})
-                        //         this.pause()
-                        //     } else {
-                        //         this.setState({isplay: 1})
-                        //         this.play()
-                        //     }
-                        // }}
+                        onPress={()=> {
+                            const isplay = this.state.isplay;
+                            if (isplay || isplay == null) {
+                                this.setState({isplay: 0})
+                                this.pause()
+                            } else {
+                                this.setState({isplay: 1})
+                                this.play()
+                            }
+                        }}
 
                         style={{backgroundColor: '#3D6DFF',  height: 40, borderRadius: 80, width: 40, alignItems: 'center', justifyContent: 'center', margin: 10}}
                     >
@@ -429,7 +430,7 @@ export default class Tabbars extends React.Component {
                 >
                 <this.Tab.Screen 
                     name='Home' 
-                    children={()=> <Home props={this.props}  />}
+                    children={()=> <Home props={this.props} visible={this.state.visible}  />}
                     />
                 <this.Tab.Screen 
                     name='Explore' 
@@ -441,10 +442,10 @@ export default class Tabbars extends React.Component {
                     />
             </this.Tab.Navigator>
 
-            <View style={{position: 'absolute', bottom: this.state.playertype == 's'?60:0, left: 0, right: 0, visible: this.state.visible}}>
+            {this.state.visible? <View style={{position: 'absolute', bottom: this.state.playertype == 's'?60:0, left: 0, right: 0}}>
                 {this.state.playertype == 's'? this.Smallplayer(): this.Musicplayer()}
-
-            </View>
+            </View> : null}
+            
 
               
           </View>
