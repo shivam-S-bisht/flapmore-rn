@@ -95,7 +95,7 @@ export default class Bookdescription extends React.Component {
                                 style={[styles.touchable, { borderColor: '#3D6DFF', backgroundColor: '#3D6DFF'}]}
                                 onPress={()=> {
                                     
-                                        this.props.navigation.replace('Tabbars', {
+                                        this.props.navigation.navigate('Tabbars', {
                                             from: 'Bookdescription',
                                             to: 'Musicplayer',
                                             playbookuri: bookdescription.playbookuri

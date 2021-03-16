@@ -61,8 +61,10 @@ export default class Splash extends React.Component{
         const res = this.createnewaccountapifunc(this.props.route.params.emailorphone, this.props.route.params.password)
         res.then((token)=> {
             this.puttoken(token)
+            this.savecred(this.props.route.params.emailorphone)
             this.props.navigation.replace(this.props.route.params.to)
         }).catch (err => {
+            this.props.navigation.goBack()
             console.log(`ERROR: ${err}`)
         })
     }
@@ -75,19 +77,14 @@ export default class Splash extends React.Component{
         const res = this.loginapifunc(this.props.route.params.emailorphone, this.props.route.params.password)
         res.then((token) => {
             this.puttoken(token)
+            this.savecred(this.props.route.params.emailorphone)
             this.props.navigation.replace(this.props.route.params.to)
         }) .catch (err => {
+            this.props.navigation.goBack()
             console.log(`ERROR: ${err}`)
         })
     }
 
-
-
-    // async isplayingfunc () {
-    //     const isplaying = await AsyncStorage.getItem('@isplaying')
-    //     console.log(isplaying)
-    //     return isplaying
-    // }
 
 
     async getduration () {
@@ -212,6 +209,17 @@ export default class Splash extends React.Component{
             console.log(e)
         }
     }
+
+
+
+// save credentials 
+async savecred (val) {
+    try {
+        await AsyncStorage.setItem('@emailVal', val)
+    } catch (e) {
+        console.log(e)
+    }
+}
     
 
 

@@ -4,7 +4,7 @@ export default {
         title : 'Title of Book',
         author : 'Author Name',
         totalreadtime : 14,
-        playbookuri: 'http://hcmaslov.d-real.sci-nnov.ru/public/mp3/Queen/01%20Peace%20Inside.mp3',
+        playbookuri: 'https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3',
         duration: 433.951,
         chapter: 9,
         description: 'The adventurous life of Robinson Crusoe.',
