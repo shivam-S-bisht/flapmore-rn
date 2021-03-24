@@ -16,20 +16,20 @@ export default class Tabflapbookscard extends React.Component{
 
     render() {
 
-        const {image, title , author, totalreadtime, background} = this.props.explorecard;
+        const {product_id, product_name, category_id, author, duration, pages, description, thumbnail_url, created_at, updated_at, tags} = this.props.explorecard;
 
         return(
             <View>
                 <TouchableOpacity
                     style={styles.toptouchable}
                 >
-                    <View style={{backgroundColor: background, paddingHorizontal: 30, margin: 10, borderRadius: 5, paddingVertical: 10}}>
-                        <Image source={image} style={{borderTopLeftRadius: 5, borderBottomLeftRadius: 5}} />
+                    <View style={{backgroundColor: "#BFD2E6", paddingHorizontal: 30, margin: 10, borderRadius: 5, paddingVertical: 10}}>
+                        <Image source={thumbnail_url} style={{borderTopLeftRadius: 5, borderBottomLeftRadius: 5}} />
                     </View>
                     <View style={styles.contentviewable}>
-                        <Text style={{fontSize: 16, fontWeight: 'bold', color: 'black', marginBottom: 10}}>{title}</Text>
+                        <Text style={{fontSize: 16, fontWeight: 'bold', color: 'black', marginBottom: 10}}>{product_name}</Text>
                         <Text style={{color: '#4D5156', fontSize: 15, marginBottom: 10}}>{author}</Text>
-                        <Text style={{color: '#1788AC', fontSize: 15}}>Total Read {totalreadtime}: Min</Text>
+                        <Text style={{color: '#1788AC', fontSize: 15}}>Total Read 14: Min</Text>
                     </View>
                     <View style={styles.bookmarkviewable}>
                         <TouchableOpacity

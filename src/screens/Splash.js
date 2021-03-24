@@ -54,7 +54,15 @@ export default class Splash extends React.Component{
 // tabbar props handler ...
     async tabbarfunc () {
         const {_, to} = await this.gettoken()
-        this.props.navigation.replace(to)
+
+        switch (to) {
+            case "Bookdescription": this.props.navigation.replace(to); break;
+            case "Tagscreen": this.gettagdetails(to, this.props.route.params.tagname); break;
+
+        }
+
+        
+
 
     }
 
@@ -366,31 +374,31 @@ async verifyforgetpassapifunc (emailMobile, userId, otp, password) {
 
 
 // API CALLS -> search 
-    async searchapifunc (category_id, tags, from, to) {
+    // async searchapifunc (category_id, tags, from, to) {
 
-        let params = {}
-        const token = await AsyncStorage.getItem('@token')
-        if (category_id) params.category_id = category_id
-        if (tags) params.tags = tags
+    //     let params = {}
+    //     const token = await AsyncStorage.getItem('@token')
+    //     if (category_id) params.category_id = category_id
+    //     if (tags) params.tags = tags
 
-        await axios.get('/flapmore/search', {
-            headers: {
-              'Authorization': `Bearer ${token}`
-            },
-            params
-        }
+    //     await axios.get('/flapmore/search', {
+    //         headers: {
+    //           'Authorization': `Bearer ${token}`
+    //         },
+    //         params
+    //     }
         
-        ).then ((res)=> {
-            if (from == 'besttrendy') {
-                // console.log(res, '\n', JSON.stringify(res.data.hits.hits))
-                res.data.hits.hits.forEach(elm => {
-                    console.log(elm._source, "\n")
-                });
-            }
+    //     ).then ((res)=> {
+    //         if (from == 'besttrendy') {
+    //             // console.log(res, '\n', JSON.stringify(res.data.hits.hits))
+    //             res.data.hits.hits.forEach(elm => {
+    //                 console.log(elm._source, "\n")
+    //             });
+    //         }
             
-            // return res.data
-        }).catch (e=> console.log(e))
-    }
+    //         // return res.data
+    //     }).catch (e=> console.log(e))
+    // }
 
 
 
@@ -471,14 +479,31 @@ async verifyforgetpassapifunc (emailMobile, userId, otp, password) {
 
 
 
+// API CALLS -> get tag details 
+    async gettagdetails (to, tagname) {
+        const token = await AsyncStorage.getItem('@token')
+
+        await axios.get(`/flapmore/search?category_id=1&tags=${tagname}`, {
+            headers: {
+            'Authorization': `Bearer ${token}`
+            }
+        }
+        
+        ).then ((res)=> {
+            const data = res.data;
+            // console.log(res, '\n', JSON.stringify(res.data))
+            this.props.navigation.replace(to, {data: res.data})
+            // console.log(typeof(data))
+        }).catch (e=> console.log(e))
+    }
 
 
 
 // Tabbars
 // BEST TRENDY SELECTION
-    async searchwithcategory () {
-        this.searchapifunc (1, "", "besttrendy", "")
-    }
+    // async searchwithcategory () {
+    //     this.searchapifunc (1, "", "besttrendy", "")
+    // }
 
 
 
@@ -488,7 +513,7 @@ async verifyforgetpassapifunc (emailMobile, userId, otp, password) {
 // MAIN -------->>>>
     render () {
 
-        this.searchwithcategory()
+        // this.searchwithcategory()
         return(
             <View style={{flex:1, alignItems:'center', justifyContent:'center', backgroundColor:'white'}}>
                 <Image source={require('../../assets/splash-icon.jpg')} style={{marginBottom:5}} />

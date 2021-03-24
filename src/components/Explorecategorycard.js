@@ -11,6 +11,8 @@ export default class ExploreCategoryCard extends React.Component{
                 <TouchableOpacity
                     style={styles.explorecardtouchable}
                     // onPress={this.props.props.navigation.navigate('BookDescription')}
+                    onPress={() => this.props.props.props.navigation.push('Splash', {to: 'Tagscreen', from: 'Tabbars', tagname: {title}})}
+
                 >
                     <Image source={icon} style={{borderTopLeftRadius: 5, borderBottomLeftRadius: 5, marginRight: 10}} />                
                     <Text style={{fontSize: 15, fontWeight: 'bold', color: '#1F4966'}}>{title}</Text>

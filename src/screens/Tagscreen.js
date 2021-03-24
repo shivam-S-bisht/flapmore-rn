@@ -33,6 +33,19 @@ export default class Tagscreen extends React.Component {
     }
 
 
+    splititems () {
+
+    }
+
+
+    componentDidMount () {
+        // console.log(this.props.route.params.data.hits.hits)
+        this.props.route.params.data.hits.hits.forEach(elm => {
+            console.log(elm._source, "\n")
+        });
+    }
+
+
     onpressfilter (val) {
 
         // console.log(this.state.filter)
@@ -306,9 +319,9 @@ export default class Tagscreen extends React.Component {
                 <View style={{backgroundColor: '#D8DDE5', height: 10}}></View>
 
                 <FlatList
-                    keyExtractor={item=>item.id}
-                    data={tabflapbooks}
-                    renderItem={({item}) => <Tabflapbookscard explorecard={item} />}
+                    keyExtractor={item=>item._id}
+                    data={this.props.route.params.data.hits.hits}
+                    renderItem={({item}) => <Tabflapbookscard explorecard={item._source} />}
                 />
                 </ScrollView>
                 
