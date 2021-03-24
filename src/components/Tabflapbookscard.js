@@ -24,10 +24,10 @@ export default class Tabflapbookscard extends React.Component{
                     style={styles.toptouchable}
                 >
                     <View style={{backgroundColor: "#BFD2E6", paddingHorizontal: 30, margin: 10, borderRadius: 5, paddingVertical: 10}}>
-                        <Image source={thumbnail_url} style={{borderTopLeftRadius: 5, borderBottomLeftRadius: 5}} />
+                        <Image source={{uri: thumbnail_url}} style={{borderRadius: 5, position: 'absolute', top: 0, left: 0, right: 0, bottom: 0}} />
                     </View>
                     <View style={styles.contentviewable}>
-                        <Text style={{fontSize: 16, fontWeight: 'bold', color: 'black', marginBottom: 10}}>{product_name}</Text>
+                        <Text style={{fontSize: 16, fontWeight: 'bold', color: 'black', marginBottom: 10}}>{product_name.length <= 19 ?product_name:product_name.slice(0, 18)}...</Text>
                         <Text style={{color: '#4D5156', fontSize: 15, marginBottom: 10}}>{author}</Text>
                         <Text style={{color: '#1788AC', fontSize: 15}}>Total Read 14: Min</Text>
                     </View>
