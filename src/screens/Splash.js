@@ -38,6 +38,11 @@ export default class Splash extends React.Component{
     async splashfunc () {
         const {found, _} = await this.gettoken()
         if (found) {
+
+            // check the validity of token .......
+            //
+            //
+            
             this.props.navigation.replace('Tabbars')
         } else {
             this.props.navigation.replace('Onboarding')
@@ -84,6 +89,7 @@ export default class Splash extends React.Component{
             console.log(`ERROR: ${err}`)
         })
     }
+
 
 
 
@@ -162,6 +168,7 @@ export default class Splash extends React.Component{
                     case 'Tabbars': this.tabbarfunc(); break;
                     case 'Createnewaccount': this.createnewaccountfunc(); break;
                     case 'Login': this.loginfunc(); break;
+                    // case 'Loginviaotp': loginviaotp(); break;
                     case 'Bookdescription': this.bookdescriptionfunc(); break;
                     // default: this.props.navigation.replace('Tabbars')
                 }
@@ -205,6 +212,7 @@ export default class Splash extends React.Component{
     async puttoken (val) {
         try {
             await AsyncStorage.setItem('@token', val)
+
         } catch (e) {
             console.log(e)
         }
@@ -241,6 +249,8 @@ async loginapifunc (emailMobile, password) {
         })
     }) 
 }
+
+
 
 
 

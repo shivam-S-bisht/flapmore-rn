@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, FlatList, ScrollView, SafeAreaView, TextInput, TouchableOpacity, Touchable} from 'react-native';
+import {View, Text, StyleSheet, FlatList, ScrollView, SafeAreaView, TextInput, TouchableOpacity} from 'react-native';
 // import { AntDesign, MaterialCommunityIcons, Feather } from '@expo/vector-icons'; 
 import Anticon from 'react-native-vector-icons/AntDesign';
 import Feathericon from 'react-native-vector-icons/Feather';
@@ -16,7 +16,7 @@ import exploretabflapbooks from '../infos/exploretabflapbooks';
 
 export default class Explore extends React.Component{
 
-    state={
+    state = {
         searchtext:''
     }
 
