@@ -41,7 +41,7 @@ export default class Tagscreen extends React.Component {
     componentDidMount () {
         // console.log(this.props.route.params.data.hits.hits)
         this.props.route.params.data.hits.hits.forEach(elm => {
-            console.log(elm._source, "\n")
+            // console.log(elm._source, "\n")
         });
     }
 
@@ -271,7 +271,9 @@ export default class Tagscreen extends React.Component {
                 <ScrollView style={styles.sixthviewable}>
 
                 <View style={styles.firstviewable}>
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => this.props.navigation.goBack()}
+                    >
                         <Ionicon name='chevron-back-outline' size={30} color='#fff' />
                     </TouchableOpacity>
                     <TouchableOpacity>
@@ -285,8 +287,8 @@ export default class Tagscreen extends React.Component {
 
                 <View style={{position: 'absolute', width: Dimensions.get('window').width, top: 150, overflow: 'hidden', zIndex: 200}}>
                     <View style={styles.thirdviewable}>
-                        <Text style={{fontWeight: 'bold', fontSize: 25}}>Psycology</Text>
-                        <Text style={{fontSize: 15}}>Topics based on Human Psycology</Text>
+                        <Text style={{fontWeight: 'bold', fontSize: 25}}>{this.props.route.params.tagname}</Text>
+                        <Text style={{fontSize: 15}}>Topics based on {this.props.route.params.tagname}</Text>
                     </View>
                     <View style={styles.fourthviewable}></View>
                 </View>
@@ -321,7 +323,7 @@ export default class Tagscreen extends React.Component {
                 <FlatList
                     keyExtractor={item=>item._id}
                     data={this.props.route.params.data.hits.hits}
-                    renderItem={({item}) => <Tabflapbookscard explorecard={item._source} />}
+                    renderItem={({item, index}) => <Tabflapbookscard explorecard={index%2 ? {...item._source, bgcolor: '#EEE5C9'}:{...item._source, bgcolor: '#BFD2E6'}} />}
                 />
                 </ScrollView>
                 

@@ -56,7 +56,7 @@ export default class Splash extends React.Component{
         const {_, to} = await this.gettoken()
 
         switch (to) {
-            case "Bookdescription": this.props.navigation.replace(to); break;
+            case "Bookdescription": this.getproductdetails(to, 2); break;
             case "Tagscreen": this.gettagdetails(to, this.props.route.params.tagname); break;
 
         }
@@ -479,9 +479,27 @@ async verifyforgetpassapifunc (emailMobile, userId, otp, password) {
 
 
 
+
+
+
+
+
+
+
 // API CALLS -> get tag details 
     async gettagdetails (to, tagname) {
         const token = await AsyncStorage.getItem('@token')
+
+
+        // try {
+        //     if (token != null) {
+        //         // return {found: true, to: this.props.route.params.to}
+        //     } else {
+        //         // return {found: false, to: 'LoginSignupchoose'}
+        //     }
+        // } catch {
+        //     return {found: true, to: 'Onboarding'}
+        // }   
 
         await axios.get(`/flapmore/search?category_id=1&tags=${tagname}`, {
             headers: {
@@ -490,12 +508,59 @@ async verifyforgetpassapifunc (emailMobile, userId, otp, password) {
         }
         
         ).then ((res)=> {
-            const data = res.data;
+            // const data = res.data;
             // console.log(res, '\n', JSON.stringify(res.data))
-            this.props.navigation.replace(to, {data: res.data})
+            this.props.navigation.replace(to, {data: res.data, tagname})
             // console.log(typeof(data))
         }).catch (e=> console.log(e))
     }
+
+
+
+// API CALLS -> get product details 
+    async getproductdetails (to, productid) {
+        const token = await AsyncStorage.getItem('@token')
+
+        await axios.get(`/flapmore/product?product_id=${productid}`, {
+            headers: {
+            'Authorization': `Bearer ${token}`
+            }
+        }
+        
+        ).then ((res)=> {
+            // const data = res.data;
+            // console.log(res, '\n', JSON.stringify(res.data))
+            Object.keys(res.data).forEach(key => {
+                // this.props.navigation.replace(to, {data: res.data[key]})
+                this.getproductfiles(to, productid, res.data[key])
+            // console.log(res.data[key])
+            })
+            // console.log(typeof(data))
+        }).catch (e=> console.log(e))
+    } 
+
+
+
+// API CALLS -> get product files
+    async getproductfiles (to, productid, productdetails) {
+        const token = await AsyncStorage.getItem('@token')
+
+        await axios.get(`/flapmore-user/product/files?product_id=${productid}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }
+        
+        ).then ((res)=> {
+            // const data = res.data;
+            // console.log(res, '\n', JSON.stringify(res.data))
+            
+            this.props.navigation.replace(to, {productfiles: res.data, productdetails})
+                
+            // console.log(typeof(data))
+        }).catch (e=> this.props.navigation.replace('LoginSignupchoose'))
+    } 
+
 
 
 

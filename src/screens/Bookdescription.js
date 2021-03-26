@@ -26,10 +26,19 @@ export default class Bookdescription extends React.Component {
     componentDidMount () {
         // this.sound = new SoundPlayer(bookdescription.playbookuri)
         // this.sound.play()
+        this.productfiles = []
+        Object.keys(this.props.route.params.productfiles).forEach(key => {
+            this.productfiles.push(this.props.route.params.productfiles[key])
+        })
+
+        console.log(this.props.route.params.productfiles)
+
     }
 
 
     render() {
+        const {product_id, product_name, category_id, author, duration, pages, description, thumbnail_url, created_at, updated_at} = this.props.route.params.productdetails
+
         return (
             <SafeAreaView style={styles.topviewable}>
                 <View style={styles.firstviewable}>
@@ -68,13 +77,13 @@ export default class Bookdescription extends React.Component {
 
                 
                     <ScrollView style={styles.secondviewable}>
-                    <Image source={bookdescription.image} style={{flex: 1, width: Dimensions.get('window').width, height: 280}}/>
+                    <Image source={{uri: thumbnail_url}} style={{flex: 1, width: Dimensions.get('window').width, height: 280}}/>
                     <View style={styles.thirdviewable}>
-                            <Text style={{fontSize: 18, fontWeight: 'bold', color: '#151522', paddingBottom: 5, letterSpacing: 0.5}}>{bookdescription.title}</Text>
-                            <Text style={{fontSize: 18, color: '#0080FF', paddingBottom: 5, letterSpacing: 0.5}}>{bookdescription.author}</Text>
-                            <Text style={{fontSize: 16, color: '#595966', paddingBottom: 5, letterSpacing: 0.5}}>{bookdescription.description}</Text>
+                            <Text style={{fontSize: 18, fontWeight: 'bold', color: '#151522', paddingBottom: 5, letterSpacing: 0.5}}>{product_name}</Text>
+                            <Text style={{fontSize: 18, color: '#0080FF', paddingBottom: 5, letterSpacing: 0.5}}>{author}</Text>
+                            <Text style={{fontSize: 16, color: '#595966', paddingBottom: 5, letterSpacing: 0.5}}>{description.length < 251 ?{description}:`${description.slice(0, 250)}...`}</Text>
                             <View style={{flexDirection: 'row', paddingBottom: 5}}>
-                                <Text style={{fontSize: 17, color: '#1788AC', letterSpacing: 0.5}}>Total read: {bookdescription.totalreadtime} mins</Text>
+                                <Text style={{fontSize: 17, color: '#1788AC', letterSpacing: 0.5}}>Total read: {14} mins</Text>
                                 <Text style={{fontSize: 17, color: '#595966', paddingLeft: 30, letterSpacing: 0.5}}>Chapter {bookdescription.chapter}</Text>
                             </View>
                         </View>
