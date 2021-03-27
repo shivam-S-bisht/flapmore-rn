@@ -34,7 +34,7 @@ export default class Bookdescription extends React.Component {
 
         this.producttags = []
         Object.keys(this.props.route.params.producttags).forEach(key => {
-            this.producttags.push(this.props.route.params.producttags[key]["tag_name"])
+            this.producttags.push(this.props.route.params.producttags[key])
         })
 
         console.log(this.producttags)

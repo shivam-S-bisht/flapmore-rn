@@ -486,8 +486,6 @@ async verifyforgetpassapifunc (emailMobile, userId, otp, password) {
 
 
 
-    
-
 // API CALLS -> get tag details 
     async gettagdetails (to, tagname) {
         const token = await AsyncStorage.getItem('@token')
@@ -568,8 +566,7 @@ async verifyforgetpassapifunc (emailMobile, userId, otp, password) {
 // API CALLS -> get product related tags
     async getproducttags (to, productid, productdetails, productfiles) {
         
-        await axios.get(`/flapmore/product/tags?product_id=${productid}`
-        ).then ((res)=> {
+        await axios.get(`/flapmore/product/tags?product_id=${productid}`).then ((res)=> {
             // const data = res.data;
             // console.log(res, '\n', JSON.stringify(res.data))
             
