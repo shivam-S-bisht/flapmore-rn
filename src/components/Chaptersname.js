@@ -8,7 +8,7 @@ export default class Chaptersname extends React.Component{
 
     render() {
 
-        const {chno, title} = this.props.chinfo;
+        const {file_id, file_url, file_desc, file_type, file_order} = this.props.chinfo;
 
         return (
         <View style={styles.topviewable}>
@@ -16,7 +16,7 @@ export default class Chaptersname extends React.Component{
                 style={styles.touchable}
             >
                 <View style={{paddingHorizontal: 10, backgroundColor: '#fff', alignSelf: 'center', paddingVertical: 5, borderRadius: 15, marginRight: 10}}>
-                    <Text style={{color: '#4D4D6F', fontSize: 15}}>{chno}</Text>
+                    <Text style={{color: '#4D4D6F', fontSize: 15}}>{file_order}</Text>
                 </View>
                 
                 <View style={{justifyContent: 'space-around', flex: 1, flexDirection: 'row', width: Dimensions.get('window').width/1.5, paddingHorizontal: 10}}>

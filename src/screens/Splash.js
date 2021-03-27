@@ -486,6 +486,8 @@ async verifyforgetpassapifunc (emailMobile, userId, otp, password) {
 
 
 
+    
+
 // API CALLS -> get tag details 
     async gettagdetails (to, tagname) {
         const token = await AsyncStorage.getItem('@token')
@@ -554,14 +556,30 @@ async verifyforgetpassapifunc (emailMobile, userId, otp, password) {
         ).then ((res)=> {
             // const data = res.data;
             // console.log(res, '\n', JSON.stringify(res.data))
-            
-            this.props.navigation.replace(to, {productfiles: res.data, productdetails})
+            this.getproducttags(to, productid, productdetails, res.data)
+            // this.props.navigation.replace(to, {productfiles: res.data, productdetails})
                 
             // console.log(typeof(data))
-        }).catch (e=> this.props.navigation.replace('LoginSignupchoose'))
+        }).catch (_ => this.props.navigation.replace('LoginSignupchoose'))
     } 
 
 
+
+// API CALLS -> get product related tags
+    async getproducttags (to, productid, productdetails, productfiles) {
+        
+        await axios.get(`/flapmore/product/tags?product_id=${productid}`
+        ).then ((res)=> {
+            // const data = res.data;
+            // console.log(res, '\n', JSON.stringify(res.data))
+            
+            this.props.navigation.replace(to, {producttags: res.data, productdetails, productfiles})
+                
+            // console.log(typeof(data))
+        }).catch (_ => this.props.navigation.replace('LoginSignupchoose'))
+
+
+    }
 
 
 // Tabbars

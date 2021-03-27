@@ -22,6 +22,7 @@ export default class Bookdescription extends React.Component {
         bookmarked:0
     }
 
+    productfiles = [];
 
     componentDidMount () {
         // this.sound = new SoundPlayer(bookdescription.playbookuri)
@@ -31,7 +32,12 @@ export default class Bookdescription extends React.Component {
             this.productfiles.push(this.props.route.params.productfiles[key])
         })
 
-        console.log(this.props.route.params.productfiles)
+        this.producttags = []
+        Object.keys(this.props.route.params.producttags).forEach(key => {
+            this.producttags.push(this.props.route.params.producttags[key]["tag_name"])
+        })
+
+        console.log(this.producttags)
 
     }
 
@@ -81,7 +87,7 @@ export default class Bookdescription extends React.Component {
                     <View style={styles.thirdviewable}>
                             <Text style={{fontSize: 18, fontWeight: 'bold', color: '#151522', paddingBottom: 5, letterSpacing: 0.5}}>{product_name}</Text>
                             <Text style={{fontSize: 18, color: '#0080FF', paddingBottom: 5, letterSpacing: 0.5}}>{author}</Text>
-                            <Text style={{fontSize: 16, color: '#595966', paddingBottom: 5, letterSpacing: 0.5}}>{description.length < 251 ?{description}:`${description.slice(0, 250)}...`}</Text>
+                            <Text style={{fontSize: 16, color: '#595966', paddingBottom: 5, letterSpacing: 0.5}}>The adventurous life of {product_name}.</Text>
                             <View style={{flexDirection: 'row', paddingBottom: 5}}>
                                 <Text style={{fontSize: 17, color: '#1788AC', letterSpacing: 0.5}}>Total read: {14} mins</Text>
                                 <Text style={{fontSize: 17, color: '#595966', paddingLeft: 30, letterSpacing: 0.5}}>Chapter {bookdescription.chapter}</Text>
@@ -127,12 +133,15 @@ export default class Bookdescription extends React.Component {
 
                         <View style={styles.sixthviewable}>
                             <Text style={{fontSize: 18, fontWeight: 'bold', marginBottom: 5}}>All Chapters</Text>
-                            <Text style={{fontSize: 16, letterSpacing: 0.8}}>Total : {bookdescription.chapter} Chapters</Text>
+                            <Text style={{fontSize: 16, letterSpacing: 0.8}}>Total : {9} Chapters</Text>
                             <SafeAreaView style={{flex: 1, marginTop: 10}}>
                                 <FlatList 
-                                    keyExtractor={item=>item.chno}
-                                    data={bookdescription.chapters}
-                                    renderItem={({item})=> <Chaptersname chinfo={item} />}
+                                    keyExtractor={item=>item.file_id}
+                                    data={this.productfiles}
+                                    renderItem={({item})=> {
+                                        {console.log(item)}
+                                        <Chaptersname chinfo={item} />
+                                    }}
                                 />
                             </SafeAreaView>
 
@@ -140,7 +149,7 @@ export default class Bookdescription extends React.Component {
                         <View style={{backgroundColor: '#D8DDE5', height: 18}}></View>
                         <View style={styles.seventhviewable}>
                             <Text style={{fontSize: 18, fontWeight: 'bold', marginBottom: 10}}>All about the book</Text>
-                            <Text style={{fontSize: 16, marginBottom: 20, color: '#4D5156', lineHeight: 20}}>{bookdescription.aboutbook}</Text>
+                            <Text style={{fontSize: 16, marginBottom: 20, color: '#4D5156', lineHeight: 20}}>{description}</Text>
                             
                             <Text style={{fontSize: 18, fontWeight: 'bold', marginBottom: 10}}>All about the author</Text>
                             <Text style={{fontSize: 16, marginBottom: 15, color: '#4D5156' , lineHeight: 20}}>{bookdescription.aboutauthor}</Text>
