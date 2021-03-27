@@ -1,6 +1,8 @@
 import React from 'react';
 import {StyleSheet, LogBox, ScrollView, SafeAreaView, View, TouchableOpacity, Image, Text, Touchable, StatusBar, Dimensions, FlatList} from 'react-native';
 import SoundPlayer from 'react-native-sound';
+import axios from 'react-native-axios';
+
 
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import Fontawesomeicon from 'react-native-vector-icons/FontAwesome';
@@ -34,12 +36,31 @@ export default class Bookdescription extends React.Component {
 
         this.producttags = []
         Object.keys(this.props.route.params.producttags).forEach(key => {
-            this.producttags.push(this.props.route.params.producttags[key])
+            this.getsimilarbooks(this.props.route.params.producttags[key]).then(data => {
+                // console.log(data)
+                this.producttags.push(data)
+            })
+            // this.producttags.push(this.getsimilarbooks(this.props.route.params.producttags[key]))
         })
 
         console.log(this.producttags)
 
     }
+
+
+    async getsimilarbooks (tagname) {
+        return await axios.get(`/flapmore/search?category_id=1&tags=${tagname}`
+        ).then ((res)=> {
+            // const data = res.data;
+            // console.log(res, '\n', JSON.stringify(res.data))
+            // this.props.navigation.replace(to, {data: res.data, tagname})
+            // console.log(res.data)
+            return res.data
+            // console.log(typeof(data))
+        }).catch (e=> console.log(e))
+    }
+
+
 
 
     render() {
