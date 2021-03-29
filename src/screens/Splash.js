@@ -1,17 +1,17 @@
 // PRE-PROCESSESS
 import React from 'react';
-import {Text, View, Image, Animated} from 'react-native';
+import { Text, View, Image, Animated } from 'react-native';
 import axios from 'react-native-axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import SoundPlayer from 'react-native-sound-player';
 
 import bookdescription from '../infos/bookdescription';
 
-export default class Splash extends React.Component{
+export default class Splash extends React.Component {
 
     constructor() {
         super();
-        this.state={
+        this.state = {
             animatedValue: new Animated.Value(0)
         }
 
@@ -20,29 +20,29 @@ export default class Splash extends React.Component{
     }
 
 
-// FIRST
-// called before mounting
+    // FIRST
+    // called before mounting
     componentDidMount() {
         // this._isMounted = true;
 
-        this.animatedpromise() 
+        this.animatedpromise()
     }
 
 
-    componentWillUnmount () {
+    componentWillUnmount() {
         // this.timer && clearInterval(this.timer);
         // this._isMounted = false;
     }
 
-// FIRST splash
-    async splashfunc () {
-        const {found, _} = await this.gettoken()
+    // FIRST splash
+    async splashfunc() {
+        const { found, _ } = await this.gettoken()
         if (found) {
 
             // check the validity of token .......
             //
             //
-            
+
             this.props.navigation.replace('Tabbars')
         } else {
             this.props.navigation.replace('Onboarding')
@@ -51,32 +51,69 @@ export default class Splash extends React.Component{
     }
 
 
-// tabbar props handler ...
-    async tabbarfunc () {
-        const {_, to} = await this.gettoken()
+    // tabbar props handler ...
+    async tabbarfunc() {
+        const { to } = await this.gettoken()
 
         switch (to) {
-            case "Bookdescription": this.getproductdetails(to, 2); break;
-            case "Tagscreen": this.gettagdetails(to, this.props.route.params.tagname); break;
+            case "Bookdescription":
+                this.getproductdetails(2).then(productdetails => {
+                    this.getproductfiles(2).then(productfiles => {
+                        this.getproducttags(2).then(async producttags => {
+
+                            const pdt = Object.values(producttags) //object -> list
+                            var tagdetailslist = []
+                            // console.log("something", this.producttags)
+
+
+                            let promises = pdt.map((Object) => {
+                                return new Promise(async resolve => {
+                                    return this.gettagdetails(Object.tag_name)
+                                        .then((res) => {
+
+                                            // console.log("promisese23r32tf", res)
+                                            tagdetailslist.push(res)
+                                            resolve("ok")
+                                        }).catch(e => console.log(e))
+                                })
+                            })
+
+                            await Promise.all(promises)
+                            // console.log("promises", tagdetailslist)
+
+
+                        })
+                    })
+
+                })
+                break;
+            case "Tagscreen":
+                this.gettagdetails(this.props.route.params.tagname).then(data => {
+                    this.props.navigation.replace(to, { data, tagname: this.props.route.params.tagname })
+                })
+
+                // this.props.navigation.replace("Tagscreen", {data: tagdetails, tagname: this.props.route.params.tagname})
+
+                break;
 
         }
 
-        
+
 
 
     }
 
 
 
-// createnewaccount props handler ...
-    async createnewaccountfunc () {
+    // createnewaccount props handler ...
+    async createnewaccountfunc() {
 
         const res = this.createnewaccountapifunc(this.props.route.params.emailorphone, this.props.route.params.password)
-        res.then((token)=> {
+        res.then((token) => {
             this.puttoken(token)
             this.savecred(this.props.route.params.emailorphone)
             this.props.navigation.replace(this.props.route.params.to)
-        }).catch (err => {
+        }).catch(err => {
             this.props.navigation.goBack()
             console.log(`ERROR: ${err}`)
         })
@@ -84,15 +121,15 @@ export default class Splash extends React.Component{
 
 
 
-// login props handler ...
-    async loginfunc () {
-        
+    // login props handler ...
+    async loginfunc() {
+
         const res = this.loginapifunc(this.props.route.params.emailorphone, this.props.route.params.password)
         res.then((token) => {
             this.puttoken(token)
             this.savecred(this.props.route.params.emailorphone)
             this.props.navigation.replace(this.props.route.params.to)
-        }) .catch (err => {
+        }).catch(err => {
             this.props.navigation.goBack()
             console.log(`ERROR: ${err}`)
         })
@@ -101,7 +138,7 @@ export default class Splash extends React.Component{
 
 
 
-    async getduration () {
+    async getduration() {
 
         // const background = await AsyncStorage.getItem('@background')
         // if (background == 'true') {
@@ -116,8 +153,8 @@ export default class Splash extends React.Component{
         // console.log(info)
         var duration = bookdescription.duration;
 
-        var min = Math.floor(duration/60);
-        var sec = Math.floor(duration%60);
+        var min = Math.floor(duration / 60);
+        var sec = Math.floor(duration % 60);
 
         if (`${min}`.length == 1) {
             min = `0${min}`
@@ -127,24 +164,24 @@ export default class Splash extends React.Component{
             sec = `0${sec}`
         }
 
-        return {duration: `${min}:${sec}`, maxvalue: duration}
+        return { duration: `${min}:${sec}`, maxvalue: duration }
     }
 
 
 
-    async bookdescriptionfunc () {
+    async bookdescriptionfunc() {
 
         const to = this.props.route.params.to
         if (to == 'Pdfview') {
             this.props.navigation.replace(to)
 
-        } else if (to == 'Musicplayer'){
+        } else if (to == 'Musicplayer') {
 
-            
+
             const sound = this.props.route.params.soundobj
             sound.play()
 
-            this.props.navigation.replace(to, {from: 'Bookdescription', soundobj: sound})
+            this.props.navigation.replace(to, { from: 'Bookdescription', soundobj: sound })
 
 
 
@@ -155,10 +192,10 @@ export default class Splash extends React.Component{
 
 
 
-// FIRST
-// splash animation
-    animatedpromise () {
-        const animatedpromise = new Promise (async res=> {
+    // FIRST
+    // splash animation
+    animatedpromise() {
+        const animatedpromise = new Promise(async res => {
             Animated.timing(this.state.animatedValue, {
                 toValue: 210,
                 duration: 1000,
@@ -182,16 +219,16 @@ export default class Splash extends React.Component{
                 }
             } catch (e) {
                 this.splashfunc()
-            }   
+            }
         })
     }
 
 
 
-// timeout for splash animation
-    timer () {
-        return  new Promise(res=> {
-            setTimeout(()=> {
+    // timeout for splash animation
+    timer() {
+        return new Promise(res => {
+            setTimeout(() => {
                 res()
             }, 1000)
         })
@@ -199,25 +236,25 @@ export default class Splash extends React.Component{
 
 
 
-// read token 
-    async gettoken () {
-      
+    // read token 
+    async gettoken() {
+
         const token = await AsyncStorage.getItem('@token')
         try {
             if (token != null) {
-                return {found: true, to: this.props.route.params.to}
+                return { found: true, to: this.props.route.params.to }
             } else {
-                return {found: false, to: 'LoginSignupchoose'}
+                return { found: false, to: 'LoginSignupchoose' }
             }
         } catch {
-            return {found: true, to: 'Onboarding'}
-        }   
+            return { found: true, to: 'Onboarding' }
+        }
     }
 
 
 
-// save token 
-    async puttoken (val) {
+    // save token 
+    async puttoken(val) {
         try {
             await AsyncStorage.setItem('@token', val)
 
@@ -228,152 +265,152 @@ export default class Splash extends React.Component{
 
 
 
-// save credentials 
-async savecred (val) {
-    try {
-        await AsyncStorage.setItem('@emailVal', val)
-    } catch (e) {
-        console.log(e)
+    // save credentials 
+    async savecred(val) {
+        try {
+            await AsyncStorage.setItem('@emailVal', val)
+        } catch (e) {
+            console.log(e)
+        }
     }
-}
-    
 
 
-// API CALLS -> login
-async loginapifunc (emailMobile, password) {
 
-    return new Promise ((resolve, reject) => {
-        axios.post('/login', {
-            emailMobile,
-            password
-        }).then((res)=> {
-            if (res.status == 200) {
-                resolve(res.data.token)
-            } else {
-                reject('No account found')
-            }
-        }).catch (()=> {
-            reject('response from server:400, Some error occured')
+    // API CALLS -> login
+    async loginapifunc(emailMobile, password) {
+
+        return new Promise((resolve, reject) => {
+            axios.post('/login', {
+                emailMobile,
+                password
+            }).then((res) => {
+                if (res.status == 200) {
+                    resolve(res.data.token)
+                } else {
+                    reject('No account found')
+                }
+            }).catch(() => {
+                reject('response from server:400, Some error occured')
+            })
         })
-    }) 
-}
+    }
 
 
 
 
 
-// API CALLS -> create new account
-async createnewaccountapifunc (emailMobile, password) {
+    // API CALLS -> create new account
+    async createnewaccountapifunc(emailMobile, password) {
 
-    return new Promise ((resolve, reject) => {
-        axios.post('/signup', {
-            emailMobile,
-            password
-        }).then((res)=> {
-            if (res.status == 200) {
-                resolve('OTP sent')
-            } else {
-                reject('Account already exists')
-            }
-        }) .catch (() => {
-            reject('response from server:400, Some error occured')
+        return new Promise((resolve, reject) => {
+            axios.post('/signup', {
+                emailMobile,
+                password
+            }).then((res) => {
+                if (res.status == 200) {
+                    resolve('OTP sent')
+                } else {
+                    reject('Account already exists')
+                }
+            }).catch(() => {
+                reject('response from server:400, Some error occured')
+            })
+
         })
-        
-    }) 
-}
+    }
 
 
 
-// API CALLS -> verify create new account
-async verifysignupapifunc (emailMobile, userId, otp) {
+    // API CALLS -> verify create new account
+    async verifysignupapifunc(emailMobile, userId, otp) {
 
-    return new Promise ((resolve, reject) => {
-        axios.post('/verifySignup', {
-            emailMobile,
-            userId,
-            otp
-        }).then((res)=> {
-            if (res.status == 200) {
-                resolve('Success')
-            } else {
-                reject('OTP Already verified')
-            }
-        }) .catch (() => {
-            reject('response from server:400, Some error occured')
+        return new Promise((resolve, reject) => {
+            axios.post('/verifySignup', {
+                emailMobile,
+                userId,
+                otp
+            }).then((res) => {
+                if (res.status == 200) {
+                    resolve('Success')
+                } else {
+                    reject('OTP Already verified')
+                }
+            }).catch(() => {
+                reject('response from server:400, Some error occured')
+            })
+
         })
-        
-    }) 
-}
+    }
 
 
 
-// API CALLS -> resend otp
-async resendotpapifunc   (emailMobile, userId) {
+    // API CALLS -> resend otp
+    async resendotpapifunc(emailMobile, userId) {
 
-    return new Promise ((resolve, reject) => {
-        axios.post('/resendotp', {
-            emailMobile,
-            userId
-        }).then((res)=> {
-            if (res.status == 200) {
-                resolve('OTP resent successfully')
-            } else {
-                reject('User not present, Signup to continue')
-            }
-        }) .catch (() => {
-            reject('response from server:400, Some error occured')
+        return new Promise((resolve, reject) => {
+            axios.post('/resendotp', {
+                emailMobile,
+                userId
+            }).then((res) => {
+                if (res.status == 200) {
+                    resolve('OTP resent successfully')
+                } else {
+                    reject('User not present, Signup to continue')
+                }
+            }).catch(() => {
+                reject('response from server:400, Some error occured')
+            })
+
         })
-        
-    }) 
-}
+    }
 
 
 
-// API CALLS -> forget pass
-async forgetpassapifunc (emailMobile) {
+    // API CALLS -> forget pass
+    async forgetpassapifunc(emailMobile) {
 
-    return new Promise ((resolve, reject) => {
-        axios.post('/forgetPassword', {
-            emailMobile
-        }).then((res) => {
-            if (res.status == 200) {
-                resolve(res.data)  // userId, mobile
-            } else {
-                reject('Account does not exists')
-            }
-        }) .catch (() => {
-            reject('response from server:400, Some error occured')
+        return new Promise((resolve, reject) => {
+            axios.post('/forgetPassword', {
+                emailMobile
+            }).then((res) => {
+                if (res.status == 200) {
+                    resolve(res.data)  // userId, mobile
+                } else {
+                    reject('Account does not exists')
+                }
+            }).catch(() => {
+                reject('response from server:400, Some error occured')
+            })
+
         })
-        
-    }) 
-}
+    }
 
 
 
-// API CALLS -> verify forget pass
-async verifyforgetpassapifunc (emailMobile, userId, otp, password) {
+    // API CALLS -> verify forget pass
+    async verifyforgetpassapifunc(emailMobile, userId, otp, password) {
 
-    return new Promise ((resolve, reject) => {
-        axios.post('/verifyForgetPassword', {
-            emailMobile,
-            userId,
-            otp,
-            password 
-        }).then((res) => {
-            if (res.status == 200) {
-                resolve()  
-            } else {
-                reject('Account does not exists')
-            }
-        }) .catch (() => {
-            reject('response from server:400, Some error occured')
+        return new Promise((resolve, reject) => {
+            axios.post('/verifyForgetPassword', {
+                emailMobile,
+                userId,
+                otp,
+                password
+            }).then((res) => {
+                if (res.status == 200) {
+                    resolve()
+                } else {
+                    reject('Account does not exists')
+                }
+            }).catch(() => {
+                reject('response from server:400, Some error occured')
+            })
+
         })
-        
-    }) 
-}
+    }
 
 
-// API CALLS -> search 
+    // API CALLS -> search 
     // async searchapifunc (category_id, tags, from, to) {
 
     //     let params = {}
@@ -387,7 +424,7 @@ async verifyforgetpassapifunc (emailMobile, userId, otp, password) {
     //         },
     //         params
     //     }
-        
+
     //     ).then ((res)=> {
     //         if (from == 'besttrendy') {
     //             // console.log(res, '\n', JSON.stringify(res.data.hits.hits))
@@ -395,86 +432,86 @@ async verifyforgetpassapifunc (emailMobile, userId, otp, password) {
     //                 console.log(elm._source, "\n")
     //             });
     //         }
-            
+
     //         // return res.data
     //     }).catch (e=> console.log(e))
     // }
 
 
 
-// API CALLS -> product details
-    async productdetailsapifunc (product_id) {
+    // API CALLS -> product details
+    async productdetailsapifunc(product_id) {
         const token = await AsyncStorage.getItem('@token')
 
         await axios.get('/flapmore/product', {
             headers: {
-              'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`
             },
             params: {
                 product_id
             }
         }
-        
-        ).then ((res)=> {
+
+        ).then((res) => {
             console.log(res, '\n', JSON.stringify(res.data))
-        }).catch (e=> console.log(e))
+        }).catch(e => console.log(e))
     }
 
-    
 
-// API CALLS -> product all tags 
-    async producttagsapifunc (product_id) {
+
+    // API CALLS -> product all tags 
+    async producttagsapifunc(product_id) {
         const token = await AsyncStorage.getItem('@token')
 
         await axios.get('/flapmore/product/tags', {
             headers: {
-            'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`
             },
             params: {
                 product_id
             }
         }
-        
-        ).then ((res)=> {
+
+        ).then((res) => {
             console.log(res, '\n', JSON.stringify(res.data))
-        }).catch (e=> console.log(e))
+        }).catch(e => console.log(e))
     }
 
 
 
-// API CALLS -> product all files 
-    async productfilesapifunc (product_id) {
+    // API CALLS -> product all files 
+    async productfilesapifunc(product_id) {
         const token = await AsyncStorage.getItem('@token')
 
         await axios.get('/flapmore/product/files', {
             headers: {
-            'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`
             },
             params: {
                 product_id
             }
         }
-        
-        ).then ((res)=> {
+
+        ).then((res) => {
             console.log(res, '\n', JSON.stringify(res.data))
-        }).catch (e=> console.log(e))
+        }).catch(e => console.log(e))
     }
 
 
 
-// API CALLS -> list all categories 
-    async getallcategoriesapifunc () {
+    // API CALLS -> list all categories 
+    async getallcategoriesapifunc() {
         const token = await AsyncStorage.getItem('@token')
 
         await axios.get('/flapmore/categories', {
             headers: {
-            'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`
             }
         }
-        
-        ).then ((res)=> {
+
+        ).then((res) => {
             console.log(res, '\n', JSON.stringify(res.data))
-        }).catch (e=> console.log(e))
+        }).catch(e => console.log(e))
     }
 
 
@@ -486,8 +523,8 @@ async verifyforgetpassapifunc (emailMobile, userId, otp, password) {
 
 
 
-// API CALLS -> get tag details 
-    async gettagdetails (to, tagname) {
+    // API CALLS -> get tag details 
+    async gettagdetails(tagname) {
         const token = await AsyncStorage.getItem('@token')
 
 
@@ -501,79 +538,86 @@ async verifyforgetpassapifunc (emailMobile, userId, otp, password) {
         //     return {found: true, to: 'Onboarding'}
         // }   
 
-        await axios.get(`/flapmore/search?category_id=1&tags=${tagname}`, {
-            headers: {
-            'Authorization': `Bearer ${token}`
-            }
-        }
-        
-        ).then ((res)=> {
-            // const data = res.data;
-            // console.log(res, '\n', JSON.stringify(res.data))
-            this.props.navigation.replace(to, {data: res.data, tagname})
-            // console.log(typeof(data))
-        }).catch (e=> console.log(e))
-    }
-
-
-
-// API CALLS -> get product details 
-    async getproductdetails (to, productid) {
-        const token = await AsyncStorage.getItem('@token')
-
-        await axios.get(`/flapmore/product?product_id=${productid}`, {
-            headers: {
-            'Authorization': `Bearer ${token}`
-            }
-        }
-        
-        ).then ((res)=> {
-            // const data = res.data;
-            // console.log(res, '\n', JSON.stringify(res.data))
-            Object.keys(res.data).forEach(key => {
-                // this.props.navigation.replace(to, {data: res.data[key]})
-                this.getproductfiles(to, productid, res.data[key])
-            // console.log(res.data[key])
-            })
-            // console.log(typeof(data))
-        }).catch (e=> console.log(e))
-    } 
-
-
-
-// API CALLS -> get product files
-    async getproductfiles (to, productid, productdetails) {
-        const token = await AsyncStorage.getItem('@token')
-
-        await axios.get(`/flapmore-user/product/files?product_id=${productid}`, {
+        return await axios.get(`/flapmore/search?category_id=1&tags=${tagname}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
         }
-        
-        ).then ((res)=> {
+
+        ).then((res) => {
             // const data = res.data;
             // console.log(res, '\n', JSON.stringify(res.data))
-            this.getproducttags(to, productid, productdetails, res.data)
+            return res.data
+            // this.props.navigation.replace(to, {data: res.data, tagname})
+            // console.log(typeof(data))
+        }).catch(e => console.log(e))
+    }
+
+
+
+    // API CALLS -> get product details 
+    async getproductdetails(productid) {
+        const token = await AsyncStorage.getItem('@token')
+
+        return await axios.get(`/flapmore/product?product_id=${productid}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }
+
+        ).then((res) => {
+            // const data = res.data;
+            // console.log(res, '\n', JSON.stringify(res.data))
+            Object.keys(res.data).forEach(key => {
+                // this.props.navigation.replace(to, {data: res.data[key]})
+                return res.data[key]
+                // console.log(res.data[key])
+            })
+            // console.log(typeof(data))
+        }).catch(e => console.log(e))
+    }
+
+
+
+
+
+
+
+
+    // API CALLS -> get product files
+    async getproductfiles(productid) {
+        const token = await AsyncStorage.getItem('@token')
+
+        return await axios.get(`/flapmore-user/product/files?product_id=${productid}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }
+
+        ).then((res) => {
+            // const data = res.data;
+            // console.log(res, '\n', JSON.stringify(res.data))
+            return res.data
+            // this.getproducttags(to, productid, productdetails, res.data)
             // this.props.navigation.replace(to, {productfiles: res.data, productdetails})
-                
+
             // console.log(typeof(data))
-        }).catch (_ => this.props.navigation.replace('LoginSignupchoose'))
-    } 
+        }).catch(_ => this.props.navigation.replace('LoginSignupchoose'))
+    }
 
 
 
-// API CALLS -> get product related tags
-    async getproducttags (to, productid, productdetails, productfiles) {
-        
-        await axios.get(`/flapmore/product/tags?product_id=${productid}`).then ((res)=> {
+    // API CALLS -> get product related tags
+    async getproducttags(productid) {
+
+        return await axios.get(`/flapmore/product/tags?product_id=${productid}`).then((res) => {
             // const data = res.data;
             // console.log(res, '\n', JSON.stringify(res.data))
-            
-            this.props.navigation.replace(to, {producttags: res.data, productdetails, productfiles})
-                
+            return res.data
+            // this.props.navigation.replace(to, {producttags: res.data, productdetails, productfiles})
+
             // console.log(typeof(data))
-        }).catch (_ => this.props.navigation.replace('LoginSignupchoose'))
+        }).catch(_ => this.props.navigation.replace('LoginSignupchoose'))
 
 
     }
@@ -581,8 +625,8 @@ async verifyforgetpassapifunc (emailMobile, userId, otp, password) {
 
 
 
-// Tabbars
-// BEST TRENDY SELECTION
+    // Tabbars
+    // BEST TRENDY SELECTION
     // async searchwithcategory () {
     //     this.searchapifunc (1, "", "besttrendy", "")
     // }
@@ -592,19 +636,19 @@ async verifyforgetpassapifunc (emailMobile, userId, otp, password) {
 
 
 
-// MAIN -------->>>>
-    render () {
+    // MAIN -------->>>>
+    render() {
 
         // this.searchwithcategory()
-        return(
-            <View style={{flex:1, alignItems:'center', justifyContent:'center', backgroundColor:'white'}}>
-                <Image source={require('../../assets/splash-icon.jpg')} style={{marginBottom:5}} />
-                <Image source={require('../../assets/home-iconname.png')} style={{marginBottom:5}}/>
-                <Text style={{color:'#696C7B'}}>Flap more for smart contents</Text>
+        return (
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'white' }}>
+                <Image source={require('../../assets/splash-icon.jpg')} style={{ marginBottom: 5 }} />
+                <Image source={require('../../assets/home-iconname.png')} style={{ marginBottom: 5 }} />
+                <Text style={{ color: '#696C7B' }}>Flap more for smart contents</Text>
 
-                <View style={{backgroundColor:'#E3E3E5', width:210, height:6, marginTop:10, borderRadius: 10}}>
-                    <Animated.View style={{backgroundColor:'#3D6DFF', height:6, width: this.state.animatedValue, borderRadius: 10}}>
-                        
+                <View style={{ backgroundColor: '#E3E3E5', width: 210, height: 6, marginTop: 10, borderRadius: 10 }}>
+                    <Animated.View style={{ backgroundColor: '#3D6DFF', height: 6, width: this.state.animatedValue, borderRadius: 10 }}>
+
                     </Animated.View>
                 </View>
             </View>
