@@ -84,7 +84,8 @@ export default class Bookdescription extends React.Component {
 
 
     render() {
-        const { product_id, product_name, category_id, author, duration, pages, description, thumbnail_url, created_at, updated_at } = this.props.route.params.productdetails
+        console.log(this.props.route.params.productdetails)
+        const { product_id, product_name, category_id, author, description, thumbnail_url, created_at, updated_at } = this.props.route.params.productdetails
 
         return (
             <SafeAreaView style={styles.topviewable}>

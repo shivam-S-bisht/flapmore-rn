@@ -58,6 +58,7 @@ export default class Splash extends React.Component {
         switch (to) {
             case "Bookdescription":
                 this.getproductdetails(2).then(productdetails => {
+                    // console.log(productdetails)
                     this.getproductfiles(2).then(productfiles => {
                         this.getproducttags(2).then(async producttags => {
 
@@ -80,6 +81,9 @@ export default class Splash extends React.Component {
 
                             await Promise.all(promises)
                             // console.log("promises", tagdetailslist)
+                            // console.log(productdetails)
+                            this.props.navigation.replace("Bookdescription", { productdetails, productfiles, tagdetailslist })
+
 
 
                         })
@@ -89,7 +93,7 @@ export default class Splash extends React.Component {
                 break;
             case "Tagscreen":
                 this.gettagdetails(this.props.route.params.tagname).then(data => {
-                    this.props.navigation.replace(to, { data, tagname: this.props.route.params.tagname })
+                    this.props.navigation.replace("Tagscreen", { data, tagname: this.props.route.params.tagname })
                 })
 
                 // this.props.navigation.replace("Tagscreen", {data: tagdetails, tagname: this.props.route.params.tagname})
@@ -568,11 +572,12 @@ export default class Splash extends React.Component {
         ).then((res) => {
             // const data = res.data;
             // console.log(res, '\n', JSON.stringify(res.data))
-            Object.keys(res.data).forEach(key => {
-                // this.props.navigation.replace(to, {data: res.data[key]})
-                return res.data[key]
-                // console.log(res.data[key])
-            })
+            // Object.keys(res.data).forEach(key => {
+
+            // console.log(res.data[key])
+            // Object.values(object1)
+            return Object.values(res.data)[0]
+            // })
             // console.log(typeof(data))
         }).catch(e => console.log(e))
     }
