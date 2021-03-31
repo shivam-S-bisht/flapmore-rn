@@ -66,23 +66,29 @@ export default class Splash extends React.Component {
                             var tagdetailslist = []
                             // console.log("something", this.producttags)
 
-
+                            bgcolor = ['#EEE5C9', '#BFD2E6', '#D3EEC9', '#EEE5C9']
                             let promises = pdt.map((Object) => {
                                 return new Promise(async resolve => {
                                     return this.gettagdetails(Object.tag_name)
                                         .then((res) => {
 
-                                            // console.log("promisese23r32tf", res)
-                                            tagdetailslist.push(res)
+                                            // console.log("promisese23r32tf", res.hits.hits.length)
+                                            var array = res.hits.hits.map((item, index) => {
+                                                // const {product_name, author, duration, thumbnail_url} = item._source
+                                                return {product_id: item._id, product_name: item._source.product_name, author: item._source.author, duration: item._source.duration, thumbnail_url: item._source.thumbnail_url, background: bgcolor[index]}
+                                            })
+                                            // console.log("hvbekhbekjfhbyluih", array)
+                                            tagdetailslist.push(...array)
                                             resolve("ok")
                                         }).catch(e => console.log(e))
                                 })
                             })
 
                             await Promise.all(promises)
-                            // console.log("promises", tagdetailslist)
-                            // console.log(productdetails)
-                            this.props.navigation.replace("Bookdescription", { productdetails, productfiles, tagdetailslist })
+
+                            // console.log("promises: ", promises)
+                            // console.log(tagdetailslist.length)
+                            this.props.navigation.replace(to, { productdetails, productfiles, tagdetailslist })
 
 
 

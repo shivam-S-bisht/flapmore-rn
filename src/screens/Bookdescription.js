@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, LogBox, ScrollView, SafeAreaView, View, TouchableOpacity, Image, Text, Touchable, StatusBar, Dimensions, FlatList } from 'react-native';
 import SoundPlayer from 'react-native-sound';
 import axios from 'react-native-axios';
+import Iconicon from 'react-native-vector-icons/Ionicons';
 
 
 import Ionicon from 'react-native-vector-icons/Ionicons';
@@ -24,68 +25,15 @@ export default class Bookdescription extends React.Component {
         bookmarked: 0
     }
 
-    productfiles = [];
+    productfiles = Object.values(this.props.route.params.productfiles)
 
-    async componentDidMount() {
-        // this.sound = new SoundPlayer(bookdescription.playbookuri)
-        // this.sound.play()
-        this.productfiles = []
-        Object.keys(this.props.route.params.productfiles).forEach(key => {
-            this.productfiles.push(this.props.route.params.productfiles[key])
-        })
-
-
-
-        // this.forapicalls()
-
-
-    }
-
-
-    // async forapicalls() {
-    //     const pdt = Object.values(this.props.route.params.producttags)
-    //     this.producttags = []
-    //     console.log("something", this.producttags)
-
-
-    //     let promises = pdt.map((Object) => {
-    //         return new Promise(resolve => {
-    //             return axios.get(`/flapmore/search?category_id=1&tags=${Object.tag_name}`)
-    //                 .then((res) => {
-
-    //                     // console.log("promisese23r32tf", res.data)
-    //                     this.producttags.push(res.data)
-    //                     resolve("ok")
-    //                 }).catch(e => console.log(e))
-    //         })
-    //     })
-
-
-
-    //     await Promise.all(promises)
-    //     console.log("promises", this.producttags)
-
-    // }
-
-
-    // async getsimilarbooks(tagname) {
-    //     return await axios.get(`/flapmore/search?category_id=1&tags=${tagname}`
-    //     ).then((res) => {
-    //         // const data = res.data;
-    //         // console.log(res, '\n', JSON.stringify(res.data))
-    //         // this.props.navigation.replace(to, {data: res.data, tagname})
-    //         // console.log(res.data)
-    //         return res.data
-    //         // console.log(typeof(data))
-    //     }).catch(e => console.log(e))
-    // }
 
 
 
 
     render() {
-        console.log(this.props.route.params.productdetails)
-        const { product_id, product_name, category_id, author, description, thumbnail_url, created_at, updated_at } = this.props.route.params.productdetails
+        // console.log(this.props.route.params.productdetails)
+        const { product_name, author, description, thumbnail_url } = this.props.route.params.productdetails
 
         return (
             <SafeAreaView style={styles.topviewable}>
@@ -133,6 +81,7 @@ export default class Bookdescription extends React.Component {
                             <View style={{ flexDirection: 'row', paddingBottom: 5 }}>
                                 <Text style={{ fontSize: 17, color: '#1788AC', letterSpacing: 0.5 }}>Total read: {14} mins</Text>
                                 <Text style={{ fontSize: 17, color: '#595966', paddingLeft: 30, letterSpacing: 0.5 }}>Chapter {bookdescription.chapter}</Text>
+                                {/* <Text style={{ fontSize: 17, color: '#595966', paddingLeft: 30, letterSpacing: 0.5 }}>Chapter {bookdescription.chapter}</Text> */}
                             </View>
                         </View>
                         <View style={styles.fourthviewable}>
@@ -175,17 +124,46 @@ export default class Bookdescription extends React.Component {
 
                         <View style={styles.sixthviewable}>
                             <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 5 }}>All Chapters</Text>
-                            <Text style={{ fontSize: 16, letterSpacing: 0.8 }}>Total : {9} Chapters</Text>
-                            <SafeAreaView style={{ flex: 1, marginTop: 10 }}>
-                                <FlatList
-                                    keyExtractor={item => item.file_id}
-                                    data={this.productfiles}
-                                    renderItem={({ item }) => {
-                                        { console.log(item) }
-                                        <Chaptersname chinfo={item} />
-                                    }}
-                                />
-                            </SafeAreaView>
+                            <Text style={{ fontSize: 16, letterSpacing: 0.8 }}>Total : {this.productfiles.length} Chapters</Text>
+                            {
+                                this.productfiles.map((item, index) => {
+                                    return (
+                                        // <View style={{
+                                        //     flex: 1
+                                        // }}>
+                                        <TouchableOpacity
+                                            key={index}
+                                            style={{
+                                                flexDirection: 'row',
+                                                justifyContent: 'space-between',
+                                                // flex: 1,
+                                                backgroundColor: '#E1F0FF',
+                                                marginVertical: 5,
+                                                paddingVertical: 10,
+                                                paddingHorizontal: 10,
+                                                borderRadius: 6
+                                                // overflow: 'hidden'
+
+                                            }}
+                                        >
+                                            <View style={{ paddingHorizontal: 10, backgroundColor: '#fff', alignSelf: 'center', paddingVertical: 5, borderRadius: 15, marginRight: 10 }}>
+                                                <Text style={{ color: '#4D4D6F', fontSize: 15 }}>{item.file_order}</Text>
+                                            </View>
+
+                                            <View style={{ justifyContent: 'space-around', flex: 1, flexDirection: 'row', width: Dimensions.get('window').width / 1.5, paddingHorizontal: 10 }}>
+                                                <Text style={{ color: '#4D4D6F', fontSize: 15 }}>{item.file_desc}</Text>
+                                                <Iconicon name='chevron-forward' size={25} color='#909BA6' style={{ alignSelf: 'center' }} />
+
+                                            </View>
+
+                                        </TouchableOpacity>
+                                        // </View>
+                                    )
+                                }
+
+                                    // <Text style={{ fontSize: 16, letterSpacing: 0.8 }}>{item.file_desc}</Text>
+                                )
+                            }
 
                         </View>
                         <View style={{ backgroundColor: '#D8DDE5', height: 18 }}></View>
@@ -212,13 +190,42 @@ export default class Bookdescription extends React.Component {
                                 </View>
                             </View>
                             <Text style={{ fontSize: 17, color: '#4D5156', marginBottom: 10 }}>You might enjoy these books.</Text>
+                            {/* <Text style={{ fontSize: 17, color: '#4D5156', marginBottom: 10 }}>You might enjoy these books.</Text> */}
                             <SafeAreaView>
                                 <FlatList
                                     showsHorizontalScrollIndicator={false}
                                     horizontal={true}
-                                    keyExtractor={item => item.id}
-                                    data={bookdescription.similarbooks}
-                                    renderItem={({ item }) => <Similarbookscard bookinfo={item} props={this.props} />}
+                                    keyExtractor={(item, index) => index.toString()}
+                                    data={this.props.route.params.tagdetailslist}
+                                    renderItem={({ item }) => {
+                                        // {console.log(item)}
+                                        return <Similarbookscard bookinfo={item} props={this.props} />
+                                        // <View>
+
+                                        //     <TouchableOpacity
+                                        //         style={{
+                                        //             flex: 1,
+                                        //             marginRight: 15,
+                                        //             borderRadius: 5,
+                                        //         }}
+                                        //     // onPress={() => this.props.navigation.push('Bookdescription')}
+                                        //     >
+                                        //         <View style={[{
+                                        //             borderRadius: 5,
+                                        //             paddingVertical: 15,
+                                        //             paddingHorizontal: 40,
+                                        //             marginBottom: 10
+                                        //         }, { backgroundColor: item.background }]}
+                                        //         >
+                                        //             <Image source={{ uri: item.thumbnail_url }} style={{ borderTopLeftRadius: 5, borderBottomLeftRadius: 5 }} />
+                                        //         </View>
+
+                                        //         <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'black', marginBottom: 3 }}>{item.product_name}</Text>
+                                        //         <Text style={{ color: '#4D5156', fontSize: 15, marginBottom: 3 }}>{item.author}</Text>
+                                        //         <Text style={{ color: '#4D5156', fontSize: 15 }}>Total Read {14}: Min</Text>
+                                        //     </TouchableOpacity>
+                                        // </View>
+                                    }}
                                 />
                             </SafeAreaView>
                         </View>
