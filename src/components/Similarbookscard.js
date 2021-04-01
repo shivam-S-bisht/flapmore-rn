@@ -16,7 +16,7 @@ export default class Similarbookscard extends React.Component{
                     onPress={() => this.props.props.navigation.push('Bookdescription')}
                 >
                     <View style={[styles.firstviewable, {backgroundColor: background}]}>
-                        <Image source={{uri: thumbnail_url}} style={{borderRadius: 5, left:0, right:0, top:0, bottom: 0, position: 'absolute'}} />
+                        <Image source={{uri: thumbnail_url}} style={{borderRadius: 5}} />
                     </View>
                     
                         <Text style={{fontSize: 16, fontWeight: 'bold', color: 'black', marginBottom: 3}}>{product_name.length <= 10?product_name:product_name.slice(0, 10)} ...</Text>
@@ -39,7 +39,7 @@ const styles=StyleSheet.create({
 
     firstviewable: {
         borderRadius: 5,
-
+        // height: 30, width: 30, 
         paddingVertical: 15,
         paddingHorizontal: 40,
         marginBottom: 10

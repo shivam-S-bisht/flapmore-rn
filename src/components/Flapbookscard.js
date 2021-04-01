@@ -12,7 +12,8 @@ export default class Flapbookscard extends React.Component{
             <View>
                 <TouchableOpacity
                     style={styles.toptouchable}
-                    onPress={() => this.props.props.navigation.push('Bookdescription')}
+                    onPress={() => this.props.props.props.navigation.push('Splash', {to: 'Bookdescription', from: 'Tabbars'})}
+                    // onPress={() => this.props.props.navigation.push('Splash', {to: 'Bookdescription', from: 'Tabbars'})}
                 >
                     <View style={[styles.firstviewable, {backgroundColor: background}]}>
                         <Image source={image} style={{borderTopLeftRadius: 5, borderBottomLeftRadius: 5}} />
