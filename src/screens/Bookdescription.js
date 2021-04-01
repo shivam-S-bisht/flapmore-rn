@@ -215,7 +215,7 @@ export default class Bookdescription extends React.Component {
                                                         marginRight: 15,
                                                         borderRadius: 5,
                                                     }}
-                                                    onPress={() => this.props.props.navigation.push('Splash', {to: 'Bookdescription', from: 'Tabbars'})}
+                                                    onPress={() => this.props.navigation.push('Splash', {to: 'Bookdescription', from: 'Tabbars'})}
                                                 >
                                                     <View style={[{
                                                         borderRadius: 5,

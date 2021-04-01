@@ -33,6 +33,9 @@ export default class Splash extends React.Component {
     // FIRST splash
     async splashfunc() {
 
+        // this.dummiedata().then(data => {
+        //     console.log(data)
+        // })
         // const token = await AsyncStorage.getItem('@token')
         const { found, token } = await this.gettoken()
         // this.gettoken().then(res => console.log(res))
@@ -42,7 +45,12 @@ export default class Splash extends React.Component {
             this.validatetoken(token).then(res => {
                 // console.log(res)
                 if (res == 200) {
-                    this.props.navigation.replace('Tabbars')
+
+                    this.dummiedata().then(data => {
+                        // console.log(data)
+                        this.props.navigation.replace('Tabbars', {data})
+                    })
+                    
                 }
                 else {
                     this.props.navigation.replace("LoginSignupchoose")
@@ -124,7 +132,7 @@ export default class Splash extends React.Component {
                             this.props.navigation.replace("LoginSignupchoose")
 
                         }
-                    }).catch (_ => this.props.navigation.replace("LoginSignupchoose"))
+                    }).catch(_ => this.props.navigation.replace("LoginSignupchoose"))
                 }
 
 
@@ -443,31 +451,33 @@ export default class Splash extends React.Component {
     }
 
 
-    // API CALLS -> search 
-    // async searchapifunc (category_id, tags, from, to) {
+    // API CALLS -> dynamic dummie data using tags
+    async dummiedata() {
+        const pdt = ["Fiction", "History"] //object -> list
+        var tagdetailslist = []
 
-    //     let params = {}
-    //     const token = await AsyncStorage.getItem('@token')
-    //     if (category_id) params.category_id = category_id
-    //     if (tags) params.tags = tags
+        const bgcolor = ['#EEE5C9', '#BFD2E6', '#D3EEC9', '#EEE5C9']
+        let promises = pdt.map((Object) => {
+            return new Promise(async resolve => {
+                return this.gettagdetails(Object.tag_name)
+                    .then((res) => {
 
-    //     await axios.get('/flapmore/search', {
-    //         headers: {
-    //           'Authorization': `Bearer ${token}`
-    //         },
-    //         params
-    //     }
+                        var array = res.hits.hits.map((item, index) => {
+                            return { product_id: item._id, product_name: item._source.product_name, author: item._source.author, duration: item._source.duration, thumbnail_url: item._source.thumbnail_url, background: bgcolor[index] }
+                        })
+                        tagdetailslist.push(...array)
+                        resolve("ok")
+                    }).catch(e => console.log(e))
+            })
+        })
 
-    //     ).then ((res)=> {
-    //         if (from == 'besttrendy') {
-    //             // console.log(res, '\n', JSON.stringify(res.data.hits.hits))
-    //             res.data.hits.hits.forEach(elm => {
-    //                 console.log(elm._source, "\n")
-    //             });
-    //         }
+        await Promise.all(promises)
+        tagdetailslist = tagdetailslist.slice(0, 4)
+        // console.log(tagdetailslist)
+        return tagdetailslist
 
-    //         // return res.data
-    //     }).catch (e=> console.log(e))
+    }
+
     // }
 
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, SafeAreaView, StyleSheet, Image, FlatList, ScrollView, TouchableOpacity} from 'react-native';
+import { View, Text, SafeAreaView, StyleSheet, Image, FlatList, ScrollView, TouchableOpacity } from 'react-native';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 
 import Trendyselectioncard from '../components/Trendyselectioncard';
@@ -17,26 +17,26 @@ import trendingflapbookdetails from '../infos/trendingflapbooks';
 
 
 
-export default class Home extends React.Component{
+export default class Home extends React.Component {
 
 
-    render(){
+    render() {
 
         console.log(this.props.visible)
 
-        return(
+        return (
             <SafeAreaView style={styles.topviewable}>
-                <View style={{marginBottom: 10}}>
-                    <Image source={require('../../assets/home-iconname.png')} style={{position:'absolute', top: 33, left: 20}} />
+                <View style={{ marginBottom: 10 }}>
+                    <Image source={require('../../assets/home-iconname.png')} style={{ position: 'absolute', top: 33, left: 20 }} />
 
                     <View style={styles.firstviewable}>
                         <TouchableOpacity>
-                            <Ionicon name='notifications-outline' size={24} color='#1F4966' style={{paddingHorizontal:15}} />
+                            <Ionicon name='notifications-outline' size={24} color='#1F4966' style={{ paddingHorizontal: 15 }} />
                         </TouchableOpacity>
-                        
+
                         <TouchableOpacity
-                            onPress = {() => {
-                                this.props.props.navigation.push('Splash', {to: 'Profile', from: 'Tabbars'})
+                            onPress={() => {
+                                this.props.props.navigation.push('Splash', { to: 'Profile', from: 'Tabbars' })
                             }}
                         >
                             <Ionicon name='settings-outline' size={24} color='#1F4966' />
@@ -44,95 +44,104 @@ export default class Home extends React.Component{
                     </View>
                 </View>
                 <ScrollView>
+                    {/* {console.log(this.props.props.route.params.data)} */}
 
                     <View style={styles.secondviewable}>
                         <Text style={styles.texttitle}>Free Books of the Day</Text>
                         <Text style={styles.secondtextcontent}>Best Trendy Selection</Text>
-                        <FlatList 
+                        <FlatList
                             style={styles.trendyselectionflatlist}
-                            keyExtractor={item=>item.id}
-                            data={trendycarddetails}
+                            keyExtractor={(_, index) => (index).toString()}
+                            data={this.props.props.route.params.data}
                             horizontal={true}
-                            renderItem={({item}) => <Trendyselectioncard trendycard={item} props={this.props} />}
-                            showsHorizontalScrollIndicator={false}
-                        />
-                        
-                    </View>
-                    <View style={{backgroundColor: '#D8DDE5', height: 18}}></View>
-                    <View style={styles.thirdviewable}>
-                        <Text style={[styles.texttitle, {marginBottom: 10}] }>Explore by Category</Text>
-                        <FlatList 
-                            style={styles.explorecategoryflatlist}
-                            keyExtractor={item=>item.id}
-                            data={explorecarddetails1}
-                            horizontal={true}
-                            renderItem={({item}) => <Explorecategorycard explorecard={item} props={this.props} />}
-                            showsHorizontalScrollIndicator={false}
-                        />
-                        <FlatList 
-                            // style={styles.explorecategoryflatlist}
-                            keyExtractor={item=>item.id}
-                            data={explorecarddetails2}
-                            horizontal={true}
-                            renderItem={({item}) => <Explorecategorycard explorecard={item} props={this.props} />}
-                            showsHorizontalScrollIndicator={false}
-                        />
-                    </View>
-                    <View style={{backgroundColor: '#D8DDE5', height: 18}}></View>
-                    <View style={[styles.fourthviewable]}>
-                        <View style={{justifyContent: 'space-between', flexDirection: 'row'}}>
-                            <Text style={styles.texttitle}>Free Books for you</Text>
-                            <TouchableOpacity
-                                style={{marginRight: 20}}
-                            >
-                                <Text style={{fontWeight: 'bold', fontSize: 16, color: '#3D6DFF'}}>View All</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <Text style={styles.secondtextcontent}>You might enjoy these books</Text>
-                        <FlatList 
-                            style={styles.trendyselectionflatlist}
-                            keyExtractor={item=>item.id}
-                            data={flapbookdetails}
-                            horizontal={true}
-                            renderItem={({item}) => <Flapbookscard flapcard={item} props={this.props} />}
+                            renderItem={({ item }) => <Trendyselectioncard trendycard={item} props={this.props} />}
                             showsHorizontalScrollIndicator={false}
                         />
 
                     </View>
-                    <View style={{backgroundColor: '#D8DDE5', height: 18}}></View>
-                    <View style={styles.fifthviewable}>
-                        <Text style={[styles.texttitle, {color: '#fff'}]}>Trending Picks for you</Text>
-                        <Text style={[styles.secondtextcontent, {color: '#fff', opacity: 0.3}]}>Select Trending Flapbooks</Text>
-                        <FlatList 
-                            style={styles.trendyselectionflatlist}
-                            keyExtractor={item=>item.id}
-                            data={trendingflapbookdetails}
+                    <View style={{ backgroundColor: '#D8DDE5', height: 18 }}></View>
+                    <View style={styles.thirdviewable}>
+                        <Text style={[styles.texttitle, { marginBottom: 10 }]}>Explore by Category</Text>
+                        <FlatList
+                            style={styles.explorecategoryflatlist}
+                            keyExtractor={item => item.id}
+                            data={explorecarddetails1}
                             horizontal={true}
-                            renderItem={({item}) => <Trendingflapbookscard trendingcard={item} props={this.props} />}
+                            renderItem={({ item }) => <Explorecategorycard explorecard={item} props={this.props} />}
+                            showsHorizontalScrollIndicator={false}
+                        />
+                        <FlatList
+                            // style={styles.explorecategoryflatlist}
+                            keyExtractor={item => item.id}
+                            data={explorecarddetails2}
+                            horizontal={true}
+                            renderItem={({ item }) => <Explorecategorycard explorecard={item} props={this.props} />}
                             showsHorizontalScrollIndicator={false}
                         />
                     </View>
-                    <View style={{backgroundColor: '#D8DDE5', height: 18}}></View>
-                    <View style={styles.sixthviewable}>
-                    <View style={{justifyContent: 'space-between', flexDirection: 'row'}}>
-                            <Text style={styles.texttitle}>Audio Books</Text>
+                    <View style={{ backgroundColor: '#D8DDE5', height: 18 }}></View>
+                    <View style={[styles.fourthviewable]}>
+                        <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
+                            <Text style={styles.texttitle}>Free Books for you</Text>
                             <TouchableOpacity
-                                style={{marginRight: 20}}
+                                style={{ marginRight: 20 }}
                             >
-                                <Text style={{fontWeight: 'bold', fontSize: 16, color: '#3D6DFF'}}>View All</Text>
+                                <Text style={{ fontWeight: 'bold', fontSize: 16, color: '#3D6DFF' }}>View All</Text>
                             </TouchableOpacity>
                         </View>
                         <Text style={styles.secondtextcontent}>You might enjoy these books</Text>
-                        <FlatList 
+                        {/* <FlatList
                             style={styles.trendyselectionflatlist}
-                            keyExtractor={item=>item.id}
-                            data={flapbookdetails}
+                            keyExtractor={(_, index) => index.toString()}
+                            data={this.props.props.route.params.data}
                             horizontal={true}
-                            renderItem={({item}) => <Flapbookscard flapcard={item} props={this.props} />}
+                            renderItem={({ item }) => <Flapbookscard flapcard={item} props={this.props} />}
+                            showsHorizontalScrollIndicator={false}
+                        /> */}
+                        <FlatList
+                            style={styles.trendyselectionflatlist}
+                            keyExtractor={(_, index) => index.toString()}
+                            data={this.props.props.route.params.data}
+                            horizontal={true}
+                            renderItem={({ item }) => <Flapbookscard flapcard={item} props={this.props} />}
+                            showsHorizontalScrollIndicator={false}
+                        />
+
+                    </View>
+                    <View style={{ backgroundColor: '#D8DDE5', height: 18 }}></View>
+                    <View style={styles.fifthviewable}>
+                        <Text style={[styles.texttitle, { color: '#fff' }]}>Trending Picks for you</Text>
+                        <Text style={[styles.secondtextcontent, { color: '#fff', opacity: 0.3 }]}>Select Trending Flapbooks</Text>
+                        <FlatList
+                            style={styles.trendyselectionflatlist}
+                            keyExtractor={(_, index) => index.toString()}
+                            data={this.props.props.route.params.data}
+                            horizontal={true}
+                            renderItem={({ item }) => <Trendingflapbookscard trendingcard={item} props={this.props} />}
                             showsHorizontalScrollIndicator={false}
                         />
                     </View>
-                    <View style={{backgroundColor: '#D8DDE5', height: 18}}></View>
+                    <View style={{ backgroundColor: '#D8DDE5', height: 18 }}></View>
+                    <View style={styles.sixthviewable}>
+                        <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
+                            <Text style={styles.texttitle}>Audio Books</Text>
+                            <TouchableOpacity
+                                style={{ marginRight: 20 }}
+                            >
+                                <Text style={{ fontWeight: 'bold', fontSize: 16, color: '#3D6DFF' }}>View All</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <Text style={styles.secondtextcontent}>You might enjoy these books</Text>
+                        <FlatList
+                            style={styles.trendyselectionflatlist}
+                            keyExtractor={(_, index) => index.toString()}
+                            data={this.props.props.route.params.data}
+                            horizontal={true}
+                            renderItem={({ item }) => <Flapbookscard flapcard={item} props={this.props} />}
+                            showsHorizontalScrollIndicator={false}
+                        />
+                    </View>
+                    <View style={{ backgroundColor: '#D8DDE5', height: 18 }}></View>
                     <View style={styles.seventhviewable}>
 
                     </View>
@@ -142,16 +151,16 @@ export default class Home extends React.Component{
     }
 }
 
-const styles=StyleSheet.create({
-    topviewable:{
-        flex:1, 
+const styles = StyleSheet.create({
+    topviewable: {
+        flex: 1,
         backgroundColor: 'white',
         // paddingBottom:
     },
 
     firstviewable: {
-        flexDirection:'row-reverse',
-        paddingTop:30,
+        flexDirection: 'row-reverse',
+        paddingTop: 30,
         // backgroundColor: 'red'
         // position: 'fixed'
     },
@@ -170,7 +179,7 @@ const styles=StyleSheet.create({
     secondtextcontent: {
         color: '#4D5156',
         fontSize: 16,
-        
+
     },
 
     trendyselectionflatlist: {

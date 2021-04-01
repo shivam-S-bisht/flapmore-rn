@@ -6,7 +6,7 @@ export default class Trendyselectioncard extends React.Component{
 
     render() {
 
-        const {image, title , author, totalreadtime} = this.props.trendycard;
+        const { product_name , author, duration} = this.props.trendycard;
 
         return(
             <View>
@@ -14,11 +14,18 @@ export default class Trendyselectioncard extends React.Component{
                     style={styles.toptouchable}
                     onPress={() => this.props.props.props.navigation.push('Splash', {to: 'Bookdescription', from: 'Tabbars'})}
                 >
-                    <Image source={image} style={{borderTopLeftRadius: 5, borderBottomLeftRadius: 5}} />
+
+                    {/* hardcode */}
+                    <Image source={require("../../assets/trendypic.jpg")} style={{borderTopLeftRadius: 5, borderBottomLeftRadius: 5}} />
+                    {/* hardcode */}
+
                     <View style={styles.contentviewable}>
-                        <Text style={{fontSize: 16, fontWeight: 'bold', color: '#fff', marginBottom: 10}}>{title}</Text>
+                        <Text style={{fontSize: 16, fontWeight: 'bold', color: '#fff', marginBottom: 10}}>{product_name.length <= 17 ? product_name:`${product_name.slice(0, 17)} ...`}</Text>
                         <Text style={{color: '#DCFFA8', fontSize: 15, marginBottom: 10}}>{author}</Text>
-                        <Text style={{color: '#FFF', fontSize: 15}}>Total Read {totalreadtime}: Min</Text>
+
+                        {/* hardcode */}
+                        <Text style={{color: '#FFF', fontSize: 15}}>Total Read {14}: Min</Text>
+                        {/* hardcode */}
                     </View>
                 </TouchableOpacity>
             </View>
@@ -37,6 +44,7 @@ const styles=StyleSheet.create({
 
     contentviewable: {
         padding: 10,
-        paddingTop: 20
+        paddingTop: 20,
+        flex: 1
     }
 })
