@@ -34,7 +34,11 @@ export default class Home extends React.Component{
                             <Ionicon name='notifications-outline' size={24} color='#1F4966' style={{paddingHorizontal:15}} />
                         </TouchableOpacity>
                         
-                        <TouchableOpacity>
+                        <TouchableOpacity
+                            onPress = {() => {
+                                
+                            }}
+                        >
                             <Ionicon name='settings-outline' size={24} color='#1F4966' />
                         </TouchableOpacity>
                     </View>
