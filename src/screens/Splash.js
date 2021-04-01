@@ -29,21 +29,29 @@ export default class Splash extends React.Component {
     }
 
 
-    componentWillUnmount() {
-        // this.timer && clearInterval(this.timer);
-        // this._isMounted = false;
-    }
 
     // FIRST splash
     async splashfunc() {
-        const { found, _ } = await this.gettoken()
+
+        // const token = await AsyncStorage.getItem('@token')
+        const { found, token } = await this.gettoken()
+        // this.gettoken().then(res => console.log(res))
         if (found) {
 
             // check the validity of token .......
-            //
+            this.validatetoken(token).then(res => {
+                // console.log(res)
+                if (res == 200) {
+                    this.props.navigation.replace('Tabbars')
+                }
+                else {
+                    this.props.navigation.replace("LoginSignupchoose")
+                }
+            })
+
             //
 
-            this.props.navigation.replace('Tabbars')
+
         } else {
             this.props.navigation.replace('Onboarding')
         }
@@ -53,58 +61,82 @@ export default class Splash extends React.Component {
 
     // tabbar props handler ...
     async tabbarfunc() {
-        const { to } = await this.gettoken()
+        // const { to, found } = await this.gettoken()
 
-        switch (to) {
+        // if (found) {
+        //     this.getprofiledetails().then(res => {
+        //         if (res == 200) {
+        //             this.props.navigation.replace('Tabbars')
+        //         }
+        //         else {
+        //             this.props.navigation.replace("LoginSignupchoose")
+        //         }
+        //     })
+        // }
+
+        // else{
+        //     this.props.navigation.replace("LoginSignupchoose")
+
+        // }
+
+        switch (this.props.route.params.to) {
             case "Bookdescription":
-                this.getproductdetails(2).then(productdetails => {
-                    // console.log(productdetails)
-                    this.getproductfiles(2).then(productfiles => {
-                        this.getproducttags(2).then(async producttags => {
 
-                            const pdt = Object.values(producttags) //object -> list
-                            var tagdetailslist = []
-                            // console.log("something", this.producttags)
 
-                            bgcolor = ['#EEE5C9', '#BFD2E6', '#D3EEC9', '#EEE5C9']
-                            let promises = pdt.map((Object) => {
-                                return new Promise(async resolve => {
-                                    return this.gettagdetails(Object.tag_name)
-                                        .then((res) => {
 
-                                            // console.log("promisese23r32tf", res.hits.hits.length)
-                                            var array = res.hits.hits.map((item, index) => {
-                                                // const {product_name, author, duration, thumbnail_url} = item._source
-                                                return {product_id: item._id, product_name: item._source.product_name, author: item._source.author, duration: item._source.duration, thumbnail_url: item._source.thumbnail_url, background: bgcolor[index]}
+                const { found, token } = await this.gettoken()
+                if (found) {
+                    this.validatetoken(token).then(res => {
+                        if (res == 200) {
+
+                            this.getproductdetails(2).then(productdetails => {
+                                this.getproductfiles(2).then(productfiles => {
+                                    this.getproducttags(2).then(async producttags => {
+
+                                        const pdt = Object.values(producttags) //object -> list
+                                        var tagdetailslist = []
+
+                                        const bgcolor = ['#EEE5C9', '#BFD2E6', '#D3EEC9', '#EEE5C9']
+                                        let promises = pdt.map((Object) => {
+                                            return new Promise(async resolve => {
+                                                return this.gettagdetails(Object.tag_name)
+                                                    .then((res) => {
+
+                                                        var array = res.hits.hits.map((item, index) => {
+                                                            return { product_id: item._id, product_name: item._source.product_name, author: item._source.author, duration: item._source.duration, thumbnail_url: item._source.thumbnail_url, background: bgcolor[index] }
+                                                        })
+                                                        tagdetailslist.push(...array)
+                                                        resolve("ok")
+                                                    }).catch(e => console.log(e))
                                             })
-                                            // console.log("hvbekhbekjfhbyluih", array)
-                                            tagdetailslist.push(...array)
-                                            resolve("ok")
-                                        }).catch(e => console.log(e))
+                                        })
+
+                                        await Promise.all(promises)
+
+                                        this.props.navigation.replace("Bookdescription", { productdetails, productfiles, tagdetailslist })
+
+
+                                    })
                                 })
+
                             })
+                        } else {
+                            this.props.navigation.replace("LoginSignupchoose")
 
-                            await Promise.all(promises)
-
-                            // console.log("promises: ", promises)
-                            // console.log(tagdetailslist.length)
-                            this.props.navigation.replace(to, { productdetails, productfiles, tagdetailslist })
+                        }
+                    }).catch (_ => this.props.navigation.replace("LoginSignupchoose"))
+                }
 
 
-
-                        })
-                    })
-
-                })
                 break;
+
             case "Tagscreen":
                 this.gettagdetails(this.props.route.params.tagname).then(data => {
                     this.props.navigation.replace("Tagscreen", { data, tagname: this.props.route.params.tagname })
                 })
 
-                // this.props.navigation.replace("Tagscreen", {data: tagdetails, tagname: this.props.route.params.tagname})
-
                 break;
+            case "Settings":
 
         }
 
@@ -150,17 +182,6 @@ export default class Splash extends React.Component {
 
     async getduration() {
 
-        // const background = await AsyncStorage.getItem('@background')
-        // if (background == 'true') {
-        //     // await AsyncStorage.setItem('@background', 'false')
-        //     SoundPlayer.stop()
-
-        // }
-        // SoundPlayer.loadUrl(bookdescription.playbookuri)
-        // SoundPlayer.stop()
-
-        // const info = await SoundPlayer.getInfo()
-        // console.log(info)
         var duration = bookdescription.duration;
 
         var min = Math.floor(duration / 60);
@@ -183,7 +204,7 @@ export default class Splash extends React.Component {
 
         const to = this.props.route.params.to
         if (to == 'Pdfview') {
-            this.props.navigation.replace(to, {currpage: this.props.route.params.currpage})
+            this.props.navigation.replace(to, { currpage: this.props.route.params.currpage })
 
         } else if (to == 'Musicplayer') {
 
@@ -250,14 +271,16 @@ export default class Splash extends React.Component {
     async gettoken() {
 
         const token = await AsyncStorage.getItem('@token')
+        // console.log(typeof(token))
         try {
             if (token != null) {
-                return { found: true, to: this.props.route.params.to }
+                return { found: true, to: this.props.route.params.to, token: token }
             } else {
-                return { found: false, to: 'LoginSignupchoose' }
+                return { found: false, to: 'LoginSignupchoose', token }
             }
         } catch {
-            return { found: true, to: 'Onboarding' }
+            // console.log(e)
+            return { found: true, to: 'Onboarding', token }
         }
     }
 
@@ -530,6 +553,25 @@ export default class Splash extends React.Component {
 
 
 
+    async validatetoken(token) {
+        // const token = await AsyncStorage.getItem('@token')
+
+        return await axios.get(`/flapmore-user/profile`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }
+
+        ).then((res) => {
+            // const data = res.data;
+            // console.log(res, '\n', JSON.stringify(res.data))
+            // console.log(res)
+            return res.status
+            // this.props.navigation.replace(to, {data: res.data, tagname})
+            // console.log(typeof(data))
+        }).catch(e => console.log(e))
+    }
+
 
 
 
@@ -538,15 +580,7 @@ export default class Splash extends React.Component {
         const token = await AsyncStorage.getItem('@token')
 
 
-        // try {
-        //     if (token != null) {
-        //         // return {found: true, to: this.props.route.params.to}
-        //     } else {
-        //         // return {found: false, to: 'LoginSignupchoose'}
-        //     }
-        // } catch {
-        //     return {found: true, to: 'Onboarding'}
-        // }   
+
 
         return await axios.get(`/flapmore/search?category_id=1&tags=${tagname}`, {
             headers: {
