@@ -8,7 +8,7 @@ import mycontentslibrarybooks from '../infos/mycontentslibrarybooks'
 export default class Mycontentslibrary extends React.Component {
     render() {
 
-        // console.log(this.props.d)
+        // console.log("fewoifhewf: ", this.props)
 
         return (
             <View style={styles.topviewable}>
@@ -17,8 +17,8 @@ export default class Mycontentslibrary extends React.Component {
 
                     <View style={styles.fourthviewable}>
                         <FlatList
-                            keyExtractor={item=>item.id}
-                            data={mycontentslibrarybooks}
+                            keyExtractor={(_, index) => index.toString()}
+                            data={this.props.d}
                             renderItem={({item}) => <Mycontentslibrarycard contentcard={item} />}
                             // showsVerticalScrollIndicator={false}
                         />
