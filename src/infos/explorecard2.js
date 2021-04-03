@@ -3,25 +3,37 @@ export default [
     {   
         id : '0',
         icon : require('../../assets/exploreimage.png'),
-        title : 'Biology',
+        title : 'Mythology',
     },
     
     {
         id : '1',
         icon : require('../../assets/exploreimage.png'),
-        title : 'Computer',
+        title : 'Science',
     },
     
     {
         id : '2',
         icon : require('../../assets/exploreimage.png'),
-        title : 'Motivation',
+        title : 'Technology',
     },
     
     {
         id : '3',
         icon : require('../../assets/exploreimage.png'),
-        title : 'Biology',
+        title : 'Economics',
+    },
+
+    {
+        id : '4',
+        icon : require('../../assets/exploreimage.png'),
+        title : 'Finance',
+    },
+
+    {
+        id : '5',
+        icon : require('../../assets/exploreimage.png'),
+        title : 'Biography',
     }
     
     ]

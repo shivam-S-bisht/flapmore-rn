@@ -3,25 +3,49 @@ export default [
     {   
         id : '0',
         icon : require('../../assets/exploreimage.png'),
-        title : 'Psycology',
+        title : 'Fiction',
     },
     
     {
         id : '1',
         icon : require('../../assets/exploreimage.png'),
-        title : 'Philosophy',
+        title : 'History',
     },
     
     {
         id : '2',
         icon : require('../../assets/exploreimage.png'),
-        title : 'Psycology',
+        title : 'Autobiography',
     },
     
     {
         id : '3',
         icon : require('../../assets/exploreimage.png'),
-        title : 'Philosophy',
+        title : 'Sports',
+    },
+
+    {
+        id : '4',
+        icon : require('../../assets/exploreimage.png'),
+        title : 'Geopolitics',
+    },
+
+    {
+        id : '5',
+        icon : require('../../assets/exploreimage.png'),
+        title : 'Self help',
+    },
+
+    {
+        id : '6',
+        icon : require('../../assets/exploreimage.png'),
+        title : 'Business',
+    },
+
+    {
+        id : '7',
+        icon : require('../../assets/exploreimage.png'),
+        title : 'Personal development',
     }
     
     ]

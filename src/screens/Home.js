@@ -22,7 +22,7 @@ export default class Home extends React.Component {
 
     render() {
 
-        console.log(this.props.visible)
+        // console.log(this.props.visible)
 
         return (
             <SafeAreaView style={styles.topviewable}>

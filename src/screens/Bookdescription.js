@@ -3,6 +3,7 @@ import { StyleSheet, LogBox, ScrollView, SafeAreaView, View, TouchableOpacity, I
 import SoundPlayer from 'react-native-sound';
 // import axios from 'react-native-axios';
 import Iconicon from 'react-native-vector-icons/Ionicons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 import Ionicon from 'react-native-vector-icons/Ionicons';
@@ -29,10 +30,110 @@ export default class Bookdescription extends React.Component {
     abouttheauthor = "Daniel Defoe, born Daniel Foe, was an English trader, writer, journalist, pamphleteer and spy. He is most famous for his novel Robinson Crusoe, published in 1719, which is claimed to be second only to the Bible in its number of translations"
 
 
+    async savetomycontents(bookid) {
+
+        try {
+            await AsyncStorage.getItem("@lib").then(lib => {
+                if (lib != null && "mycontent" in lib) {
+                    lib = JSON.parse(lib)
+                    if (lib.mycontent.includes(bookid)) {
+                        lib.mycontent.push(bookid)
+
+                        AsyncStorage.setItem("@lib", JSON.stringify(lib), err => {
+                            if (err) {
+                                console.log(err)
+                            } else {
+                                console.log("success")
+                            }
+                        })
+                    }
+
+                } else {
+                    lib = { mycontent: [bookid] }
+                    AsyncStorage.setItem("@lib", JSON.stringify(lib), err => {
+                        if (err) {
+                            console.log(err)
+                        } else {
+                            console.log("success")
+                        }
+                    })
+
+                }
+
+            })
+
+        } catch (e) {
+            console.log(e)
+        }
+
+
+        // testing ..... 
+
+        // try {
+        //     var lib = await AsyncStorage.getItem("@lib").then(res => {
+
+        //         console.log("saved product id", res)
+        //     })
+        // } catch (e) {
+        //     console.log(e)
+        // }
+
+    }
+
+    async savetofavourites(bookid) {
+
+        try {
+            await AsyncStorage.getItem("@lib").then(lib => {
+                if (lib != null && "fav" in lib) {
+                    lib = JSON.parse(lib)
+                    if (lib.fav.includes(bookid)) {
+                        lib.fav.push(bookid)
+
+                        AsyncStorage.setItem("@lib", JSON.stringify(lib), err => {
+                            if (err) {
+                                console.log(err)
+                            } else {
+                                console.log("success")
+                            }
+                        })
+                    }
+
+                } else {
+                    lib = { fav: [bookid] }
+                    AsyncStorage.setItem("@lib", JSON.stringify(lib), err => {
+                        if (err) {
+                            console.log(err)
+                        } else {
+                            console.log("success")
+                        }
+                    })
+
+                }
+
+            })
+
+        } catch (e) {
+            console.log(e)
+        }
+
+
+        // testing ..... 
+
+        // try {
+        //     var lib = await AsyncStorage.getItem("@lib").then(res => {
+
+        //         console.log("saved product id", res)
+        //     })
+        // } catch (e) {
+        //     console.log(e)
+        // }
+
+    }
 
 
     render() {
-        const { product_name, author, description, thumbnail_url } = this.props.route.params.productdetails
+        const { product_id, product_name, author, description, thumbnail_url } = this.props.route.params.productdetails
+        console.log("product id :", product_id)
 
         return (
             <SafeAreaView style={styles.topviewable}>
@@ -89,11 +190,17 @@ export default class Bookdescription extends React.Component {
                         <View style={styles.fourthviewable}>
                             <TouchableOpacity
                                 style={[styles.touchable, { borderColor: '#3D6DFF' }]}
-                                onPress={() => this.props.navigation.push('Splash', {
-                                    from: 'Bookdescription',
-                                    to: 'Pdfview',
-                                    currpage: 1
-                                })}
+                                onPress={() => {
+
+                                    this.savetomycontents(product_id)
+
+                                    this.props.navigation.push('Splash', {
+                                        from: 'Bookdescription',
+                                        to: 'Pdfview',
+                                        currpage: 1
+                                    })
+                                }}
+
                             >
                                 <View style={{ flexDirection: 'row' }}>
                                     <Anticon name='book' size={29} color={'#3D6DFF'} />
@@ -205,7 +312,7 @@ export default class Bookdescription extends React.Component {
                                     keyExtractor={(item, index) => index.toString()}
                                     data={this.props.route.params.tagdetailslist.slice(0, 4)}
                                     renderItem={({ item }) => {
-                                        { console.log(item.thumbnail_url) }
+                                        // { console.log(item.thumbnail_url) }
                                         return (
 
                                             <View>
@@ -215,7 +322,7 @@ export default class Bookdescription extends React.Component {
                                                         marginRight: 15,
                                                         borderRadius: 5,
                                                     }}
-                                                    onPress={() => this.props.navigation.push('Splash', {to: 'Bookdescription', from: 'Tabbars'})}
+                                                    onPress={() => this.props.navigation.push('Splash', { to: 'Bookdescription', from: 'Tabbars' })}
                                                 >
                                                     <View style={[{
                                                         borderRadius: 5,

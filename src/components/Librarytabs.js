@@ -8,6 +8,10 @@ export default class Librarytabs extends React.Component {
 
     tabname = this.props.tabs;
 
+    // componentDidMount () {
+
+    // }
+
     render() {
         if (this.tabname == 'mycontents') {
             return (
