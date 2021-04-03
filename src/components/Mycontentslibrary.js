@@ -7,6 +7,9 @@ import mycontentslibrarybooks from '../infos/mycontentslibrarybooks'
 
 export default class Mycontentslibrary extends React.Component {
     render() {
+
+        // console.log(this.props.d)
+
         return (
             <View style={styles.topviewable}>
                 <ScrollView>

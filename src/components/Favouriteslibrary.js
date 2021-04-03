@@ -7,6 +7,7 @@ import favouriteslibrarybooks from '../infos/favouriteslibrarybooks'
 
 export default class Favouriteslibrary extends React.Component {
     render() {
+        // console.log(this.props)
         return (
             <View style={styles.topviewable}>
                 <ScrollView>

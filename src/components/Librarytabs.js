@@ -13,13 +13,14 @@ export default class Librarytabs extends React.Component {
     // }
 
     render() {
+        // console.log(this.props.d)
         if (this.tabname == 'mycontents') {
             return (
-                <Mycontentslibrary />
+                <Mycontentslibrary d={this.props.d} />
             )
         } else if (this.tabname == 'favourites') {
             return (
-                <Favouriteslibrary />
+                <Favouriteslibrary d={this.props.d} />
             )
         }
     }
