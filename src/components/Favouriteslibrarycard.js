@@ -28,7 +28,7 @@ export default class Favouriteslibrarycard extends React.Component{
                         <Image source={require("../../assets/flapbookpic.png")} style={{borderTopLeftRadius: 5, borderBottomLeftRadius: 5}} />
                     </View>
                     <View style={styles.contentviewable}>
-                        <Text style={{fontSize: 16, fontWeight: 'bold', color: 'black', marginBottom: 10}}>{product_name}</Text>
+                        <Text style={{fontSize: 16, fontWeight: 'bold', color: 'black', marginBottom: 10}}>{product_name.length <=17 ? product_name : `${product_name.slice(0, 15)}...`}</Text>
                         <Text style={{color: '#4D5156', fontSize: 15, marginBottom: 10}}>{author}</Text>
 
                         

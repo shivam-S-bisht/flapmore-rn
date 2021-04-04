@@ -1,35 +1,39 @@
 import React from 'react';
-// import {View, Text, StyleSheet} from 'react-native';
+import { View, Text } from 'react-native';
 
 import Favouriteslibrary from './Favouriteslibrary';
-import  Mycontentslibrary from './Mycontentslibrary';
+import Mycontentslibrary from './Mycontentslibrary';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'react-native-axios';
+// import { View } from 'react-native';
 
 
 export default class Librarytabs extends React.Component {
 
     tabname = this.props.tabs;
-    libdata = []
+    // libdata = []
 
-    async componentDidMount () {
-
-        this._unsubscribe = this.props.props.navigation.addListener('focus', async () => {
-            await this.getalldata().then(res => {
-                this.libdata.push(res)
-            })
-            // console.log("weuigfewfguowefgwefgiowefgoiwefhio", this.libdata)
-
-        })
+    state = {
+        render: false,
+        fav: [],
+        mycontent: []
     }
 
-    
+    componentDidMount() {
+
+        this.getalldata()
+        this.setState({ render: true })
+        // console.log("fav", this.state.mycontent)
+
+    }
+
+
 
 
     async getproductdetails(productid) {
         const token = await AsyncStorage.getItem('@token')
 
-        return await axios.get(`/flapmore/product?product_id=${productid}`, {
+        return axios.get(`/flapmore/product?product_id=${productid}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -38,8 +42,7 @@ export default class Librarytabs extends React.Component {
         ).then((res) => {
 
             return Object.values(res.data)[0]
-            // })
-            // console.log(typeof(data))
+
         }).catch(e => console.log(e))
     }
 
@@ -54,26 +57,26 @@ export default class Librarytabs extends React.Component {
             var contentdatalist = []
             var favdatalist = []
 
-            await AsyncStorage.getItem("@lib").then(async lib => {
+            return AsyncStorage.getItem("@lib").then(async lib => {
                 lib = JSON.parse(lib)
 
                 // console.log("saved product id", res)
                 var promises = []
 
-                if (lib != null) {
+                if (lib) {
                     // console.log(lib)
 
                     if ("mycontent" in lib) {
                         var promises1 = lib.mycontent.map(id => {
                             // console.log(id)
                             return new Promise(async resolve => {
-                                return this.getproductdetails(id).then(res => {
+                                this.getproductdetails(id).then(res => {
+
                                     contentdatalist.push({ product_id: res.product_id, product_name: res.product_name, author: res.author, duration: res.duration, thumbnail_url: res.thumbnail_url, background: bgcolor[res.product_id % 5] })
                                     resolve("ok")
                                 })
                             })
                         })
-
                         promises.push(...promises1)
 
                     }
@@ -83,9 +86,12 @@ export default class Librarytabs extends React.Component {
                         var promises2 = lib.fav.map(id => {
                             // console.log(id)
                             return new Promise(async resolve => {
-                                return this.getproductdetails(id).then(res => {
+                                this.getproductdetails(id).then(res => {
+
+                                    // const a = this.state.fav
                                     favdatalist.push({ product_id: res.product_id, product_name: res.product_name, author: res.author, duration: res.duration, thumbnail_url: res.thumbnail_url, background: bgcolor[res.product_id % 5] })
                                     resolve("ok")
+
                                 })
                             })
                         })
@@ -97,41 +103,53 @@ export default class Librarytabs extends React.Component {
 
 
                     await Promise.all(promises)
+                    // console.log(contentdatalist,favdatalist)
+                    this.setState({ mycontent: contentdatalist })
+                    this.setState({ fav: favdatalist })
+                    return { contentdatalist, favdatalist }
 
+                } else {
+                    return { contentdatalist: [], favdatalist: [] }
                 }
-
-
-                // console.log("LIBBBb", favdatalist, "\n", contentdatalist)
-                return { contentdatalist, favdatalist }
-
-            }).catch(e => {
-                console.log(e)
-                return { contentdatalist, favdatalist }
             })
 
         } catch (e) {
             console.log(e)
-            return { contentdatalist: [], favdatalist: [] }
         }
-
-
-        // return tagdetailslist
-
     }
 
 
 
 
     render() {
-        console.log("wertyuigfdfewkjfbewfbweifsfghjk", this.libdata)
-        if (this.tabname == 'mycontents') {
+        console.log("this is render...")
+        // console.log("fav", this.state.mycontent)
+
+        if (this.state.mycontent.length) {
+            // console.log("somethingggg")
+            if (this.tabname == 'mycontents') {
+                return (
+                    <Mycontentslibrary d={this.state.mycontent} />
+                )
+            } else if (this.tabname == 'favourites') {
+                return (
+                    <Favouriteslibrary d={this.state.fav} />
+                )
+            }
+
+        } else {
+            // console.log("nothing")
             return (
-                <Mycontentslibrary d={this.libdata.mycontent} />
-            )
-        } else if (this.tabname == 'favourites') {
-            return (
-                <Favouriteslibrary d={this.libdata.fav} />
+                <View>
+                    <Text>Loading....</Text>
+                </View>
             )
         }
+
+
+
+
+
+
     }
 }

@@ -1,8 +1,9 @@
 import React from "react";
-import  {View, Text, TouchableOpacity, StyleSheet, Image, Dimensions} from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet, Image, Dimensions } from 'react-native'
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import Sound from 'react-native-sound';
 import Slider from '@react-native-community/slider';
+import axios from 'react-native-axios';
 
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import Maticon from 'react-native-vector-icons/MaterialIcons';
@@ -21,24 +22,24 @@ import bookdescription from '../infos/bookdescription';
 export default class Tabbars extends React.Component {
 
     constructor(props) {
-      super(props)
-      this.pause = this.pause.bind(this)
-    }  
-  
-  
-  state = {
-      visible: 0,
-      playertype: 's',
-      content: null,
-      isplay: null,
-      disable: true, 
-      currenttime: '--:--',
-      duration: '--:--',
+        super(props)
+        this.pause = this.pause.bind(this)
+    }
 
-      maxvalue: 9999,
-      currvalue: 0,
 
-      
+    state = {
+        visible: 0,
+        playertype: 's',
+        content: null,
+        isplay: null,
+        disable: true,
+        currenttime: '--:--',
+        duration: '--:--',
+
+        maxvalue: 9999,
+        currvalue: 0,
+
+
     }
 
     Tab = createMaterialBottomTabNavigator()
@@ -46,60 +47,60 @@ export default class Tabbars extends React.Component {
 
     componentDidMount() {
 
-      this._unsubscribe = this.props.navigation.addListener('focus', () => {
+        this._unsubscribe = this.props.navigation.addListener('focus', () => {
 
 
-        if (this.props.route.params != undefined){
+            if (this.props.route.params != undefined) {
 
-          if (this.props.route.params.from == 'Bookdescription' && this.state.isplay == null) {
-            console.log('Play')
+                if (this.props.route.params.from == 'Bookdescription' && this.state.isplay == null) {
+                    console.log('Play')
 
-            this.sound = new Sound(this.props.route.params.playbookuri, null, (e) => {
-            if (e) {
-              console.log('error loading track:', e)
-            } else {
+                    this.sound = new Sound(this.props.route.params.playbookuri, null, (e) => {
+                        if (e) {
+                            console.log('error loading track:', e)
+                        } else {
 
-                this.timer = setInterval(()=>{
-                    if (this.state.isplay || this.state.isplay == null) 
-                        this.getcurrenttime(this.state.currvalue)
-        
-                    if (this.state.currvalue>this.state.maxvalue) 
-                        clearInterval(this.timer)
-        
-                }, 1000)
+                            this.timer = setInterval(() => {
+                                if (this.state.isplay || this.state.isplay == null)
+                                    this.getcurrenttime(this.state.currvalue)
+
+                                if (this.state.currvalue > this.state.maxvalue)
+                                    clearInterval(this.timer)
+
+                            }, 1000)
 
 
-                this.initiatestate()
-                this.sound.play()
-                this.setState({visible: 1})
+                            this.initiatestate()
+                            this.sound.play()
+                            this.setState({ visible: 1 })
+                        }
+                    })
+
+
+                }
+
             }
-          })
 
-            
-          }
-          
-        }
-        
-      });
+        });
     }
 
 
 
-    play () {
+    play() {
         // this.setState({isplay: 1})
         this.sound.play()
     }
 
 
-    pause () {
+    pause() {
         // this.setState({isplay: 0})
         // console.log(this.state)
         this.sound.pause()
     }
 
-      
 
-    seekbook (val) {
+
+    seekbook(val) {
         this.pause()
         this.sound.setCurrentTime(val)
         this.getcurrenttime(val)
@@ -107,12 +108,12 @@ export default class Tabbars extends React.Component {
 
 
 
-    getcurrenttime (val) {
+    getcurrenttime(val) {
 
-        var currvalue = val+1;
+        var currvalue = val + 1;
 
-        var min = Math.floor(currvalue/60);
-        var sec = Math.floor(currvalue%60);
+        var min = Math.floor(currvalue / 60);
+        var sec = Math.floor(currvalue % 60);
 
         if (`${min}`.length == 1) {
             min = `0${min}`
@@ -122,19 +123,19 @@ export default class Tabbars extends React.Component {
             sec = `0${sec}`
         }
         // console.log(this.state.currvalue)
-        this.setState({currenttime: `${min}:${sec}`, currvalue, disable: false})
+        this.setState({ currenttime: `${min}:${sec}`, currvalue, disable: false })
     }
 
 
-    async initiatestate () {    // get and set duration and max value initially
-        
-        try{
-           setTimeout(async ()=> {
+    async initiatestate() {    // get and set duration and max value initially
+
+        try {
+            setTimeout(async () => {
                 const duration = await this.sound.getDuration()
 
                 // console.log(duration)
-                var min = Math.floor(duration/60);
-                var sec = Math.floor(duration%60);
+                var min = Math.floor(duration / 60);
+                var sec = Math.floor(duration % 60);
 
                 if (`${min}`.length == 1) {
                     min = `0${min}`
@@ -144,10 +145,10 @@ export default class Tabbars extends React.Component {
                     sec = `0${sec}`
                 }
 
-                this.setState({duration: `${min}:${sec}`, maxvalue: duration})
+                this.setState({ duration: `${min}:${sec}`, maxvalue: duration })
 
-            },2000)
-            
+            }, 2000)
+
         } catch (e) {
             console.log(`error : ${e}`)
         }
@@ -157,89 +158,89 @@ export default class Tabbars extends React.Component {
 
 
 
-    Smallplayer () {
-      return (
-        <View
-            style={{backgroundColor: '#383854', paddingHorizontal: 10, height: 60, justifyContent: 'center'}}
-        >
-          <TouchableOpacity
-            onPress={()=> {
-              this.setState({playertype: 'l'})
-
-            }}
-          >
-            
-
-
+    Smallplayer() {
+        return (
             <View
-                style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}
+                style={{ backgroundColor: '#383854', paddingHorizontal: 10, height: 60, justifyContent: 'center' }}
             >
+                <TouchableOpacity
+                    onPress={() => {
+                        this.setState({ playertype: 'l' })
 
-
-            <View
-                style={{flexDirection: 'row', alignItems: 'center'}}
-            >
-                <Image 
-                    source={bookdescription.image}
-                    style={{height: 50,width: 65, borderRadius: 5}}
-                />
-                <View
-                    style={{paddingHorizontal: 15}}
+                    }}
                 >
-                    <Text style={{color: '#FFF', fontSize: 18}}>{(bookdescription.title).length > 15?`${(bookdescription.title).slice(0, 13)}...`:bookdescription.title}</Text>
-                    <Text style={{color: '#7A7A97', fontSize: 15}}>Now Playing...</Text>
-                </View>
-            </View>
 
 
-                <View
-                    style={{flexDirection: 'row'}}
-                >
-                    <TouchableOpacity
-                        onPress={()=> {
-                            const isplay = this.state.isplay;
-                            if (isplay || isplay == null) {
-                                this.setState({isplay: 0})
-                                this.pause()
-                            } else {
-                                this.setState({isplay: 1})
-                                this.play()
-                            }
-                        }}
 
-                        style={{backgroundColor: '#3D6DFF',  height: 40, borderRadius: 80, width: 40, alignItems: 'center', justifyContent: 'center', margin: 10}}
+                    <View
+                        style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}
                     >
-                        <Maticon name={(this.state.isplay == null || this.state.isplay)? 'pause': 'play-arrow'} size={25} color='#fff' />
-                    </TouchableOpacity>
-                
 
-                
-                    <TouchableOpacity
-                        // onPress={()=> {
-                        //     const isplay = this.state.isplay;
-                        //     if (isplay || isplay == null) {
-                        //         this.setState({isplay: 0})
-                        //         this.pause()
-                        //     } else {
-                        //         this.setState({isplay: 1})
-                        //         this.play()
-                        //     }
-                        // }}
 
-                        style={{alignItems: 'center', justifyContent: 'center', margin: 10}}
-                    >
-                        <Maticon name='replay-10' size={35} color='#fff' />
-                    </TouchableOpacity>
-                
-                </View>
-                
-                
+                        <View
+                            style={{ flexDirection: 'row', alignItems: 'center' }}
+                        >
+                            <Image
+                                source={bookdescription.image}
+                                style={{ height: 50, width: 65, borderRadius: 5 }}
+                            />
+                            <View
+                                style={{ paddingHorizontal: 15 }}
+                            >
+                                <Text style={{ color: '#FFF', fontSize: 18 }}>{(bookdescription.title).length > 15 ? `${(bookdescription.title).slice(0, 13)}...` : bookdescription.title}</Text>
+                                <Text style={{ color: '#7A7A97', fontSize: 15 }}>Now Playing...</Text>
+                            </View>
+                        </View>
 
-            </View>
 
-          </TouchableOpacity>
+                        <View
+                            style={{ flexDirection: 'row' }}
+                        >
+                            <TouchableOpacity
+                                onPress={() => {
+                                    const isplay = this.state.isplay;
+                                    if (isplay || isplay == null) {
+                                        this.setState({ isplay: 0 })
+                                        this.pause()
+                                    } else {
+                                        this.setState({ isplay: 1 })
+                                        this.play()
+                                    }
+                                }}
 
-          {/* <TouchableOpacity
+                                style={{ backgroundColor: '#3D6DFF', height: 40, borderRadius: 80, width: 40, alignItems: 'center', justifyContent: 'center', margin: 10 }}
+                            >
+                                <Maticon name={(this.state.isplay == null || this.state.isplay) ? 'pause' : 'play-arrow'} size={25} color='#fff' />
+                            </TouchableOpacity>
+
+
+
+                            <TouchableOpacity
+                                // onPress={()=> {
+                                //     const isplay = this.state.isplay;
+                                //     if (isplay || isplay == null) {
+                                //         this.setState({isplay: 0})
+                                //         this.pause()
+                                //     } else {
+                                //         this.setState({isplay: 1})
+                                //         this.play()
+                                //     }
+                                // }}
+
+                                style={{ alignItems: 'center', justifyContent: 'center', margin: 10 }}
+                            >
+                                <Maticon name='replay-10' size={35} color='#fff' />
+                            </TouchableOpacity>
+
+                        </View>
+
+
+
+                    </View>
+
+                </TouchableOpacity>
+
+                {/* <TouchableOpacity
               onPress={()=> {
                 this.setState({isplay: 0})
                 this.pause()
@@ -247,14 +248,14 @@ export default class Tabbars extends React.Component {
           >
             <Text>Pause</Text>
           </TouchableOpacity> */}
-        </View>
-      )
+            </View>
+        )
     }
 
 
 
 
-    Musicplayer () {
+    Musicplayer() {
         return (
             <View
                 style={styles.topviewable}
@@ -264,34 +265,34 @@ export default class Tabbars extends React.Component {
                 >
                     <View
                         style={{
-                            position: 'absolute',    
+                            position: 'absolute',
                         }}
                     >
                         <TouchableOpacity
-                            onPress={()=> {
-                                this.setState({playertype: 's'})
+                            onPress={() => {
+                                this.setState({ playertype: 's' })
                             }}
                         >
                             <Ionicon name='chevron-down' size={30} color='#fff' />
                         </TouchableOpacity>
-                    </View>   
-                    
-                    
-                        <Text
-                            style={{
-                                fontSize: 20, 
-                                fontWeight: 'bold', 
-                                color: '#fff',
-                                alignSelf: 'center'
-                            }}
-                        >Audio Book</Text>
-                    
+                    </View>
+
+
+                    <Text
+                        style={{
+                            fontSize: 20,
+                            fontWeight: 'bold',
+                            color: '#fff',
+                            alignSelf: 'center'
+                        }}
+                    >Audio Book</Text>
+
                 </View>
 
                 <View
                     style={styles.secondviewable}
                 >
-                    <Image 
+                    <Image
                         source={bookdescription.image}
                     />
                 </View>
@@ -315,7 +316,7 @@ export default class Tabbars extends React.Component {
                         }}
                     >{bookdescription.author}</Text>
                 </View>
-                
+
                 <View
                     style={styles.fourthviewable}
                 >
@@ -325,23 +326,23 @@ export default class Tabbars extends React.Component {
                     <TouchableOpacity
                         disabled={this.state.disable}
                         style={{
-                            borderRadius: 30 
+                            borderRadius: 30
                         }}
 
-                        onPress={()=>{
+                        onPress={() => {
 
                             const isplay = this.state.isplay;
                             if (isplay || isplay == null) {
-                                this.setState({isplay: 0})
+                                this.setState({ isplay: 0 })
                                 this.pause()
                             } else {
-                                this.setState({isplay: 1})
+                                this.setState({ isplay: 1 })
                                 this.play()
                             }
 
                         }}
-                    >   
-                        <Anticon name={(this.state.isplay == null || this.state.isplay)? 'pausecircle': 'play'} size={50} color='#3D6DFF' />
+                    >
+                        <Anticon name={(this.state.isplay == null || this.state.isplay) ? 'pausecircle' : 'play'} size={50} color='#3D6DFF' />
                     </TouchableOpacity>
                     <TouchableOpacity>
                         <Ionicon name='play-skip-forward-outline' size={30} color='#72889D' />
@@ -352,7 +353,7 @@ export default class Tabbars extends React.Component {
                         styles.fifthviewable
                     }
                 >
-                    <Slider 
+                    <Slider
                         minimumValue={0}
                         maximumValue={this.state.maxvalue}
                         minimumTrackTintColor="#3D6DFF"
@@ -360,12 +361,12 @@ export default class Tabbars extends React.Component {
                         maximumTrackTintColor='#72889D'
                         trackImage='#35355E'
                         value={this.state.currvalue}
-                        onValueChange={(val)=> {
-                            this.setState({currvalue: val, isplay: 0})
+                        onValueChange={(val) => {
+                            this.setState({ currvalue: val, isplay: 0 })
                             this.seekbook(val)
                         }}
                     />
-                    <View 
+                    <View
                         style={{
                             flexDirection: 'row',
                             justifyContent: 'space-between',
@@ -396,68 +397,68 @@ export default class Tabbars extends React.Component {
 
 
 
-    render () {
-        
+    render() {
+
         return (
-          <View style={{flex: 1, backgroundColor: 'red'}}>
-          
+            <View style={{ flex: 1, backgroundColor: 'red' }}>
 
-            <this.Tab.Navigator
-                
-                initialRouteName='Home'
-                activeColor='#fff'
-                inactiveColor='#7B84AC'
-                barStyle={{backgroundColor:'#151522', height: 60}}
-                screenOptions={({ route }) => ({
-                tabBarIcon: ({ focused, color, _ }) => {
-                    let iconName;
-                    
-                    if (route.name === 'Home') {
-                    iconName = focused ? 'ios-home-sharp' : 'ios-home-outline';
-                    return <Ionicon name={iconName} size={24} color={color} />;
-                    
-                    } else if (route.name === 'Explore') {
-                    iconName = focused ? 'ios-search' : 'ios-search-outline';
-                    return <Ionicon name={iconName} size={24} color={color} />;
-                    
-                    } else if (route.name === 'Library') {
-                    iconName = focused ? 'bookmark' : 'bookmark-o';
-                    return <FontAwesomeIcon name={iconName} size={24} color={color} />;
-                    
-                    }
-                },
-                })}
+
+                <this.Tab.Navigator
+
+                    initialRouteName='Home'
+                    activeColor='#fff'
+                    inactiveColor='#7B84AC'
+                    barStyle={{ backgroundColor: '#151522', height: 60 }}
+                    screenOptions={({ route }) => ({
+                        tabBarIcon: ({ focused, color, _ }) => {
+                            let iconName;
+
+                            if (route.name === 'Home') {
+                                iconName = focused ? 'ios-home-sharp' : 'ios-home-outline';
+                                return <Ionicon name={iconName} size={24} color={color} />;
+
+                            } else if (route.name === 'Explore') {
+                                iconName = focused ? 'ios-search' : 'ios-search-outline';
+                                return <Ionicon name={iconName} size={24} color={color} />;
+
+                            } else if (route.name === 'Library') {
+                                iconName = focused ? 'bookmark' : 'bookmark-o';
+                                return <FontAwesomeIcon name={iconName} size={24} color={color} />;
+
+                            }
+                        },
+                    })}
                 >
-                <this.Tab.Screen 
-                    name='Home' 
-                    children={()=> <Home props={this.props} visible={this.state.visible}  />}
+                    <this.Tab.Screen
+                        name='Home'
+                        children={() => <Home props={this.props} visible={this.state.visible} />}
                     />
-                <this.Tab.Screen 
-                    name='Explore' 
-                    component={Explore} 
+                    <this.Tab.Screen
+                        name='Explore'
+                        component={Explore}
                     />
-                <this.Tab.Screen 
-                    name='Library' 
-                    component={Library} 
+                    <this.Tab.Screen
+                        name='Library'
+                        component={() => <Library />}
                     />
-            </this.Tab.Navigator>
+                </this.Tab.Navigator>
 
-            {this.state.visible? <View style={{position: 'absolute', bottom: this.state.playertype == 's'?60:0, left: 0, right: 0}}>
-                {this.state.playertype == 's'? this.Smallplayer(): this.Musicplayer()}
-            </View> : null}
-            
+                {this.state.visible ? <View style={{ position: 'absolute', bottom: this.state.playertype == 's' ? 60 : 0, left: 0, right: 0 }}>
+                    {this.state.playertype == 's' ? this.Smallplayer() : this.Musicplayer()}
+                </View> : null}
 
-              
-          </View>
+
+
+            </View>
 
         )
     }
 }
 
 
-const styles = StyleSheet.create ({
+const styles = StyleSheet.create({
     topviewable: {
-        
+
         paddingVertical: 60,
         // position: 'absolute',
         paddingHorizontal: 20,
