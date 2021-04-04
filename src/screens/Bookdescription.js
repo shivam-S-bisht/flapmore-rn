@@ -34,9 +34,9 @@ export default class Bookdescription extends React.Component {
 
         try {
             await AsyncStorage.getItem("@lib").then(lib => {
+                lib = JSON.parse(lib)
                 if (lib != null && "mycontent" in lib) {
-                    lib = JSON.parse(lib)
-                    if (lib.mycontent.includes(bookid)) {
+                    if (!lib.mycontent.includes(bookid)) {
                         lib.mycontent.push(bookid)
 
                         AsyncStorage.setItem("@lib", JSON.stringify(lib), err => {
@@ -49,7 +49,7 @@ export default class Bookdescription extends React.Component {
                     }
 
                 } else {
-                    lib = { mycontent: [bookid] }
+                    lib["mycontent"] = [bookid]
                     AsyncStorage.setItem("@lib", JSON.stringify(lib), err => {
                         if (err) {
                             console.log(err)
@@ -67,16 +67,6 @@ export default class Bookdescription extends React.Component {
         }
 
 
-        // testing ..... 
-
-        // try {
-        //     var lib = await AsyncStorage.getItem("@lib").then(res => {
-
-        //         console.log("saved product id", res)
-        //     })
-        // } catch (e) {
-        //     console.log(e)
-        // }
 
     }
 
@@ -84,9 +74,9 @@ export default class Bookdescription extends React.Component {
 
         try {
             await AsyncStorage.getItem("@lib").then(lib => {
-                if (lib != null && "fav" in lib) {
-                    lib = JSON.parse(lib)
-                    if (lib.fav.includes(bookid)) {
+                lib = JSON.parse(lib)
+                if (lib != null && typeof (lib) == Object && "fav" in lib) {
+                    if (!lib.fav.includes(bookid)) {
                         lib.fav.push(bookid)
 
                         AsyncStorage.setItem("@lib", JSON.stringify(lib), err => {
@@ -99,7 +89,7 @@ export default class Bookdescription extends React.Component {
                     }
 
                 } else {
-                    lib = { fav: [bookid] }
+                    lib["fav"] = [bookid]
                     AsyncStorage.setItem("@lib", JSON.stringify(lib), err => {
                         if (err) {
                             console.log(err)
@@ -116,17 +106,6 @@ export default class Bookdescription extends React.Component {
             console.log(e)
         }
 
-
-        // testing ..... 
-
-        // try {
-        //     var lib = await AsyncStorage.getItem("@lib").then(res => {
-
-        //         console.log("saved product id", res)
-        //     })
-        // } catch (e) {
-        //     console.log(e)
-        // }
 
     }
 
@@ -151,6 +130,9 @@ export default class Bookdescription extends React.Component {
                         <View style={{ marginHorizontal: 20 }}>
                             <TouchableOpacity
                                 onPress={() => {
+
+                                    this.savetofavourites(product_id)
+
                                     if (this.state.bookmarked) {
                                         this.setState({ bookmarked: 0 })
                                     } else {

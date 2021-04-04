@@ -439,7 +439,7 @@ export default class Tabbars extends React.Component {
                     />
                     <this.Tab.Screen
                         name='Library'
-                        component={() => <Library />}
+                        component={() => <Library props={this.props} />}
                     />
                 </this.Tab.Navigator>
 

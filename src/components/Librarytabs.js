@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Dimensions} from 'react-native';
 
 import Favouriteslibrary from './Favouriteslibrary';
 import Mycontentslibrary from './Mycontentslibrary';
@@ -16,7 +16,8 @@ export default class Librarytabs extends React.Component {
     state = {
         render: false,
         fav: [],
-        mycontent: []
+        mycontent: [],
+        change: null
     }
 
     componentDidMount() {
@@ -59,8 +60,8 @@ export default class Librarytabs extends React.Component {
 
             return AsyncStorage.getItem("@lib").then(async lib => {
                 lib = JSON.parse(lib)
-
-                // console.log("saved product id", res)
+                // con
+                // console.log("saved product id", lib)
                 var promises = []
 
                 if (lib) {
@@ -119,29 +120,80 @@ export default class Librarytabs extends React.Component {
     }
 
 
+    handlechange(libres, product_id) {
+        AsyncStorage.getItem("@lib").then(async lib => {
+            lib = JSON.parse(lib)
+
+            if (libres == "mycontent") {
+                let indextobedeleted = lib["mycontent"].indexOf(product_id)
+                lib["mycontent"] = lib["mycontent"].filter((val, index) => {
+                    if (index != indextobedeleted){
+                      return val
+                    }})
+                
+
+                console.log(lib)
+
+                AsyncStorage.setItem("@lib", JSON.stringify(lib), err => {
+                    if (err) {
+                        console.log(err)
+                    } else {
+                        console.log("success")
+                    }
+                })
+            } 
+            
+            
+            
+            else if (libres == "fav") {
+                let indextobedeleted = lib["fav"].indexOf(product_id)
+                lib["fav"] = lib["fav"].filter((val, index) => {
+                    if (index != indextobedeleted){
+                      return val
+                    }})
+                
+
+                // console.log(lib)
+
+                AsyncStorage.setItem("@lib", JSON.stringify(lib), err => {
+                    if (err) {
+                        console.log(err)
+                    } else {
+                        console.log("success")
+                    }
+                })
+            }
+            this.getalldata()
+        })
+    }
+
+
 
 
     render() {
+        // console.log("______________________++++++++++++++++++++++++++++>>>>>>>>>>>>>>>>>>>>>>", this.props.props)
         // console.log("this is render...")
         // console.log("fav", this.state.mycontent)
 
-        if (this.state.mycontent.length) {
+
+        if (this.state.mycontent.length || this.state.fav.length) {
             // console.log("somethingggg")
             if (this.tabname == 'mycontents') {
                 return (
-                    <Mycontentslibrary d={this.state.mycontent} />
+
+                    <Mycontentslibrary d={this.state.mycontent} props={this.props.props} handlechange={this.handlechange.bind(this)} />
                 )
             } else if (this.tabname == 'favourites') {
                 return (
-                    <Favouriteslibrary d={this.state.fav} />
+                    <Favouriteslibrary d={this.state.fav} props={this.props.props} handlechange={this.handlechange.bind(this)} />
                 )
             }
 
         } else {
             // console.log("nothing")
             return (
-                <View>
-                    <Text>Loading....</Text>
+                <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1, width: Dimensions.get("window").width }}>
+                    <Text style={{ fontSize: 17 }}>No results to show :/</Text>
                 </View>
             )
         }

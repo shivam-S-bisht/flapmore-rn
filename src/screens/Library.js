@@ -84,6 +84,7 @@ export default class Library extends React.Component {
     render() {
 
         // const libdata = this.getalldata()
+        // console.log("w+++++++++++++++>>>>>>>>>>>>>>>>", this.props.props)
 
 
         return (
@@ -115,7 +116,7 @@ export default class Library extends React.Component {
                     <FlatList
                         keyExtractor={(_, index) => index.toString()}
                         data={[{ content: 'mycontents' }, { content: 'favourites'}]}
-                        renderItem={({ item }) => <Librarytabs tabs={item.content} props={this.props} />}
+                        renderItem={({ item }) => <Librarytabs tabs={item.content} props={this.props.props} />}
                         horizontal={true}
                         showsHorizontalScrollIndicator={false}
                         decelerationRate={'fast'}
