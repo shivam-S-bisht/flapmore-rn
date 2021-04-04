@@ -435,7 +435,7 @@ export default class Tabbars extends React.Component {
                     />
                     <this.Tab.Screen
                         name='Explore'
-                        component={Explore}
+                        component={() => <Explore props={this.props} />}
                     />
                     <this.Tab.Screen
                         name='Library'

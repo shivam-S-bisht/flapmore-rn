@@ -84,8 +84,8 @@ export default class Explore extends React.Component{
 
                     <View style={styles.fourthviewable}>
                         <FlatList
-                            keyExtractor={item=>item.id}
-                            data={exploretabflapbooks}
+                            keyExtractor={(_, index) => index.toString()}
+                            data={this.props.props.route.params.data}
                             renderItem={({item}) => <Exploretabflapbookscard explorecard={item} />}
                             // showsHorizontalScrollIndicator={false}
                         />

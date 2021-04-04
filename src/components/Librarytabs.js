@@ -122,7 +122,7 @@ export default class Librarytabs extends React.Component {
 
 
     render() {
-        console.log("this is render...")
+        // console.log("this is render...")
         // console.log("fav", this.state.mycontent)
 
         if (this.state.mycontent.length) {

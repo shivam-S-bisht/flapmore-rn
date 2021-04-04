@@ -6,7 +6,7 @@ export default class Flapbookscard extends React.Component{
 
     render() {
         const { product_name , author, duration, background} = this.props.flapcard;
-        console.log(this.props)
+        // console.log(this.props)
 
         return(
             <View>

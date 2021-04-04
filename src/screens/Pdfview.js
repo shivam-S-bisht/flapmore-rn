@@ -43,7 +43,7 @@ class Pdfview extends React.Component {
             console.log(error);
           }}
           onPressLink={(uri) => {
-            console.log(`Link presse: ${uri}`)
+            console.log(`Link press: ${uri}`)
           }}
           page={this.state.currpage}
           enablePaging={true}

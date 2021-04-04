@@ -13,9 +13,9 @@ import Librarytabs from '../components/Librarytabs';
 export default class Library extends React.Component {
 
 
-    componentDidMount () {
-        console.log("uwegfiuwgfh", this.props)
-    }
+    // componentDidMount () {
+    //     console.log("uwegfiuwgfh", this.props)
+    // }
 
     state = {
         whichone: 0,
