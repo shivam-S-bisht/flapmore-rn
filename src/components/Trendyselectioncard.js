@@ -12,7 +12,10 @@ export default class Trendyselectioncard extends React.Component{
             <View>
                 <TouchableOpacity
                     style={styles.toptouchable}
-                    onPress={() => this.props.props.props.navigation.push('Splash', {to: 'Bookdescription', from: 'Tabbars'})}
+                    onPress={() => {
+                        // console.log(this.props.props)
+                        this.props.props.props.navigation.push('Splash', {to: 'Bookdescription', from: 'Tabbars'})
+                    }}
                 >
 
                     {/* hardcode */}

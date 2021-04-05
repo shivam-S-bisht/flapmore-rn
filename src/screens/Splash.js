@@ -91,7 +91,7 @@ export default class Splash extends React.Component {
             case "Bookdescription":
 
 
-
+                // console.log(this.props.route.params)
                 const { found, token } = await this.gettoken()
                 if (found) {
                     this.validatetoken(token).then(res => {
@@ -109,7 +109,7 @@ export default class Splash extends React.Component {
                                             return new Promise(async resolve => {
                                                 return this.gettagdetails(Object.tag_name)
                                                     .then((res) => {
-
+                                                        console.log("wefufewoihweofihweofihewofih")
                                                         var array = res.hits.hits.map((item, index) => {
                                                             return { product_id: item._id, product_name: item._source.product_name, author: item._source.author, duration: item._source.duration, thumbnail_url: item._source.thumbnail_url, background: bgcolor[index] }
                                                         })
@@ -212,7 +212,8 @@ export default class Splash extends React.Component {
 
         const to = this.props.route.params.to
         if (to == 'Pdfview') {
-            this.props.navigation.replace(to, { currpage: this.props.route.params.currpage })
+            console.log(this.props.route.params)
+            this.props.navigation.replace(to, { currpage: this.props.route.params.currpage})
 
         } else if (to == 'Musicplayer') {
 

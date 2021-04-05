@@ -39,6 +39,10 @@ export default class Tabbars extends React.Component {
         maxvalue: 9999,
         currvalue: 0,
 
+        // homestate: null,
+        explorestate: false,
+        libstate: false,
+        // changestate: false
 
     }
 
@@ -46,10 +50,16 @@ export default class Tabbars extends React.Component {
     // sound = null
 
     componentDidMount() {
+        // ++++++++++++++++++++++
+        // this.props.navigation.setParams({
+        //     taponlib: () => {
+        //         console.log("++++++++++++++++++++++++++++++++++++++++++++++")
+        //     }
+        //   })
 
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
 
-
+            // console.log("------------------------------------>>>>>>>>>>>>>>>>>>>>>>>>")
             if (this.props.route.params != undefined) {
 
                 if (this.props.route.params.from == 'Bookdescription' && this.state.isplay == null) {
@@ -362,6 +372,8 @@ export default class Tabbars extends React.Component {
                         trackImage='#35355E'
                         value={this.state.currvalue}
                         onValueChange={(val) => {
+
+                            // console.log(this.sound.getDuration())
                             this.setState({ currvalue: val, isplay: 0 })
                             this.seekbook(val)
                         }}
@@ -395,6 +407,21 @@ export default class Tabbars extends React.Component {
 
 
 
+    // pingstate(screen, val) {
+    //     switch (screen) {
+    //         case "Home": this.setState({ homestate: val }); break;
+    //         case "Explore": this.setState({ explorestate: val }); break;
+    //         case "Library": this.setState({ libstate: val }); break;
+    //     }
+
+    //     console.log(this.state.libstate)
+
+    // }
+
+    changelibstate (val) {
+        this.setState({libstate: val})
+    }
+
 
 
     render() {
@@ -426,20 +453,51 @@ export default class Tabbars extends React.Component {
                                 return <FontAwesomeIcon name={iconName} size={24} color={color} />;
 
                             }
-                        },
+                        }
                     })}
                 >
                     <this.Tab.Screen
                         name='Home'
                         children={() => <Home props={this.props} visible={this.state.visible} />}
+                        listeners={{
+                            tabPress: () => {
+                                // let x = this.state.libstate
+                                // Prevent default action
+                                //   e.preventDefault();
+                                // console.log("++++++++++++++++++++++++++++++++++")
+                                this.setState({ libstate: false, explorestate: false })
+                            }
+                        }}
                     />
                     <this.Tab.Screen
                         name='Explore'
-                        component={() => <Explore props={this.props} />}
+                        children={() => <Explore props={this.props} explorestate={this.state.explorestate} />}
+                        listeners={{
+                            tabPress: () => {
+                                // let x = this.state.explore
+                                // Prevent default action
+                                //   e.preventDefault();
+                                // console.log("++++++++++++++++++++++++++++++++++")
+                                this.setState({ libstate: false, explorestate: true })
+                            }
+                        }}
                     />
+
+
                     <this.Tab.Screen
                         name='Library'
-                        component={() => <Library props={this.props} />}
+                        children={() => <Library {...this.props} libstate={this.state.libstate} changelibstate={this.changelibstate.bind(this)} />}
+                        // onPress={() => console.log("++++++++++++++++++++>>>>>>>>>>>>>>")}
+                        listeners={{
+                            tabPress: () => {
+                                // let x = this.state.libstate
+                                // Prevent default action
+                                //   e.preventDefault();
+                                // console.log("++++++++++++++++++++++++++++++++++")
+                                this.setState({ libstate: true, explorestate: false })
+                            }
+                        }}
+
                     />
                 </this.Tab.Navigator>
 

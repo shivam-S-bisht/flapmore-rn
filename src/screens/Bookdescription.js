@@ -30,6 +30,12 @@ export default class Bookdescription extends React.Component {
     abouttheauthor = "Daniel Defoe, born Daniel Foe, was an English trader, writer, journalist, pamphleteer and spy. He is most famous for his novel Robinson Crusoe, published in 1719, which is claimed to be second only to the Bible in its number of translations"
 
 
+    componentDidMount () {
+        this.isfavourite()
+    }
+
+
+
     async savetomycontents(bookid) {
 
         try {
@@ -109,6 +115,18 @@ export default class Bookdescription extends React.Component {
 
     }
 
+    async isfavourite() {
+        await AsyncStorage.getItem("@lib").then(lib => {
+            lib = JSON.parse(lib)
+            if (lib != null && typeof (lib) == Object && "fav" in lib) {
+                if (lib.fav.includes(this.props.route.params.productdetails.product_id)) {
+                    this.setState({bookmarked: 1})
+                }
+
+            }
+        }
+        )
+    }
 
     render() {
         const { product_id, product_name, author, description, thumbnail_url } = this.props.route.params.productdetails
@@ -175,7 +193,7 @@ export default class Bookdescription extends React.Component {
                                 onPress={() => {
 
                                     this.savetomycontents(product_id)
-
+                                    // this.props.route.params.pingstate("library", 1)
                                     this.props.navigation.push('Splash', {
                                         from: 'Bookdescription',
                                         to: 'Pdfview',

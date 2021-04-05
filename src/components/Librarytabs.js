@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Dimensions} from 'react-native';
+import { View, Text, Dimensions } from 'react-native';
 
 import Favouriteslibrary from './Favouriteslibrary';
 import Mycontentslibrary from './Mycontentslibrary';
@@ -21,9 +21,12 @@ export default class Librarytabs extends React.Component {
     }
 
     componentDidMount() {
+        
 
         this.getalldata()
         this.setState({ render: true })
+
+        // console.log("PPPPPPPPPPPPPPPPPPPPPPPP")
         // console.log("fav", this.state.mycontent)
 
     }
@@ -107,6 +110,8 @@ export default class Librarytabs extends React.Component {
                     // console.log(contentdatalist,favdatalist)
                     this.setState({ mycontent: contentdatalist })
                     this.setState({ fav: favdatalist })
+
+                    this.props.props.changelibstate(false)
                     return { contentdatalist, favdatalist }
 
                 } else {
@@ -127,12 +132,13 @@ export default class Librarytabs extends React.Component {
             if (libres == "mycontent") {
                 let indextobedeleted = lib["mycontent"].indexOf(product_id)
                 lib["mycontent"] = lib["mycontent"].filter((val, index) => {
-                    if (index != indextobedeleted){
-                      return val
-                    }})
-                
+                    if (index != indextobedeleted) {
+                        return val
+                    }
+                })
 
-                console.log(lib)
+
+                // console.log(lib)
 
                 AsyncStorage.setItem("@lib", JSON.stringify(lib), err => {
                     if (err) {
@@ -141,17 +147,18 @@ export default class Librarytabs extends React.Component {
                         console.log("success")
                     }
                 })
-            } 
-            
-            
-            
+            }
+
+
+
             else if (libres == "fav") {
                 let indextobedeleted = lib["fav"].indexOf(product_id)
                 lib["fav"] = lib["fav"].filter((val, index) => {
-                    if (index != indextobedeleted){
-                      return val
-                    }})
-                
+                    if (index != indextobedeleted) {
+                        return val
+                    }
+                })
+
 
                 // console.log(lib)
 
@@ -171,21 +178,29 @@ export default class Librarytabs extends React.Component {
 
 
     render() {
-        // console.log("______________________++++++++++++++++++++++++++++>>>>>>>>>>>>>>>>>>>>>>", this.props.props)
-        // console.log("this is render...")
-        // console.log("fav", this.state.mycontent)
-
-
+        
+        
         if (this.state.mycontent.length || this.state.fav.length) {
-            // console.log("somethingggg")
+
+            
+            // if (this.props.props.libstate) {
+            //     this.getalldata()
+            //     console.log("++++++++++++++++++++?????????????????")
+            //     this.props.props.changelibstate(false)
+            // }
+            {this.props.props.libstate?
+                this.getalldata():
+                null
+            }
+
             if (this.tabname == 'mycontents') {
                 return (
 
-                    <Mycontentslibrary d={this.state.mycontent} props={this.props.props} handlechange={this.handlechange.bind(this)} />
+                    <Mycontentslibrary d={this.state.mycontent} props={this.props} handlechange={this.handlechange.bind(this)} />
                 )
             } else if (this.tabname == 'favourites') {
                 return (
-                    <Favouriteslibrary d={this.state.fav} props={this.props.props} handlechange={this.handlechange.bind(this)} />
+                    <Favouriteslibrary d={this.state.fav} props={this.props} handlechange={this.handlechange.bind(this)} />
                 )
             }
 

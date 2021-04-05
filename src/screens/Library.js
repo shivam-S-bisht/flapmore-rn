@@ -14,8 +14,11 @@ export default class Library extends React.Component {
 
 
     // componentDidMount () {
-    //     console.log("uwegfiuwgfh", this.props)
+    //     console.log("_____+++++++++++++++++++++++++++++>>>>>>>>>>>>>>>>>>>", this.props)
+    //         // console.log
     // }
+
+
 
     state = {
         whichone: 0,
@@ -23,8 +26,16 @@ export default class Library extends React.Component {
     }
 
 
-
+    
     componentDidMount() {
+        
+        // this.props.props.navigation.addListener('focus', () => {
+        //     // do something
+        //     console.log("++++++++++++++++++++++?>>>>>>>>>>>>>>>>>>>>>>>>")
+        // })
+        // console.log(this.props.props)
+        // console.log(this.props.props.navigation.isFocused())
+
         this.gettoken().then(res => {
             console.log("hello")
             if (res.found) {
@@ -39,6 +50,9 @@ export default class Library extends React.Component {
                 this.props.navigation.replace(res.to)
             }
         })
+
+
+
 
     }
 
@@ -113,10 +127,11 @@ export default class Library extends React.Component {
                 </View>
 
                 <View style={styles.flatlistviewable}>
+                    <Text>{this.props.libstate}</Text>
                     <FlatList
                         keyExtractor={(_, index) => index.toString()}
-                        data={[{ content: 'mycontents' }, { content: 'favourites'}]}
-                        renderItem={({ item }) => <Librarytabs tabs={item.content} props={this.props.props} />}
+                        data={[{ content: 'mycontents' }, { content: 'favourites' }]}
+                        renderItem={({ item }) => <Librarytabs tabs={item.content} props={this.props} />}
                         horizontal={true}
                         showsHorizontalScrollIndicator={false}
                         decelerationRate={'fast'}
