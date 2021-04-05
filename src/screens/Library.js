@@ -13,11 +13,6 @@ import Librarytabs from '../components/Librarytabs';
 export default class Library extends React.Component {
 
 
-    // componentDidMount () {
-    //     console.log("_____+++++++++++++++++++++++++++++>>>>>>>>>>>>>>>>>>>", this.props)
-    //         // console.log
-    // }
-
 
 
     state = {

@@ -57,7 +57,7 @@ export default class Favouriteslibrary extends React.Component {
                                                         onPress={() => {
                                                             console.log(this.props.props)
                                                             // this.props.props.navigation.navigate("Library")onPress={() => {
-                                                            this.props.handlechange("fav", item.product_id)
+                                                            this.props.handlechange("fav", parseInt(item.product_id))
                                                         }}
                                                     >
                                                         <Anticon name="delete" size={24} color="black" />

@@ -6,14 +6,14 @@ export default class Similarbookscard extends React.Component{
 
     render() {
 
-        const {thumbnail_url, product_name , author, duration, background} = this.props.bookinfo;
+        const {product_id, thumbnail_url, product_name , author, duration, background} = this.props.bookinfo;
         // console.log(this.props.bookinfo)
 
         return(
             <View>
                 <TouchableOpacity
                     style={styles.toptouchable}
-                    onPress={() => this.props.props.navigation.push('Bookdescription')}
+                    onPress={() => this.props.props.navigation.push('Splash', {to: 'Bookdescription', from: 'Tabbars', product_id: parseInt(product_id)})}
                 >
                     <View style={[styles.firstviewable, {backgroundColor: background}]}>
                         <Image source={{uri: thumbnail_url}} style={{borderRadius: 5}} />

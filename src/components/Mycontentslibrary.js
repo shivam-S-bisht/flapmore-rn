@@ -55,7 +55,7 @@ export default class Mycontentslibrary extends React.Component {
                                                 }}>
                                                     <TouchableOpacity
                                                         onPress={() => {
-                                                            this.props.handlechange("mycontent", item.product_id)
+                                                            this.props.handlechange("mycontent", parseInt(item.product_id))
                                                         }}
                                                     >
                                                         <Anticon name="delete" size={24} color="black" />

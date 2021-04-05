@@ -461,10 +461,6 @@ export default class Tabbars extends React.Component {
                         children={() => <Home props={this.props} visible={this.state.visible} />}
                         listeners={{
                             tabPress: () => {
-                                // let x = this.state.libstate
-                                // Prevent default action
-                                //   e.preventDefault();
-                                // console.log("++++++++++++++++++++++++++++++++++")
                                 this.setState({ libstate: false, explorestate: false })
                             }
                         }}
@@ -474,10 +470,6 @@ export default class Tabbars extends React.Component {
                         children={() => <Explore props={this.props} explorestate={this.state.explorestate} />}
                         listeners={{
                             tabPress: () => {
-                                // let x = this.state.explore
-                                // Prevent default action
-                                //   e.preventDefault();
-                                // console.log("++++++++++++++++++++++++++++++++++")
                                 this.setState({ libstate: false, explorestate: true })
                             }
                         }}
@@ -490,10 +482,6 @@ export default class Tabbars extends React.Component {
                         // onPress={() => console.log("++++++++++++++++++++>>>>>>>>>>>>>>")}
                         listeners={{
                             tabPress: () => {
-                                // let x = this.state.libstate
-                                // Prevent default action
-                                //   e.preventDefault();
-                                // console.log("++++++++++++++++++++++++++++++++++")
                                 this.setState({ libstate: true, explorestate: false })
                             }
                         }}

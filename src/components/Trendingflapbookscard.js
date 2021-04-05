@@ -6,7 +6,7 @@ export default class Trendingflapbookscard extends React.Component{
 
     render() {
 
-        const { product_name , author, duration, background} = this.props.trendingcard;
+        const {product_id, product_name , author, duration, background} = this.props.trendingcard;
 
         // const {image, title , author, totalreadtime, background} = this.props.trendingcard;
 
@@ -14,7 +14,7 @@ export default class Trendingflapbookscard extends React.Component{
             <View>
                 <TouchableOpacity
                     style={styles.toptouchable}
-                    onPress={() => this.props.props.props.navigation.push('Splash', {to: 'Bookdescription', from: 'Tabbars'})}
+                    onPress={() => this.props.props.props.navigation.push('Splash', {to: 'Bookdescription', from: 'Tabbars', product_id: parseInt(product_id)})}
                     // onPress={()=> this.props.props.navigation.push('Bookdescription')}
                 >
                     <View style={{backgroundColor: background, paddingHorizontal: 30, margin: 10, borderRadius: 5, paddingVertical: 10}}>

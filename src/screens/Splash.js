@@ -47,7 +47,7 @@ export default class Splash extends React.Component {
                 if (res == 200) {
 
                     this.dummiedata().then(data => {
-                        // console.log(data)
+                        console.log(data)
                         this.props.navigation.replace('Tabbars', {data})
                     })
                     
@@ -68,24 +68,8 @@ export default class Splash extends React.Component {
 
 
     // tabbar props handler ...
-    async tabbarfunc() {
-        // const { to, found } = await this.gettoken()
-
-        // if (found) {
-        //     this.getprofiledetails().then(res => {
-        //         if (res == 200) {
-        //             this.props.navigation.replace('Tabbars')
-        //         }
-        //         else {
-        //             this.props.navigation.replace("LoginSignupchoose")
-        //         }
-        //     })
-        // }
-
-        // else{
-        //     this.props.navigation.replace("LoginSignupchoose")
-
-        // }
+    async tabbarfunc(productidparam) {
+        
 
         switch (this.props.route.params.to) {
             case "Bookdescription":
@@ -97,9 +81,9 @@ export default class Splash extends React.Component {
                     this.validatetoken(token).then(res => {
                         if (res == 200) {
 
-                            this.getproductdetails(2).then(productdetails => {
-                                this.getproductfiles(2).then(productfiles => {
-                                    this.getproducttags(2).then(async producttags => {
+                            this.getproductdetails(productidparam).then(productdetails => {
+                                this.getproductfiles(productidparam).then(productfiles => {
+                                    this.getproducttags(productidparam).then(async producttags => {
 
                                         const pdt = Object.values(producttags) //object -> list
                                         var tagdetailslist = []
@@ -111,7 +95,7 @@ export default class Splash extends React.Component {
                                                     .then((res) => {
                                                         console.log("wefufewoihweofihweofihewofih")
                                                         var array = res.hits.hits.map((item, index) => {
-                                                            return { product_id: item._id, product_name: item._source.product_name, author: item._source.author, duration: item._source.duration, thumbnail_url: item._source.thumbnail_url, background: bgcolor[index] }
+                                                            return { product_id: parseInt(item._id), product_name: item._source.product_name, author: item._source.author, duration: item._source.duration, thumbnail_url: item._source.thumbnail_url, background: bgcolor[index] }
                                                         })
                                                         tagdetailslist.push(...array)
                                                         resolve("ok")
@@ -250,7 +234,7 @@ export default class Splash extends React.Component {
             // console.log(this.props.route.params)
             try {
                 switch (this.props.route.params.from) {
-                    case 'Tabbars': this.tabbarfunc(); break;
+                    case 'Tabbars': this.tabbarfunc(this.props.route.params.product_id); break;
                     case 'Createnewaccount': this.createnewaccountfunc(); break;
                     case 'Login': this.loginfunc(); break;
                     // case 'Loginviaotp': loginviaotp(); break;
@@ -464,7 +448,8 @@ export default class Splash extends React.Component {
                     .then((res) => {
 
                         var array = res.hits.hits.map((item, index) => {
-                            return { product_id: item._id, product_name: item._source.product_name, author: item._source.author, duration: item._source.duration, thumbnail_url: item._source.thumbnail_url, background: bgcolor[index] }
+                            // console.log(item._id)
+                            return { product_id: parseInt(item._id), product_name: item._source.product_name, author: item._source.author, duration: item._source.duration, thumbnail_url: item._source.thumbnail_url, background: bgcolor[index] }
                         })
                         tagdetailslist.push(...array)
                         resolve("ok")

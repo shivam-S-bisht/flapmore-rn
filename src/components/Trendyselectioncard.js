@@ -6,7 +6,7 @@ export default class Trendyselectioncard extends React.Component{
 
     render() {
 
-        const { product_name , author, duration} = this.props.trendycard;
+        const {product_id, product_name , author, duration} = this.props.trendycard;
 
         return(
             <View>
@@ -14,7 +14,7 @@ export default class Trendyselectioncard extends React.Component{
                     style={styles.toptouchable}
                     onPress={() => {
                         // console.log(this.props.props)
-                        this.props.props.props.navigation.push('Splash', {to: 'Bookdescription', from: 'Tabbars'})
+                        this.props.props.props.navigation.push('Splash', {to: 'Bookdescription', from: 'Tabbars', product_id: parseInt(product_id)})
                     }}
                 >
 

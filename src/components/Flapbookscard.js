@@ -5,14 +5,14 @@ import {Image, Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 export default class Flapbookscard extends React.Component{
 
     render() {
-        const { product_name , author, duration, background} = this.props.flapcard;
+        const {product_id, product_name , author, duration, background} = this.props.flapcard;
         // console.log(this.props)
 
         return(
             <View>
                 <TouchableOpacity
                     style={styles.toptouchable}
-                    onPress={() => this.props.props.props.navigation.push('Splash', {to: 'Bookdescription', from: 'Tabbars'})}
+                    onPress={() => this.props.props.props.navigation.push('Splash', {to: 'Bookdescription', from: 'Tabbars', product_id: parseInt(product_id)})}
                     // onPress={() => this.props.props.navigation.push('Splash', {to: 'Bookdescription', from: 'Tabbars'})}
                 >
                     <View style={[styles.firstviewable, {backgroundColor: background}]}>

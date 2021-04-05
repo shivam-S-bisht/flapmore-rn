@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, LogBox, ScrollView, SafeAreaView, View, TouchableOpacity, Image, Text, Touchable, StatusBar, Dimensions, FlatList } from 'react-native';
+import { StyleSheet, LogBox, ScrollView, SafeAreaView, View, TouchableOpacity, Image, Text, StatusBar, Dimensions, FlatList } from 'react-native';
 import SoundPlayer from 'react-native-sound';
 // import axios from 'react-native-axios';
 import Iconicon from 'react-native-vector-icons/Ionicons';
@@ -30,7 +30,7 @@ export default class Bookdescription extends React.Component {
     abouttheauthor = "Daniel Defoe, born Daniel Foe, was an English trader, writer, journalist, pamphleteer and spy. He is most famous for his novel Robinson Crusoe, published in 1719, which is claimed to be second only to the Bible in its number of translations"
 
 
-    componentDidMount () {
+    componentDidMount() {
         this.isfavourite()
     }
 
@@ -81,7 +81,7 @@ export default class Bookdescription extends React.Component {
         try {
             await AsyncStorage.getItem("@lib").then(lib => {
                 lib = JSON.parse(lib)
-                if (lib != null && typeof (lib) == Object && "fav" in lib) {
+                if (lib != null && "fav" in lib) {
                     if (!lib.fav.includes(bookid)) {
                         lib.fav.push(bookid)
 
@@ -115,22 +115,56 @@ export default class Bookdescription extends React.Component {
 
     }
 
+    async deletefromfavourites(product_id) {
+        AsyncStorage.getItem("@lib").then(async lib => {
+            lib = JSON.parse(lib)
+
+            let indextobedeleted = lib["fav"].indexOf(product_id)
+            lib["fav"] = lib["fav"].filter((val, index) => {
+                if (index != indextobedeleted) {
+                    return val
+                }
+            })
+
+
+            // console.log(lib)
+
+            AsyncStorage.setItem("@lib", JSON.stringify(lib), err => {
+                if (err) {
+                    console.log(err)
+                } else {
+                    console.log("success")
+                }
+            })
+
+        })
+    }
+
+
+
     async isfavourite() {
         await AsyncStorage.getItem("@lib").then(lib => {
             lib = JSON.parse(lib)
-            if (lib != null && typeof (lib) == Object && "fav" in lib) {
+            // console.log("llllllllllllllllllll", typeof(lib))
+            if (lib != null && "fav" in lib) {
+                // console.log("+++++++++++++++++++++>>>>>>>", lib.fav)
                 if (lib.fav.includes(this.props.route.params.productdetails.product_id)) {
-                    this.setState({bookmarked: 1})
+                    // console.log("imhereeeee")
+
+                    this.setState({ bookmarked: 1 })
                 }
 
             }
         }
-        )
+        ).catch(e => console.log(e))
     }
 
+
+
     render() {
+
         const { product_id, product_name, author, description, thumbnail_url } = this.props.route.params.productdetails
-        // console.log("product id :", product_id)
+        console.log("product id :", product_id)
 
         return (
             <SafeAreaView style={styles.topviewable}>
@@ -149,15 +183,17 @@ export default class Bookdescription extends React.Component {
                             <TouchableOpacity
                                 onPress={() => {
 
-                                    this.savetofavourites(product_id)
+                                    this.savetofavourites(parseInt(product_id))
 
                                     if (this.state.bookmarked) {
+                                        this.deletefromfavourites(product_id)
                                         this.setState({ bookmarked: 0 })
                                     } else {
                                         this.setState({ bookmarked: 1 })
                                     }
                                 }}
                             >
+                                {/* {console.log(this.state.bookmarked)} */}
                                 <Fontawesomeicon name={this.state.bookmarked ? 'bookmark' : 'bookmark-o'} size={25} color='#fff' />
                             </TouchableOpacity>
                         </View>
@@ -192,6 +228,7 @@ export default class Bookdescription extends React.Component {
                                 style={[styles.touchable, { borderColor: '#3D6DFF' }]}
                                 onPress={() => {
 
+                                    console.log("++++++++++++++++++++++++++++++++++...............", product_id)
                                     this.savetomycontents(product_id)
                                     // this.props.route.params.pingstate("library", 1)
                                     this.props.navigation.push('Splash', {

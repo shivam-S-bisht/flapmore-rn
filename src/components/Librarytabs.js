@@ -76,7 +76,7 @@ export default class Librarytabs extends React.Component {
                             return new Promise(async resolve => {
                                 this.getproductdetails(id).then(res => {
 
-                                    contentdatalist.push({ product_id: res.product_id, product_name: res.product_name, author: res.author, duration: res.duration, thumbnail_url: res.thumbnail_url, background: bgcolor[res.product_id % 5] })
+                                    contentdatalist.push({ product_id: parseInt(res.product_id), product_name: res.product_name, author: res.author, duration: res.duration, thumbnail_url: res.thumbnail_url, background: bgcolor[parseInt(res.product_id) % 5] })
                                     resolve("ok")
                                 })
                             })
@@ -93,7 +93,7 @@ export default class Librarytabs extends React.Component {
                                 this.getproductdetails(id).then(res => {
 
                                     // const a = this.state.fav
-                                    favdatalist.push({ product_id: res.product_id, product_name: res.product_name, author: res.author, duration: res.duration, thumbnail_url: res.thumbnail_url, background: bgcolor[res.product_id % 5] })
+                                    favdatalist.push({ product_id: parseInt(res.product_id), product_name: res.product_name, author: res.author, duration: res.duration, thumbnail_url: res.thumbnail_url, background: bgcolor[parseInt(res.product_id) % 5] })
                                     resolve("ok")
 
                                 })
