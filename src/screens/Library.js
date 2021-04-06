@@ -32,7 +32,7 @@ export default class Library extends React.Component {
         // console.log(this.props.props.navigation.isFocused())
 
         this.gettoken().then(res => {
-            console.log("hello")
+            // console.log("hello")
             if (res.found) {
                 this.validatetoken(res.token).then(status => {
                     if (status != 200) {

@@ -37,7 +37,7 @@ export default class Favouriteslibrarycard extends React.Component {
                     <View style={styles.bookmarkviewable}>
                         <TouchableOpacity
                             onPress={() => {
-                                console.log(this.props.props)
+                                // console.log(this.props.props)
                                 // this.props.props.navigation.navigate("Library")
                             }}
                         >

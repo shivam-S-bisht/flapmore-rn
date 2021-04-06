@@ -2,6 +2,7 @@ import React from 'react';
 import {Image, Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 // import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Maticon from 'react-native-vector-icons/MaterialCommunityIcons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
@@ -9,14 +10,82 @@ export default class Tabflapbookscard extends React.Component{
 
     
     state={
-        iconflag: 0
+        iconflag: this.props.allfav.includes(this.props.explorecard.product_id)
 
     }
 
 
+
+    async savetofavourites(bookid) {
+
+        try {
+            await AsyncStorage.getItem("@lib").then(lib => {
+                lib = JSON.parse(lib)
+                if (lib != null && "fav" in lib) {
+                    if (!lib.fav.includes(bookid)) {
+                        lib.fav.push(bookid)
+
+                        AsyncStorage.setItem("@lib", JSON.stringify(lib), err => {
+                            if (err) {
+                                console.log(err)
+                            } else {
+                                console.log("success")
+                            }
+                        })
+                    }
+
+                } else {
+                    lib["fav"] = [bookid]
+                    AsyncStorage.setItem("@lib", JSON.stringify(lib), err => {
+                        if (err) {
+                            console.log(err)
+                        } else {
+                            console.log("success")
+                        }
+                    })
+
+                }
+
+            })
+
+        } catch (e) {
+            console.log(e)
+        }
+
+
+    }
+
+    async deletefromfavourites(product_id) {
+        AsyncStorage.getItem("@lib").then(async lib => {
+            lib = JSON.parse(lib)
+
+            let indextobedeleted = lib["fav"].indexOf(product_id)
+            lib["fav"] = lib["fav"].filter((val, index) => {
+                if (index != indextobedeleted) {
+                    return val
+                }
+            })
+
+
+            // console.log(lib)
+
+            AsyncStorage.setItem("@lib", JSON.stringify(lib), err => {
+                if (err) {
+                    console.log(err)
+                } else {
+                    console.log("success")
+                }
+            })
+
+        })
+    }
+
+    
+
     render() {
 
         const {product_id, product_name, category_id, author, duration, pages, description, thumbnail_url, created_at, updated_at, tags, bgcolor} = this.props.explorecard;
+        
 
         return(
             <View>
@@ -34,9 +103,17 @@ export default class Tabflapbookscard extends React.Component{
                     <View style={styles.bookmarkviewable}>
                         <TouchableOpacity
                             onPress={()=> {
-                                switch(this.state.iconflag) {
-                                    case 0: this.setState({iconflag: 1}); break;
-                                    case 1: this.setState({iconflag: 0}); break;
+                                // switch(this.state.iconflag) {
+                                //     case 0: this.setState({iconflag: 1}); break;
+                                //     case 1: this.setState({iconflag: 0}); break;
+                                // }
+                                if (this.state.iconflag) {
+                                    this.deletefromfavourites(product_id)
+                                    this.setState({iconflag: 0})
+                                } else {
+                                    this.savetofavourites(product_id)
+                                    this.setState({iconflag: 1})
+
                                 }
                             }}
                         >

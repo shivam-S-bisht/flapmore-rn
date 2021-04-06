@@ -7,7 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 import Ionicon from 'react-native-vector-icons/Ionicons';
-import Fontawesomeicon from 'react-native-vector-icons/FontAwesome';
+import Fontawesomeicon from 'react-native-vector-icons/FontAwesome';    
 import Anticon from 'react-native-vector-icons/AntDesign';
 import Feathericon from 'react-native-vector-icons/Feather';
 import Materialicon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -164,7 +164,7 @@ export default class Bookdescription extends React.Component {
     render() {
 
         const { product_id, product_name, author, description, thumbnail_url } = this.props.route.params.productdetails
-        console.log("product id :", product_id)
+        // console.log("product id :", product_id)
 
         return (
             <SafeAreaView style={styles.topviewable}>
@@ -228,7 +228,7 @@ export default class Bookdescription extends React.Component {
                                 style={[styles.touchable, { borderColor: '#3D6DFF' }]}
                                 onPress={() => {
 
-                                    console.log("++++++++++++++++++++++++++++++++++...............", product_id)
+                                    // console.log("++++++++++++++++++++++++++++++++++...............", product_id)
                                     this.savetomycontents(product_id)
                                     // this.props.route.params.pingstate("library", 1)
                                     this.props.navigation.push('Splash', {

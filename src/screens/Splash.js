@@ -123,8 +123,11 @@ export default class Splash extends React.Component {
                 break;
 
             case "Tagscreen":
-                this.gettagdetails(this.props.route.params.tagname).then(data => {
-                    this.props.navigation.replace("Tagscreen", { data, tagname: this.props.route.params.tagname })
+                this.getallfavs().then(allfav => {
+
+                    this.gettagdetails(this.props.route.params.tagname).then(data => {
+                        this.props.navigation.replace("Tagscreen", { data, tagname: this.props.route.params.tagname, allfav })
+                    })
                 })
 
                 break;
@@ -436,6 +439,21 @@ export default class Splash extends React.Component {
     }
 
 
+    async getallfavs() {
+        return AsyncStorage.getItem("@lib").then(async lib => {
+            lib = JSON.parse(lib)
+            if (lib && "fav" in lib) {
+                return lib.fav
+            } else {
+                return []
+                console.log("nothing in lib")
+            }
+        }
+        ).catch (e => console.log("Tagscreen Error:------------->>>>>>>>>>", e))
+    }
+
+
+
     // API CALLS -> dynamic dummie data using tags
     async dummiedata() {
         const pdt = ["Fiction", "History"] //object -> list
@@ -482,7 +500,7 @@ export default class Splash extends React.Component {
         }
 
         ).then((res) => {
-            console.log(res, '\n', JSON.stringify(res.data))
+            // console.log(res, '\n', JSON.stringify(res.data))
         }).catch(e => console.log(e))
     }
 

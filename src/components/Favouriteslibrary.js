@@ -55,7 +55,7 @@ export default class Favouriteslibrary extends React.Component {
                                                 }}>
                                                     <TouchableOpacity
                                                         onPress={() => {
-                                                            console.log(this.props.props)
+                                                            // console.log(this.props.props)
                                                             // this.props.props.navigation.navigate("Library")onPress={() => {
                                                             this.props.handlechange("fav", parseInt(item.product_id))
                                                         }}

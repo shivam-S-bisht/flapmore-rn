@@ -11,7 +11,6 @@ import axios from 'react-native-axios';
 export default class Librarytabs extends React.Component {
 
     tabname = this.props.tabs;
-    // libdata = []
 
     state = {
         render: false,
@@ -26,8 +25,6 @@ export default class Librarytabs extends React.Component {
         this.getalldata()
         this.setState({ render: true })
 
-        // console.log("PPPPPPPPPPPPPPPPPPPPPPPP")
-        // console.log("fav", this.state.mycontent)
 
     }
 

@@ -20,9 +20,9 @@ import trendingflapbookdetails from '../infos/trendingflapbooks';
 export default class Home extends React.Component {
 
 
-    componentDidMount () {
-        console.log(this.props.props.route.params.data)
-    }
+    // componentDidMount () {
+    //     console.log(this.props.props.route.params.data)
+    // }
 
     render() {
 

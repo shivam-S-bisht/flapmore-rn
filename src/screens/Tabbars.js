@@ -18,7 +18,7 @@ import Test from './Test'
 
 import bookdescription from '../infos/bookdescription';
 
-
+// LogBox.ignoreAllLogs();
 export default class Tabbars extends React.Component {
 
     constructor(props) {
@@ -422,6 +422,10 @@ export default class Tabbars extends React.Component {
         this.setState({libstate: val})
     }
 
+    changeexplorestate (val) {
+        this.setState({explorestate: val})
+    }
+
 
 
     render() {
@@ -465,16 +469,16 @@ export default class Tabbars extends React.Component {
                             }
                         }}
                     />
+
                     <this.Tab.Screen
                         name='Explore'
-                        children={() => <Explore props={this.props} explorestate={this.state.explorestate} />}
+                        children={() => <Explore props={this.props} explorestate={this.state.explorestate} changeexplorestate={this.changeexplorestate.bind(this)} />}
                         listeners={{
                             tabPress: () => {
                                 this.setState({ libstate: false, explorestate: true })
                             }
                         }}
                     />
-
 
                     <this.Tab.Screen
                         name='Library'

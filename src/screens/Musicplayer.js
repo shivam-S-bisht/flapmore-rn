@@ -27,7 +27,7 @@ export default class Musicplayer extends React.Component{
 
     _handleBackPress () {
         // this.props.navigation.navigate(this.props.route.params.from)
-        console.log(this.props)
+        // console.log(this.props)
         
     }
 
@@ -59,7 +59,7 @@ export default class Musicplayer extends React.Component{
 
 
     async componentWillUnmount () {
-        console.log('here')
+        // console.log('here')
         // this.backhandler.remove()
         // this.sound.release()
         clearInterval(this.timer)
@@ -94,7 +94,7 @@ export default class Musicplayer extends React.Component{
             if (`${sec}`.length == 1) {
                 sec = `0${sec}`
             }
-            console.log(this.state.currvalue)
+            // console.log(this.state.currvalue)
             this.setState({currenttime: `${min}:${sec}`, currvalue, disable: false})
     }
 
@@ -112,9 +112,9 @@ export default class Musicplayer extends React.Component{
         
         try{
            setTimeout(async ()=> {
-                const duration = await this.sound.getDuration()
+                // const duration = await this.sound.getDuration()
 
-                console.log(duration)
+                // console.log(duration)
                 var min = Math.floor(duration/60);
                 var sec = Math.floor(duration%60);
 

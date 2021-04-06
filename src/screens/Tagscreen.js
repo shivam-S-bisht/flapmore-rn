@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Animated, StyleSheet, Text, TouchableOpacity, Dimensions, FlatList, SafeAreaView, ScrollView, Image} from 'react-native';
+import { View, Animated, StyleSheet, Text, TouchableOpacity, Dimensions, FlatList, SafeAreaView, ScrollView, Image } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 // import Anticon from 'react-native-vector-icons/AntDesign'
 
@@ -12,41 +12,44 @@ import Tabflapbookscard from "../components/Tabflapbookscard";
 import tabflapbooks from '../infos/tabflapbooks';
 
 export default class Tagscreen extends React.Component {
-    
+
 
     state = {
         animatedValue: new Animated.Value(-400),
         tovalue: 0,
         filter: 0,
-        
+
         show: 'category',
 
-        fiction:0,
-        spiritual:0,
-        motivational:0,
-        history:0,
-        technology:0,
-        philosophy:0,
-        biography:0,
+        fiction: 0,
+        spiritual: 0,
+        motivational: 0,
+        history: 0,
+        technology: 0,
+        philosophy: 0,
+        biography: 0,
+
+        results: this.props.route.params.data.hits.hits.length,
 
 
     }
 
 
-    splititems () {
+    // splititems () {
+
+    // }
+
+
+
+    componentDidMount() {
+        console.log(this.props.route.params.allfav)
 
     }
 
-
-    componentDidMount () {
-        // console.log(this.props.route.params.data.hits.hits)
-        this.props.route.params.data.hits.hits.forEach(elm => {
-            // console.log(elm._source, "\n")
-        });
-    }
+    
 
 
-    onpressfilter (val) {
+    onpressfilter(val) {
 
         // console.log(this.state.filter)
         Animated.timing(this.state.animatedValue, {
@@ -59,7 +62,7 @@ export default class Tagscreen extends React.Component {
 
 
 
-    selectcategory () {
+    selectcategory() {
         return (
             <View
                 style={{
@@ -70,66 +73,66 @@ export default class Tagscreen extends React.Component {
             >
                 <View>
                     <TouchableOpacity
-                        onPress={()=> this.setState({show: 'category'})}
-                        style={[styles.filtertouchable, {borderRightWidth: 2, borderColor: this.state.show == 'category'?'#3D6DFF':'#EDF1FF'}]}
+                        onPress={() => this.setState({ show: 'category' })}
+                        style={[styles.filtertouchable, { borderRightWidth: 2, borderColor: this.state.show == 'category' ? '#3D6DFF' : '#EDF1FF' }]}
                     >
                         <Text
-                            style={[styles.filtertext, {color: this.state.show == 'category'? 'black' : '#75757C'}]}
+                            style={[styles.filtertext, { color: this.state.show == 'category' ? 'black' : '#75757C' }]}
                         >Category</Text>
                     </TouchableOpacity>
                 </View>
                 <View>
                     <TouchableOpacity
-                        onPress={()=> this.setState({show: 'language'})}
-                        style={[styles.filtertouchable, {borderRightWidth: 2, borderColor: this.state.show == 'language'?'#3D6DFF':'#EDF1FF'}]}
+                        onPress={() => this.setState({ show: 'language' })}
+                        style={[styles.filtertouchable, { borderRightWidth: 2, borderColor: this.state.show == 'language' ? '#3D6DFF' : '#EDF1FF' }]}
 
                     >
                         <Text
-                            style={[styles.filtertext, {color: this.state.show == 'language'? 'black' : '#75757C'}]}
+                            style={[styles.filtertext, { color: this.state.show == 'language' ? 'black' : '#75757C' }]}
                         >Language</Text>
                     </TouchableOpacity>
                 </View>
                 <View>
                     <TouchableOpacity
-                        onPress={()=> this.setState({show: 'mode'})}
-                        style={[styles.filtertouchable, {borderRightWidth: 2, borderColor: this.state.show == 'mode'?'#3D6DFF':'#EDF1FF'}]}
+                        onPress={() => this.setState({ show: 'mode' })}
+                        style={[styles.filtertouchable, { borderRightWidth: 2, borderColor: this.state.show == 'mode' ? '#3D6DFF' : '#EDF1FF' }]}
 
                     >
                         <Text
-                            style={[styles.filtertext, {color: this.state.show == 'mode'? 'black' : '#75757C'}]}
+                            style={[styles.filtertext, { color: this.state.show == 'mode' ? 'black' : '#75757C' }]}
                         >Mode</Text>
                     </TouchableOpacity>
                 </View>
                 <View>
                     <TouchableOpacity
-                        onPress={()=> this.setState({show: 'customer'})}
-                        style={[styles.filtertouchable, {borderRightWidth: 2, borderColor: this.state.show == 'customer'?'#3D6DFF':'#EDF1FF'}]}
+                        onPress={() => this.setState({ show: 'customer' })}
+                        style={[styles.filtertouchable, { borderRightWidth: 2, borderColor: this.state.show == 'customer' ? '#3D6DFF' : '#EDF1FF' }]}
 
                     >
                         <Text
-                            style={[styles.filtertext, {color: this.state.show == 'customer'? 'black' : '#75757C'}]}
+                            style={[styles.filtertext, { color: this.state.show == 'customer' ? 'black' : '#75757C' }]}
                         >Customer Rating</Text>
                     </TouchableOpacity>
                 </View>
                 <View>
                     <TouchableOpacity
-                        onPress={()=> this.setState({show: 'author'})}
-                        style={[styles.filtertouchable, {borderRightWidth: 2, borderColor: this.state.show == 'author'?'#3D6DFF':'#EDF1FF'}]}
+                        onPress={() => this.setState({ show: 'author' })}
+                        style={[styles.filtertouchable, { borderRightWidth: 2, borderColor: this.state.show == 'author' ? '#3D6DFF' : '#EDF1FF' }]}
 
                     >
                         <Text
-                            style={[styles.filtertext, {color: this.state.show == 'author'? 'black' : '#75757C'}]}
+                            style={[styles.filtertext, { color: this.state.show == 'author' ? 'black' : '#75757C' }]}
                         >Author</Text>
                     </TouchableOpacity>
                 </View>
                 <View>
                     <TouchableOpacity
-                        onPress={()=> this.setState({show: 'duration'})}
-                        style={[styles.filtertouchable, {borderRightWidth: 2, borderColor: this.state.show == 'duration'?'#3D6DFF':'#EDF1FF'}]}
+                        onPress={() => this.setState({ show: 'duration' })}
+                        style={[styles.filtertouchable, { borderRightWidth: 2, borderColor: this.state.show == 'duration' ? '#3D6DFF' : '#EDF1FF' }]}
 
                     >
                         <Text
-                            style={[styles.filtertext, {color: this.state.show == 'duration'? 'black' : '#75757C'}]}
+                            style={[styles.filtertext, { color: this.state.show == 'duration' ? 'black' : '#75757C' }]}
                         >Duration</Text>
                     </TouchableOpacity>
                 </View>
@@ -141,7 +144,7 @@ export default class Tagscreen extends React.Component {
 
 
 
-    onselectcategory () {
+    onselectcategory() {
         return (
             <View
                 style={{
@@ -151,92 +154,92 @@ export default class Tagscreen extends React.Component {
 
                 }}
             >
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                    <CheckBox 
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <CheckBox
                         disabled={false}
                         value={this.state.fiction}
-                        onValueChange={newval => this.setState({fiction: newval})}
+                        onValueChange={newval => this.setState({ fiction: newval })}
                         // onFillColor='#3D6DFF'
                         tintColors={{ true: '#3D6DFF', false: 'grey' }}
-        
+
                     />
                     <Text
                         style={styles.filtercheckboxtext}
                     >Fiction</Text>
                 </View>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                    <CheckBox 
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <CheckBox
                         disabled={false}
                         value={this.state.spiritual}
-                        onValueChange={newval => this.setState({spiritual: newval})}
+                        onValueChange={newval => this.setState({ spiritual: newval })}
                         onFillColor='#3D6DFF'
                         tintColors={{ true: '#3D6DFF', false: 'grey' }}
-        
+
                     />
                     <Text
                         style={styles.filtercheckboxtext}
                     >Spiritual</Text>
                 </View>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                    <CheckBox 
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <CheckBox
                         disabled={false}
                         value={this.state.motivational}
-                        onValueChange={newval => this.setState({motivational: newval})}
+                        onValueChange={newval => this.setState({ motivational: newval })}
                         onFillColor='#3D6DFF'
                         tintColors={{ true: '#3D6DFF', false: 'grey' }}
-        
+
                     />
                     <Text
                         style={styles.filtercheckboxtext}
                     >Motivational</Text>
                 </View>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                    <CheckBox 
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <CheckBox
                         disabled={false}
                         value={this.state.history}
-                        onValueChange={newval => this.setState({history: newval})}
+                        onValueChange={newval => this.setState({ history: newval })}
                         onFillColor='#3D6DFF'
                         tintColors={{ true: '#3D6DFF', false: 'grey' }}
-        
+
                     />
                     <Text
                         style={styles.filtercheckboxtext}
                     >History</Text>
                 </View>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                    <CheckBox 
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <CheckBox
                         disabled={false}
                         value={this.state.technology}
-                        onValueChange={newval => this.setState({technology: newval})}
+                        onValueChange={newval => this.setState({ technology: newval })}
                         onFillColor='#3D6DFF'
                         tintColors={{ true: '#3D6DFF', false: 'grey' }}
-        
+
                     />
                     <Text
                         style={styles.filtercheckboxtext}
                     >Technology</Text>
                 </View>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                    <CheckBox 
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <CheckBox
                         disabled={false}
                         value={this.state.philosophy}
-                        onValueChange={newval => this.setState({philosophy: newval})}
+                        onValueChange={newval => this.setState({ philosophy: newval })}
                         onFillColor='#3D6DFF'
                         tintColors={{ true: '#3D6DFF', false: 'grey' }}
-        
+
                     />
                     <Text
                         style={styles.filtercheckboxtext}
                     >Philosophy</Text>
                 </View>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                    <CheckBox 
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <CheckBox
                         disabled={false}
                         value={this.state.biography}
-                        onValueChange={newval => this.setState({biography: newval})}
+                        onValueChange={newval => this.setState({ biography: newval })}
                         onFillColor='#3D6DFF'
                         tintColors={{ true: '#3D6DFF', false: 'grey' }}
-        
+
                     />
                     <Text
                         style={styles.filtercheckboxtext}
@@ -246,95 +249,103 @@ export default class Tagscreen extends React.Component {
         )
     }
 
-
-
-
     
 
-    render () {
+
+
+
+    render() {
         return (
             <SafeAreaView style={styles.filtertopviewable}>
 
-                {this.state.filter? 
+                {this.state.filter ?
                     <View style={{
-                        backgroundColor: 'rgba(0,0,0, 0.8)', 
-                        top: 0, 
-                        bottom: 0, 
-                        right: 0, 
-                        left: 0,  
-                        position: 'absolute', 
+                        backgroundColor: 'rgba(0,0,0, 0.8)',
+                        top: 0,
+                        bottom: 0,
+                        right: 0,
+                        left: 0,
+                        position: 'absolute',
                         zIndex: 400
-                        }}
-                    /> 
+                    }}
+                    />
                     : null}
 
                 <ScrollView style={styles.sixthviewable}>
 
-                <View style={styles.firstviewable}>
-                    <TouchableOpacity
-                        onPress={() => this.props.navigation.goBack()}
-                    >
-                        <Ionicon name='chevron-back-outline' size={30} color='#fff' />
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <Ionicon name='search' size={27} color='#fff' />
-                    </TouchableOpacity>
-                </View>
-
-                <View style={styles.secondviewable}>
-                    <Image source={require('../../assets/tagscreenbg.png')} style={{width: 'auto'}} />
-                </View>
-
-                <View style={{position: 'absolute', width: Dimensions.get('window').width, top: 150, overflow: 'hidden', zIndex: 200}}>
-                    <View style={styles.thirdviewable}>
-                        <Text style={{fontWeight: 'bold', fontSize: 25}}>{this.props.route.params.tagname}</Text>
-                        <Text style={{fontSize: 15}}>Topics based on {this.props.route.params.tagname}</Text>
-                    </View>
-                    <View style={styles.fourthviewable}></View>
-                </View>
-
-                <View style={styles.fifthviewable}>
-                    <TouchableOpacity>
-                        <View style={styles.touchableviewable}>
-                            <Text style={styles.touchabletext}>Sort</Text>
-                            <Anticon name="down" size={24} color="black" />
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <View style={styles.touchableviewable}>
-                            <Maticon name="theme-light-dark" size={24} color="black" />
-                            <Text style={styles.touchabletext}>Dark Mode</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={()=>{
-                            this.setState({filter: 1})
-                            this.onpressfilter(0)
-                        }}
-                    >
-                        <View style={styles.touchableviewable}>
-                            <Feathericon name="filter" size={24} color="black" />
-                            <Text style={styles.touchabletext}>Filters</Text>
-                        </View>
-                    </TouchableOpacity>
-                </View>
-                <View style={{backgroundColor: '#D8DDE5', height: 10}}></View>
-
-                <FlatList
-                    keyExtractor={item=>item._id}
-                    data={this.props.route.params.data.hits.hits}
-                    renderItem={({item, index}) => <Tabflapbookscard explorecard={index%2 ? {...item._source, bgcolor: '#EEE5C9'}:{...item._source, bgcolor: '#BFD2E6'}} />}
-                />
-                </ScrollView>
-                
-                <Animated.View style={[styles.filteranimatedviewable, {bottom: this.state.animatedValue, zIndex: 600}]}>
-                    
-                    <View style={styles.filterfirstviewable}>
-                        <Text style={{fontSize: 20, fontWeight: 'bold', paddingLeft: 10}}>Filter</Text>
+                    <View style={styles.firstviewable}>
                         <TouchableOpacity
-                            onPress={()=> {
-                            this.setState({filter: 0})
-                            this.onpressfilter(-400)
+                            onPress={() => this.props.navigation.goBack()}
+                        >
+                            <Ionicon name='chevron-back-outline' size={30} color='#fff' />
+                        </TouchableOpacity>
+                        <TouchableOpacity>
+                            <Ionicon name='search' size={27} color='#fff' />
+                        </TouchableOpacity>
+                    </View>
+
+                    <View style={styles.secondviewable}>
+                        <Image source={require('../../assets/tagscreenbg.png')} style={{ width: 'auto' }} />
+                    </View>
+
+                    <View style={{ position: 'absolute', width: Dimensions.get('window').width, top: 150, overflow: 'hidden', zIndex: 200 }}>
+                        <View style={styles.thirdviewable}>
+                            <Text style={{ fontWeight: 'bold', fontSize: 25 }}>{this.props.route.params.tagname}</Text>
+                            <Text style={{ fontSize: 15 }}>Topics based on {this.props.route.params.tagname}</Text>
+                        </View>
+                        <View style={styles.fourthviewable}></View>
+                    </View>
+
+                    <View style={styles.fifthviewable}>
+                        <TouchableOpacity>
+                            <View style={styles.touchableviewable}>
+                                <Text style={styles.touchabletext}>Sort</Text>
+                                <Anticon name="down" size={24} color="black" />
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity>
+                            <View style={styles.touchableviewable}>
+                                <Maticon name="theme-light-dark" size={24} color="black" />
+                                <Text style={styles.touchabletext}>Dark Mode</Text>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => {
+                                this.setState({ filter: 1 })
+                                this.onpressfilter(0)
+                            }}
+                        >
+                            <View style={styles.touchableviewable}>
+                                <Feathericon name="filter" size={24} color="black" />
+                                <Text style={styles.touchabletext}>Filters</Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={{ backgroundColor: '#D8DDE5', height: 10 }}></View>
+
+                    {this.state.results ?
+                        <FlatList
+                            keyExtractor={item => item._id}
+                            data={this.props.route.params.data.hits.hits}
+                            renderItem={({ item, index }) => <Tabflapbookscard explorecard={index % 2 ? { ...item._source, bgcolor: '#EEE5C9' } : { ...item._source, bgcolor: '#BFD2E6' }} allfav={this.props.route.params.allfav} />}
+                        />
+                        :
+                        <View style={{ alignItems: 'center', width: Dimensions.get("window").width }}>
+                            <Text style={{ fontSize: 17 }}>No results to show :/</Text>
+                        </View>
+                    }
+
+
+                </ScrollView>
+
+                <Animated.View style={[styles.filteranimatedviewable, { bottom: this.state.animatedValue, zIndex: 600 }]}>
+
+                    <View style={styles.filterfirstviewable}>
+                        <Text style={{ fontSize: 20, fontWeight: 'bold', paddingLeft: 10 }}>Filter</Text>
+                        <TouchableOpacity
+                            onPress={() => {
+                                this.setState({ filter: 0 })
+                                this.onpressfilter(-400)
 
                             }}
                         >
@@ -349,24 +360,24 @@ export default class Tagscreen extends React.Component {
                     />
                     <View
                         style={{
-                            flexDirection: 'row', 
-                            justifyContent: 'space-between', 
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
                             paddingRight: 20,
-                           
+
                         }}
                     >
 
                         {this.selectcategory()}
                         {this.onselectcategory()}
 
-                        
+
                     </View>
                     <View
                         style={{
                             borderColor: '#DDE1F2',
                             borderTopWidth: 2,
                             marginBottom: 20,
-                            
+
                         }}
                     />
                     <View
@@ -375,15 +386,15 @@ export default class Tagscreen extends React.Component {
 
                         }}
                     >
-                        <TouchableOpacity 
+                        <TouchableOpacity
                             style={styles.filterapplytouchable}
                         >
                             <Text style={styles.filterapplytext}>Apply</Text>
                         </TouchableOpacity>
                     </View>
-                    
+
                 </Animated.View>
-                
+
             </SafeAreaView>
         )
     }
@@ -409,20 +420,20 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         paddingHorizontal: 20,
         paddingBottom: 10
-        
+
     },
 
     filterapplytouchable: {
-        backgroundColor:'#3D6DFF', 
-        paddingHorizontal:'26%', 
-        paddingVertical:15, 
-        borderRadius:5
+        backgroundColor: '#3D6DFF',
+        paddingHorizontal: '26%',
+        paddingVertical: 15,
+        borderRadius: 5
     },
 
     filterapplytext: {
-        color:'white', 
-        fontWeight:'bold', 
-        fontSize:20,
+        color: 'white',
+        fontWeight: 'bold',
+        fontSize: 20,
         textAlign: 'center'
     },
 
@@ -448,10 +459,10 @@ const styles = StyleSheet.create({
     firstviewable: {
         paddingHorizontal: 20,
         paddingVertical: 15,
-        position: 'absolute', 
-        zIndex: 100, 
-        flexDirection: 'row', 
-        justifyContent: 'space-between', 
+        position: 'absolute',
+        zIndex: 100,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
         width: Dimensions.get('window').width
     },
 
@@ -463,7 +474,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginHorizontal: 30,
         elevation: 10
-        
+
     },
 
     fourthviewable: {
@@ -487,7 +498,7 @@ const styles = StyleSheet.create({
 
     touchableviewable: {
         flexDirection: 'row'
-    },  
+    },
 
     touchabletext: {
         fontSize: 15,
