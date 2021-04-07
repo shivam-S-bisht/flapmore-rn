@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Text, SafeAreaView, StyleSheet, Image, FlatList, ScrollView, TouchableOpacity } from 'react-native';
 import Ionicon from 'react-native-vector-icons/Ionicons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'react-native-axios';
 
 import Trendyselectioncard from '../components/Trendyselectioncard';
 import Flapbookscard from '../components/Flapbookscard'
@@ -20,9 +22,72 @@ import trendingflapbookdetails from '../infos/trendingflapbooks';
 export default class Home extends React.Component {
 
 
-    // componentDidMount () {
-    //     console.log(this.props.props.route.params.data)
+    // state = {
+    //     tokenvalid: true
     // }
+
+    // componentDidMount() {
+
+
+    //     this.gettoken().then(res => {
+    //         // console.log("hello")
+    //         if (res.found) {
+    //             this.validatetoken(res.token).then(status => {
+    //                 if (status != 200) {
+    //                     console.log(status, " Token invalid found at Home")
+    //                     this.setState({ tokenvalid: false })
+    //                     // this.props.props.navigation.replace(res.to)
+    //                 }
+    //             })
+    //         } else {
+    //             console.log("Token not found at Home")
+    //             this.setState({ tokenvalid: false })
+    //             // this.props.props.navigation.replace(res.to)
+    //         }
+    //     })
+
+    //     console.log("Home token:==================+++++++++++ ", this.state.tokenvalid)
+
+        
+
+    // }
+
+
+    // async validatetoken(token) {
+    //     // const token = await AsyncStorage.getItem('@token')
+
+    //     return await axios.get(`/flapmore-user/profile`, {
+    //         headers: {
+    //             'Authorization': `Bearer ${token}`
+    //         }
+    //     }
+
+    //     ).then((res) => {
+    //         // const data = res.data;
+    //         // console.log(res, '\n', JSON.stringify(res.data))
+    //         // console.log(res)
+    //         return res.status
+    //         // this.props.navigation.replace(to, {data: res.data, tagname})
+    //         // console.log(typeof(data))
+    //     }).catch(e => console.log(e))
+    // }
+
+    // async gettoken() {
+
+    //     const token = await AsyncStorage.getItem('@token')
+    //     // console.log(typeof(token))
+    //     try {
+    //         if (token != null) {
+    //             return { found: true, token }
+    //         } else {
+    //             return { found: false }
+    //         }
+    //     } catch {
+    //         // console.log(e)
+    //         return { found: false }
+    //     }
+    // }
+
 
     render() {
 
@@ -58,7 +123,7 @@ export default class Home extends React.Component {
                             keyExtractor={(_, index) => (index).toString()}
                             data={this.props.props.route.params.data}
                             horizontal={true}
-                            renderItem={({ item }) => <Trendyselectioncard trendycard={item} props={this.props} />}
+                            renderItem={({ item }) => <Trendyselectioncard trendycard={item} props={this.props} tokenvalid={this.props.tokenvalid} />}
                             showsHorizontalScrollIndicator={false}
                         />
 
@@ -71,7 +136,7 @@ export default class Home extends React.Component {
                             keyExtractor={item => item.id}
                             data={explorecarddetails1}
                             horizontal={true}
-                            renderItem={({ item }) => <Explorecategorycard explorecard={item} props={this.props} />}
+                            renderItem={({ item }) => <Explorecategorycard explorecard={item} props={this.props} tokenvalid={this.props.tokenvalid} />}
                             showsHorizontalScrollIndicator={false}
                         />
                         <FlatList
@@ -79,7 +144,7 @@ export default class Home extends React.Component {
                             keyExtractor={item => item.id}
                             data={explorecarddetails2}
                             horizontal={true}
-                            renderItem={({ item }) => <Explorecategorycard explorecard={item} props={this.props} />}
+                            renderItem={({ item }) => <Explorecategorycard explorecard={item} props={this.props} tokenvalid={this.props.tokenvalid} />}
                             showsHorizontalScrollIndicator={false}
                         />
                     </View>
@@ -107,7 +172,7 @@ export default class Home extends React.Component {
                             keyExtractor={(_, index) => index.toString()}
                             data={this.props.props.route.params.data}
                             horizontal={true}
-                            renderItem={({ item }) => <Flapbookscard flapcard={item} props={this.props} />}
+                            renderItem={({ item }) => <Flapbookscard flapcard={item} props={this.props} tokenvalid={this.props.tokenvalid} />}
                             showsHorizontalScrollIndicator={false}
                         />
 
@@ -121,7 +186,7 @@ export default class Home extends React.Component {
                             keyExtractor={(_, index) => index.toString()}
                             data={this.props.props.route.params.data}
                             horizontal={true}
-                            renderItem={({ item }) => <Trendingflapbookscard trendingcard={item} props={this.props} />}
+                            renderItem={({ item }) => <Trendingflapbookscard trendingcard={item} props={this.props} tokenvalid={this.props.tokenvalid} />}
                             showsHorizontalScrollIndicator={false}
                         />
                     </View>
@@ -141,7 +206,7 @@ export default class Home extends React.Component {
                             keyExtractor={(_, index) => index.toString()}
                             data={this.props.props.route.params.data}
                             horizontal={true}
-                            renderItem={({ item }) => <Flapbookscard flapcard={item} props={this.props} />}
+                            renderItem={({ item }) => <Flapbookscard flapcard={item} props={this.props} tokenvalid={this.props.tokenvalid} />}
                             showsHorizontalScrollIndicator={false}
                         />
                     </View>

@@ -1,5 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, FlatList, ScrollView, SafeAreaView, TextInput, TouchableOpacity, LogBox } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'react-native-axios';
+
 // import { AntDesign, MaterialCommunityIcons, Feather } from '@expo/vector-icons'; 
 import Anticon from 'react-native-vector-icons/AntDesign';
 import Feathericon from 'react-native-vector-icons/Feather';
@@ -20,6 +23,75 @@ export default class Explore extends React.Component {
     state = {
         searchtext: ''
     }
+
+
+    componentDidMount() {
+        
+        // this.props.props.navigation.addListener('focus', () => {
+        //     // do something
+        //     console.log("++++++++++++++++++++++?>>>>>>>>>>>>>>>>>>>>>>>>")
+        // })
+        // console.log(this.props.props)
+        // console.log(this.props.props.navigation.isFocused())
+
+        this.gettoken().then(res => {
+            // console.log("hello")
+            if (res.found) {
+                this.validatetoken(res.token).then(status => {
+                    if (status != 200) {
+                        console.log(status, " Token invalid found at Explore")
+                        this.props.props.navigation.replace(res.to)
+                    }
+                })
+            } else {
+                console.log("Token not found at Explore")
+                this.props.props.navigation.replace(res.to)
+            }
+        })
+
+
+
+
+    }
+
+
+    async validatetoken(token) {
+        // const token = await AsyncStorage.getItem('@token')
+
+        return await axios.get(`/flapmore-user/profile`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }
+
+        ).then((res) => {
+            // const data = res.data;
+            // console.log(res, '\n', JSON.stringify(res.data))
+            // console.log(res)
+            return res.status
+            // this.props.navigation.replace(to, {data: res.data, tagname})
+            // console.log(typeof(data))
+        }).catch(e => console.log(e))
+    }
+
+    async gettoken() {
+
+        const token = await AsyncStorage.getItem('@token')
+        // console.log(typeof(token))
+        try {
+            if (token != null) {
+                return { found: true, token, to: "LoginSignupchoose" }
+            } else {
+                return { found: false, to: 'LoginSignupchoose' }
+            }
+        } catch {
+            // console.log(e)
+            return { found: false, to: 'LoginSignupchoose' }
+        }
+    }
+
+
+
 
     onchangesearchtext(text) {
         this.setState({ searchtext: text })

@@ -4,6 +4,7 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import Sound from 'react-native-sound';
 import Slider from '@react-native-community/slider';
 import axios from 'react-native-axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import Maticon from 'react-native-vector-icons/MaterialIcons';
@@ -39,23 +40,17 @@ export default class Tabbars extends React.Component {
         maxvalue: 9999,
         currvalue: 0,
 
-        // homestate: null,
         explorestate: false,
         libstate: false,
-        // changestate: false
+
 
     }
 
     Tab = createMaterialBottomTabNavigator()
-    // sound = null
+
 
     componentDidMount() {
-        // ++++++++++++++++++++++
-        // this.props.navigation.setParams({
-        //     taponlib: () => {
-        //         console.log("++++++++++++++++++++++++++++++++++++++++++++++")
-        //     }
-        //   })
+
 
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
 
@@ -405,19 +400,6 @@ export default class Tabbars extends React.Component {
         )
     }
 
-
-
-    // pingstate(screen, val) {
-    //     switch (screen) {
-    //         case "Home": this.setState({ homestate: val }); break;
-    //         case "Explore": this.setState({ explorestate: val }); break;
-    //         case "Library": this.setState({ libstate: val }); break;
-    //     }
-
-    //     console.log(this.state.libstate)
-
-    // }
-
     changelibstate (val) {
         this.setState({libstate: val})
     }
@@ -428,8 +410,13 @@ export default class Tabbars extends React.Component {
 
 
 
+
+
     render() {
 
+        // this.state.tokenchecked? null: this.settokenvalid() 
+        // console.log(this.props.route.params.tokenvalid)
+        
         return (
             <View style={{ flex: 1, backgroundColor: 'red' }}>
 
@@ -462,7 +449,7 @@ export default class Tabbars extends React.Component {
                 >
                     <this.Tab.Screen
                         name='Home'
-                        children={() => <Home props={this.props} visible={this.state.visible} />}
+                        children={() => <Home props={this.props} visible={this.state.visible} tokenvalid={this.props.route.params.tokenvalid} />}
                         listeners={{
                             tabPress: () => {
                                 this.setState({ libstate: false, explorestate: false })
@@ -472,7 +459,7 @@ export default class Tabbars extends React.Component {
 
                     <this.Tab.Screen
                         name='Explore'
-                        children={() => <Explore props={this.props} explorestate={this.state.explorestate} changeexplorestate={this.changeexplorestate.bind(this)} />}
+                        children={() => <Explore props={this.props} explorestate={this.state.explorestate} changeexplorestate={this.changeexplorestate.bind(this)} tokenvalid={this.props.route.params.tokenvalid} />}
                         listeners={{
                             tabPress: () => {
                                 this.setState({ libstate: false, explorestate: true })
@@ -482,7 +469,7 @@ export default class Tabbars extends React.Component {
 
                     <this.Tab.Screen
                         name='Library'
-                        children={() => <Library {...this.props} libstate={this.state.libstate} changelibstate={this.changelibstate.bind(this)} />}
+                        children={() => <Library {...this.props} libstate={this.state.libstate} changelibstate={this.changelibstate.bind(this)} tokenvalid={this.props.route.params.tokenvalid} />}
                         // onPress={() => console.log("++++++++++++++++++++>>>>>>>>>>>>>>")}
                         listeners={{
                             tabPress: () => {

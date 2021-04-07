@@ -33,24 +33,20 @@ export default class Splash extends React.Component {
     // FIRST splash
     async splashfunc() {
 
-        // this.dummiedata().then(data => {
-        //     console.log(data)
-        // })
-        // const token = await AsyncStorage.getItem('@token')
         const { found, token } = await this.gettoken()
-        // this.gettoken().then(res => console.log(res))
+
         if (found) {
 
             // check the validity of token .......
             this.validatetoken(token).then(res => {
-                // console.log(res)
+
                 if (res == 200) {
 
                     this.dummiedata().then(data => {
                         console.log(data)
-                        this.props.navigation.replace('Tabbars', {data})
+                        this.props.navigation.replace('Tabbars', { data, tokenvalid: true})
                     })
-                    
+
                 }
                 else {
                     this.props.navigation.replace("LoginSignupchoose")
@@ -69,7 +65,8 @@ export default class Splash extends React.Component {
 
     // tabbar props handler ...
     async tabbarfunc(productidparam) {
-        
+
+        console.log("to================ ", this.props.route.params.to)
 
         switch (this.props.route.params.to) {
             case "Bookdescription":
@@ -93,7 +90,7 @@ export default class Splash extends React.Component {
                                             return new Promise(async resolve => {
                                                 return this.gettagdetails(Object.tag_name)
                                                     .then((res) => {
-                                                        console.log("wefufewoihweofihweofihewofih")
+                                                        // console.log("wefufewoihweofihweofihewofih")
                                                         var array = res.hits.hits.map((item, index) => {
                                                             return { product_id: parseInt(item._id), product_name: item._source.product_name, author: item._source.author, duration: item._source.duration, thumbnail_url: item._source.thumbnail_url, background: bgcolor[index] }
                                                         })
@@ -131,7 +128,9 @@ export default class Splash extends React.Component {
                 })
 
                 break;
-            case "Settings":
+            case "Login":
+                console.log("Im inside login case in slpash+")
+                this.props.navigation.replace("LoginSignupchoose")
 
         }
 
@@ -162,14 +161,29 @@ export default class Splash extends React.Component {
     async loginfunc() {
 
         const res = this.loginapifunc(this.props.route.params.emailorphone, this.props.route.params.password)
-        res.then((token) => {
-            this.puttoken(token)
-            this.savecred(this.props.route.params.emailorphone)
-            this.props.navigation.replace(this.props.route.params.to)
+        res.then(async (token) => {
+            await this.puttoken(token)
+            await this.savecred(this.props.route.params.emailorphone)
+            this.dummiedata().then(data => {
+                console.log(data)
+                this.props.navigation.replace('Tabbars', { data })
+            })
+            // this.props.navigation.replace(this.props.route.params.to)
         }).catch(err => {
             this.props.navigation.goBack()
             console.log(`ERROR: ${err}`)
         })
+    }
+
+
+
+    async onboardingfunc() {
+
+        this.dummiedata().then(data => {
+            console.log(data)
+            this.props.navigation.replace('Tabbars', { data })
+        })
+
     }
 
 
@@ -200,7 +214,7 @@ export default class Splash extends React.Component {
         const to = this.props.route.params.to
         if (to == 'Pdfview') {
             console.log(this.props.route.params)
-            this.props.navigation.replace(to, { currpage: this.props.route.params.currpage})
+            this.props.navigation.replace(to, { currpage: this.props.route.params.currpage })
 
         } else if (to == 'Musicplayer') {
 
@@ -242,6 +256,7 @@ export default class Splash extends React.Component {
                     case 'Login': this.loginfunc(); break;
                     // case 'Loginviaotp': loginviaotp(); break;
                     case 'Bookdescription': this.bookdescriptionfunc(); break;
+                    case "Onboarding": this.onboardingfunc(); break;
                     // default: this.props.navigation.replace('Tabbars')
                 }
             } catch (e) {
@@ -449,7 +464,7 @@ export default class Splash extends React.Component {
                 console.log("nothing in lib")
             }
         }
-        ).catch (e => console.log("Tagscreen Error:------------->>>>>>>>>>", e))
+        ).catch(e => console.log("Tagscreen Error:------------->>>>>>>>>>", e))
     }
 
 

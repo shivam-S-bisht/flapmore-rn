@@ -4,6 +4,12 @@ import {Image, Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 
 export default class Trendyselectioncard extends React.Component{
 
+
+    state = {
+        toscreen: this.props.tokenvalid ? "Bookdescription" : "Login"
+    }
+
+
     render() {
 
         const {product_id, product_name , author, duration} = this.props.trendycard;
@@ -14,7 +20,7 @@ export default class Trendyselectioncard extends React.Component{
                     style={styles.toptouchable}
                     onPress={() => {
                         // console.log(this.props.props)
-                        this.props.props.props.navigation.push('Splash', {to: 'Bookdescription', from: 'Tabbars', product_id: parseInt(product_id)})
+                        this.props.props.props.navigation.push('Splash', {to: this.state.toscreen, from: 'Tabbars', product_id: parseInt(product_id)})
                     }}
                 >
 
