@@ -148,9 +148,10 @@ export default class Splash extends React.Component {
         res.then((token) => {
             this.puttoken(token)
             this.savecred(this.props.route.params.emailorphone)
-            this.props.navigation.replace(this.props.route.params.to)
+            // this.props.navigation.replace(this.props.route.params.to)
+            
         }).catch(err => {
-            this.props.navigation.goBack()
+            // this.props.navigation.goBack()
             console.log(`ERROR: ${err}`)
         })
     }
