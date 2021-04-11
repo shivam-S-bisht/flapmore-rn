@@ -24,9 +24,52 @@ export default class Profile extends React.Component {
 
         save: false,
 
-
         profileedit: 0
     }
+
+
+
+    componentDidMount() {
+        // console.log("wefefwefwef++++", Object.values(this.props.route.params.data)[0].first_name)
+        this.setState({ showemail: Object.values(this.props.route.params.data)[0].email, showname: Object.values(this.props.route.params.data)[0].first_name })
+    }
+
+
+
+
+    async saveprofile() {
+        AsyncStorage.getItem('@token').then(token=> {
+            axios.post(`/flapmore-user/profile/save`, {
+                data: {
+                    email: this.state.showmail,
+                    first_name: this.state.showname,
+                    last_name: null,
+                    language: 1
+                },
+
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                
+            }
+            ).then((res) => {
+    
+                if (res.status == 200) {
+                    // 
+                    console.log("Successfully saved")
+                } else {
+                    // this.props.navigation.replace("LoginSignupchoose")
+                    console.log("Unsuccessful saved: ", res.status)
+                }
+    
+            })
+        }).catch(()=> {
+            // this.props.navigation.replace("LoginSignupchoose")
+            console.log("Something went wrong")
+        })
+
+    }
+
 
 
     render() {
@@ -45,7 +88,9 @@ export default class Profile extends React.Component {
                     backgroundColor: '#fff'
                 }}
                 >
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={()=> this.props.navigation.goBack()}
+                    >
                         <Ionicon name='chevron-back-outline' size={30} color='black' />
                     </TouchableOpacity>
                     <Text style={{
@@ -153,6 +198,7 @@ export default class Profile extends React.Component {
                                         const showemail = this.state.textemail;
                                         const showphone = this.state.textphone;
                                         this.setState({ profileedit: 0, showname, showemail, showphone })
+                                        this.saveprofile()
                                         // this.setState({ newname: this.state.oldname, newemail: this.state.oldemail, newphone: this.state.oldphone })
                                     }
                                     }
@@ -313,7 +359,7 @@ export default class Profile extends React.Component {
                     <Matirialicon name='logout' size={30} color='#767391' />
                     <TouchableOpacity
                         onPress={() => {
-                            console.log(this.props.navigation.replace("splash", {from: "Profile"}))
+                            console.log(this.props.navigation.replace("splash", { from: "Profile", to: "LoginSignupchoose" }))
                         }}
                     >
                         <Text

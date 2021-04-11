@@ -25,7 +25,9 @@ export default class Settings extends React.Component{
                         paddingHorizontal: 20
                     }}
                 >
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={()=> this.props.navigation.goBack()}
+                    >
                         <Ionicon name='chevron-back-outline' size={30} color='black' />
                     </TouchableOpacity>
                     <Text

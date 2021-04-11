@@ -145,45 +145,45 @@ export default class Splash extends React.Component {
 
 
 
-    async getprofiledetails() {
+    // async getprofiledetails() {
 
-        AsyncStorage.getItem('@token').then(token => {
+    //     AsyncStorage.getItem('@token').then(token => {
 
-            if (token != null) {
+    //         if (token != null) {
 
-                axios.get(`/flapmore-user/profile`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                }
-                ).then((res) => {
+    //             axios.get(`/flapmore-user/profile`, {
+    //                 headers: {
+    //                     'Authorization': `Bearer ${token}`
+    //                 }
+    //             }
+    //             ).then((res) => {
 
-                    if (res.status == 200) {
-                        this.props.navigation.replace("", { data: res.data })
-                    } else {
-                        this.props.navigation.replace("LoginSignupchoose")
-                    }
+    //                 if (res.status == 200) {
+    //                     this.props.navigation.replace("", { data: res.data })
+    //                 } else {
+    //                     this.props.navigation.replace("LoginSignupchoose")
+    //                 }
 
-                }).catch(() => this.props.navigation.replace("LoginSignupchoose"))
+    //             }).catch(() => this.props.navigation.replace("LoginSignupchoose"))
 
-            }
+    //         }
 
-            else {
-                this.props.navigation.replace("LoginSignupchoose")
-            }
+    //         else {
+    //             this.props.navigation.replace("LoginSignupchoose")
+    //         }
 
-        }).catch(() => this.props.navigation.replace("LoginSignupchoose"))
-
-
+    //     }).catch(() => this.props.navigation.replace("LoginSignupchoose"))
 
 
-    }
+
+
+    // }
 
 
     // createnewaccount props handler ...
     async createnewaccountfunc() {
 
-        console.log(this.props.route.params.password)
+        // console.log(this.props.route.params.password)
 
         axios.post('/signup', {
 
@@ -194,7 +194,7 @@ export default class Splash extends React.Component {
 
             if (res.status == 200) {
                 console.log(res.data)
-                this.props.navigation.replace(this.props.route.params.to, {data: res.data})
+                this.props.navigation.replace(this.props.route.params.to, { data: res.data })
             } else if (res.status == 400) {
                 console.log("++++++++++", res.data)
                 this.props.navigation.goBack()
@@ -210,7 +210,7 @@ export default class Splash extends React.Component {
 
         })
 
-        
+
     }
 
 
@@ -426,25 +426,25 @@ export default class Splash extends React.Component {
     }
 
 
-    
+
 
 
 
     async verifysignupfunc() {
 
         this.verifysignupapifunc(this.props.route.params.emailorphone, this.props.route.params.otp)
-        .then(async (token) => {
-            await this.puttoken(token)
-            await this.savecred(this.props.route.params.emailorphone)
-            this.dummiedata().then(data => {
-                console.log(data)
-                this.props.navigation.replace('Tabbars', { data })
+            .then(async (token) => {
+                await this.puttoken(token)
+                await this.savecred(this.props.route.params.emailorphone)
+                this.dummiedata().then(data => {
+                    console.log(data)
+                    this.props.navigation.replace('Tabbars', { data })
+                })
+                // this.props.navigation.replace(this.props.route.params.to)
+            }).catch(err => {
+                this.props.navigation.goBack()
+                console.log(`ERROR: ${err}`)
             })
-            // this.props.navigation.replace(this.props.route.params.to)
-        }).catch(err => {
-            this.props.navigation.goBack()
-            console.log(`ERROR: ${err}`)
-        })
     }
 
 
@@ -533,6 +533,32 @@ export default class Splash extends React.Component {
 
         })
     }
+
+
+
+    async settingsfunc () {
+
+        AsyncStorage.getItem('@token').then(token=> {
+            axios.get(`/flapmore-user/profile`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+            ).then((res) => {
+    
+                if (res.status == 200) {
+                    this.props.navigation.replace("Profile", { data: res.data })
+                } else {
+                    this.props.navigation.replace("LoginSignupchoose")
+                }
+    
+            })
+        }).catch(()=> {
+            this.props.navigation.replace("LoginSignupchoose")
+        })
+  
+    }
+
 
 
     async getallfavs() {
@@ -787,9 +813,15 @@ export default class Splash extends React.Component {
 
 
     logoutfunc() {
-        this.clearalldata().then(() => {
-            this.props.navigation.replace("LoginSignupchoose")
-        })
+
+        switch (this.props.route.params.to) {
+            case "LoginSignupchoose":
+                this.clearalldata().then(() => {
+                    this.props.navigation.replace("LoginSignupchoose")
+                })
+                break;
+
+        }
     }
 
 

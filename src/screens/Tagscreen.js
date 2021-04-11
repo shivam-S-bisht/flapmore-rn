@@ -327,7 +327,7 @@ export default class Tagscreen extends React.Component {
                         <FlatList
                             keyExtractor={item => item._id}
                             data={this.props.route.params.data.hits.hits}
-                            renderItem={({ item, index }) => <Tabflapbookscard explorecard={index % 2 ? { ...item._source, bgcolor: '#EEE5C9' } : { ...item._source, bgcolor: '#BFD2E6' }} allfav={this.props.route.params.allfav} />}
+                            renderItem={({ item, index }) => <Tabflapbookscard explorecard={index % 2 ? { ...item._source, bgcolor: '#EEE5C9' } : { ...item._source, bgcolor: '#BFD2E6' }} allfav={this.props.route.params.allfav} props={this.props} />}
                         />
                         :
                         <View style={{ alignItems: 'center', width: Dimensions.get("window").width }}>

@@ -40,6 +40,7 @@ export default class Exploretabflapbookscard extends React.Component {
                     }
 
                 } else {
+                    let lib = {}
                     lib["fav"] = [bookid]
                     AsyncStorage.setItem("@lib", JSON.stringify(lib), err => {
                         if (err) {

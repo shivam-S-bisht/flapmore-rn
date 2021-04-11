@@ -41,31 +41,38 @@ export default class Bookdescription extends React.Component {
         try {
             await AsyncStorage.getItem("@lib").then(lib => {
                 lib = JSON.parse(lib)
-                if (lib != null && "mycontent" in lib) {
-                    if (!lib.mycontent.includes(bookid)) {
-                        lib.mycontent.push(bookid)
-
-                        AsyncStorage.setItem("@lib", JSON.stringify(lib), err => {
-                            if (err) {
-                                console.log(err)
-                            } else {
-                                console.log("success")
-                            }
-                        })
+                
+                if (lib != null) {
+                    if ( "mycontent" in lib){
+                        if (!lib.mycontent.includes(bookid)) {
+                            lib.mycontent.push(bookid)
+    
+                            // AsyncStorage.setItem("@lib", JSON.stringify(lib), err => {
+                            //     if (err) {
+                            //         console.log(err)
+                            //     } else {
+                            //         console.log("success")
+                            //     }
+                            // })
+                        }
+                    }
+                    else {
+                        lib["mycontent"] = [bookid] 
                     }
 
                 } else {
+                    var lib = {}
                     lib["mycontent"] = [bookid]
-                    AsyncStorage.setItem("@lib", JSON.stringify(lib), err => {
-                        if (err) {
-                            console.log(err)
-                        } else {
-                            console.log("success")
-                        }
-                    })
-
+                    
                 }
-
+                
+                AsyncStorage.setItem("@lib", JSON.stringify(lib), err => {
+                    if (err) {
+                        console.log(err)
+                    } else {
+                        console.log("success")
+                    }
+                })
             })
 
         } catch (e) {
@@ -81,31 +88,38 @@ export default class Bookdescription extends React.Component {
         try {
             await AsyncStorage.getItem("@lib").then(lib => {
                 lib = JSON.parse(lib)
-                if (lib != null && "fav" in lib) {
-                    if (!lib.fav.includes(bookid)) {
-                        lib.fav.push(bookid)
-
-                        AsyncStorage.setItem("@lib", JSON.stringify(lib), err => {
-                            if (err) {
-                                console.log(err)
-                            } else {
-                                console.log("success")
-                            }
-                        })
+                
+                if (lib != null) {
+                    if ( "fav" in lib){
+                        if (!lib.fav.includes(bookid)) {
+                            lib.fav.push(bookid)
+    
+                            // AsyncStorage.setItem("@lib", JSON.stringify(lib), err => {
+                            //     if (err) {
+                            //         console.log(err)
+                            //     } else {
+                            //         console.log("success")
+                            //     }
+                            // })
+                        }
+                    }
+                    else {
+                        lib["fav"] = [bookid] 
                     }
 
                 } else {
+                    var lib = {}
                     lib["fav"] = [bookid]
-                    AsyncStorage.setItem("@lib", JSON.stringify(lib), err => {
-                        if (err) {
-                            console.log(err)
-                        } else {
-                            console.log("success")
-                        }
-                    })
-
+                    
                 }
-
+                
+                AsyncStorage.setItem("@lib", JSON.stringify(lib), err => {
+                    if (err) {
+                        console.log(err)
+                    } else {
+                        console.log("success")
+                    }
+                })
             })
 
         } catch (e) {
@@ -359,7 +373,7 @@ export default class Bookdescription extends React.Component {
                                                         marginRight: 15,
                                                         borderRadius: 5,
                                                     }}
-                                                    onPress={() => this.props.navigation.push('Splash', { to: 'Bookdescription', from: 'Tabbars' })}
+                                                    onPress={() => this.props.navigation.push('Splash', {to: "Bookdescription", from: 'Tabbars', product_id: parseInt(item.product_id)})}
                                                 >
                                                     <View style={[{
                                                         borderRadius: 5,

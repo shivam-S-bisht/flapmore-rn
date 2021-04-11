@@ -21,31 +21,38 @@ export default class Tabflapbookscard extends React.Component{
         try {
             await AsyncStorage.getItem("@lib").then(lib => {
                 lib = JSON.parse(lib)
-                if (lib != null && "fav" in lib) {
-                    if (!lib.fav.includes(bookid)) {
-                        lib.fav.push(bookid)
-
-                        AsyncStorage.setItem("@lib", JSON.stringify(lib), err => {
-                            if (err) {
-                                console.log(err)
-                            } else {
-                                console.log("success")
-                            }
-                        })
+                
+                if (lib != null) {
+                    if ( "fav" in lib){
+                        if (!lib.fav.includes(bookid)) {
+                            lib.fav.push(bookid)
+    
+                            // AsyncStorage.setItem("@lib", JSON.stringify(lib), err => {
+                            //     if (err) {
+                            //         console.log(err)
+                            //     } else {
+                            //         console.log("success")
+                            //     }
+                            // })
+                        }
+                    }
+                    else {
+                        lib["fav"] = [bookid] 
                     }
 
                 } else {
+                    var lib = {}
                     lib["fav"] = [bookid]
-                    AsyncStorage.setItem("@lib", JSON.stringify(lib), err => {
-                        if (err) {
-                            console.log(err)
-                        } else {
-                            console.log("success")
-                        }
-                    })
-
+                    
                 }
-
+                
+                AsyncStorage.setItem("@lib", JSON.stringify(lib), err => {
+                    if (err) {
+                        console.log(err)
+                    } else {
+                        console.log("success")
+                    }
+                })
             })
 
         } catch (e) {
@@ -54,6 +61,9 @@ export default class Tabflapbookscard extends React.Component{
 
 
     }
+
+
+
 
     async deletefromfavourites(product_id) {
         AsyncStorage.getItem("@lib").then(async lib => {
@@ -91,6 +101,7 @@ export default class Tabflapbookscard extends React.Component{
             <View>
                 <TouchableOpacity
                     style={styles.toptouchable}
+                    onPress={()=> this.props.props.navigation.push('Splash', {to: "Bookdescription", from: 'Tabbars', product_id: parseInt(product_id)})}
                 >
                     <View style={{backgroundColor: bgcolor, paddingHorizontal: 40, margin: 10, borderRadius: 5, paddingVertical: 10}}>
                         <Image source={{uri: thumbnail_url}} style={{borderTopRightRadius: 5, borderTopLeftRadius: 5, position: 'absolute', top: 10, left: 10, right: 10, bottom: 0}} />
