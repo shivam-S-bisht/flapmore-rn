@@ -70,7 +70,8 @@ export default class Tabbars extends React.Component {
                                     this.getcurrenttime(this.state.currvalue)
 
                                 if (this.state.currvalue > this.state.maxvalue)
-                                    clearInterval(this.timer)
+                                    this.setState({ currvalue: 0, isplay: 0, currenttime: "00:00" })
+                                // console.log("oiwbfowibefweofiwe+++++++++++++++++++")
 
                             }, 1000)
 
@@ -90,6 +91,9 @@ export default class Tabbars extends React.Component {
     }
 
 
+    componentWillUnmount () {
+        this._unsubscribe();
+    }
 
     play() {
         // this.setState({isplay: 1})
@@ -100,7 +104,12 @@ export default class Tabbars extends React.Component {
     pause() {
         // this.setState({isplay: 0})
         // console.log(this.state)
-        this.sound.pause()
+        try{
+            this.sound.pause()
+
+        } catch (e) {
+            this.setState({ currvalue: 0, isplay: 0, currenttime: "00:00"})
+        }
     }
 
 
@@ -115,20 +124,27 @@ export default class Tabbars extends React.Component {
 
     getcurrenttime(val) {
 
-        var currvalue = val + 1;
+        try {
+            var currvalue = val + 1;
 
-        var min = Math.floor(currvalue / 60);
-        var sec = Math.floor(currvalue % 60);
+            var min = Math.floor(currvalue / 60);
+            var sec = Math.floor(currvalue % 60);
 
-        if (`${min}`.length == 1) {
-            min = `0${min}`
+            if (`${min}`.length == 1) {
+                min = `0${min}`
+            }
+
+            if (`${sec}`.length == 1) {
+                sec = `0${sec}`
+            }
+            // console.log(this.state.currvalue)
+            this.setState({ currenttime: `${min}:${sec}`, currvalue, disable: false })
+
+        } catch (e) {
+            console.log("ERROR:++++",)
+            this.pause()
+            this.setState({ currvalue: 0, isplay: 0, currenttime: "00:00" })
         }
-
-        if (`${sec}`.length == 1) {
-            sec = `0${sec}`
-        }
-        // console.log(this.state.currvalue)
-        this.setState({ currenttime: `${min}:${sec}`, currvalue, disable: false })
     }
 
 
@@ -156,6 +172,8 @@ export default class Tabbars extends React.Component {
 
         } catch (e) {
             console.log(`error : ${e}`)
+            this.pause()
+            this.setState({ currvalue: 0, isplay: 0, currenttime: "00:00" })
         }
     }
 
@@ -192,7 +210,7 @@ export default class Tabbars extends React.Component {
                             <View
                                 style={{ paddingHorizontal: 15 }}
                             >
-                                <Text style={{ color: '#FFF', fontSize: 18 }}>{(bookdescription.title).length > 15 ? `${(bookdescription.title).slice(0, 13)}...` : bookdescription.title}</Text>
+                                <Text style={{ color: '#FFF', fontSize: 18 }}>{this.props.route.params.title.length <= 13 ? this.props.route.params.title : `${this.props.route.params.title.slice(0, 13)}...`}</Text>
                                 <Text style={{ color: '#7A7A97', fontSize: 15 }}>Now Playing...</Text>
                             </View>
                         </View>
@@ -311,7 +329,7 @@ export default class Tabbars extends React.Component {
                             fontSize: 18,
                             fontWeight: 'bold'
                         }}
-                    >Ch 1 of 12 {bookdescription.title}</Text>
+                    >{this.props.route.params.title}</Text>
                     <Text
                         style={{
                             color: '#3D6DFF',
@@ -319,7 +337,7 @@ export default class Tabbars extends React.Component {
                             fontWeight: 'bold',
                             paddingTop: 10
                         }}
-                    >{bookdescription.author}</Text>
+                    >{this.props.route.params.author}</Text>
                 </View>
 
                 <View
@@ -400,12 +418,12 @@ export default class Tabbars extends React.Component {
         )
     }
 
-    changelibstate (val) {
-        this.setState({libstate: val})
+    changelibstate(val) {
+        this.setState({ libstate: val })
     }
 
-    changeexplorestate (val) {
-        this.setState({explorestate: val})
+    changeexplorestate(val) {
+        this.setState({ explorestate: val })
     }
 
 
@@ -416,7 +434,7 @@ export default class Tabbars extends React.Component {
 
         // this.state.tokenchecked? null: this.settokenvalid() 
         // console.log(this.props.route.params.tokenvalid)
-        
+
         return (
             <View style={{ flex: 1, backgroundColor: 'red' }}>
 

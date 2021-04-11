@@ -265,6 +265,8 @@ export default class Bookdescription extends React.Component {
                                     this.props.navigation.navigate('Tabbars', {
                                         from: 'Bookdescription',
                                         to: 'Musicplayer',
+                                        title: product_name,
+                                        author: author,
 
                                         // hardcoded
                                         playbookuri: 'https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3'
