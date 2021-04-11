@@ -44,7 +44,7 @@ export default class Splash extends React.Component {
 
                     this.dummiedata().then(data => {
                         console.log(data)
-                        this.props.navigation.replace('Tabbars', { data, tokenvalid: true})
+                        this.props.navigation.replace('Tabbars', { data, tokenvalid: true })
                     })
 
                 }
@@ -128,11 +128,51 @@ export default class Splash extends React.Component {
                 })
 
                 break;
+
             case "Login":
-                console.log("Im inside login case in slpash+")
+                // console.log("Im inside login case in slpash+")
                 this.props.navigation.replace("LoginSignupchoose")
+                break;
+
+
 
         }
+
+
+    }
+
+
+
+
+
+    async getprofiledetails() {
+
+        AsyncStorage.getItem('@token').then(token => {
+
+            if (token != null) {
+
+                axios.get(`/flapmore-user/profile`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                }
+                ).then((res) => {
+
+                    if (res.status == 200) {
+                        this.props.navigation.replace("", { data: res.data })
+                    } else {
+                        this.props.navigation.replace("LoginSignupchoose")
+                    }
+
+                }).catch(() => this.props.navigation.replace("LoginSignupchoose"))
+
+            }
+
+            else {
+                this.props.navigation.replace("LoginSignupchoose")
+            }
+
+        }).catch(() => this.props.navigation.replace("LoginSignupchoose"))
 
 
 
@@ -140,20 +180,37 @@ export default class Splash extends React.Component {
     }
 
 
-
     // createnewaccount props handler ...
     async createnewaccountfunc() {
 
-        const res = this.createnewaccountapifunc(this.props.route.params.emailorphone, this.props.route.params.password)
-        res.then((token) => {
-            this.puttoken(token)
-            this.savecred(this.props.route.params.emailorphone)
-            // this.props.navigation.replace(this.props.route.params.to)
-            
-        }).catch(err => {
-            // this.props.navigation.goBack()
-            console.log(`ERROR: ${err}`)
+        console.log(this.props.route.params.password)
+
+        axios.post('/signup', {
+
+            emailMobile: this.props.route.params.emailorphone,
+            password: this.props.route.params.password
+
+        }).then((res) => {
+
+            if (res.status == 200) {
+                console.log(res.data)
+                this.props.navigation.replace(this.props.route.params.to, {data: res.data})
+            } else if (res.status == 400) {
+                console.log("++++++++++", res.data)
+                this.props.navigation.goBack()
+            } else {
+                console.log(res.status, " : Something went wrong...")
+                this.props.navigation.goBack()
+            }
+
+        }).catch((e) => {
+
+            console.log("+++++++++fewfewfewfewfewf+", e)
+            this.props.navigation.goBack()
+
         })
+
+        
     }
 
 
@@ -258,6 +315,9 @@ export default class Splash extends React.Component {
                     // case 'Loginviaotp': loginviaotp(); break;
                     case 'Bookdescription': this.bookdescriptionfunc(); break;
                     case "Onboarding": this.onboardingfunc(); break;
+                    case "Profile": this.logoutfunc(); break;
+                    case "Settings": this.settingsfunc(); break;
+                    case "Enterotp": this.verifysignupfunc(); break;
                     // default: this.props.navigation.replace('Tabbars')
                 }
             } catch (e) {
@@ -353,6 +413,7 @@ export default class Splash extends React.Component {
                 password
             }).then((res) => {
                 if (res.status == 200) {
+                    console.log(res.data)
                     resolve('OTP sent')
                 } else {
                     reject('Account already exists')
@@ -365,25 +426,44 @@ export default class Splash extends React.Component {
     }
 
 
+    
+
+
+
+    async verifysignupfunc() {
+
+        this.verifysignupapifunc(this.props.route.params.emailorphone, this.props.route.params.otp)
+        .then(async (token) => {
+            await this.puttoken(token)
+            await this.savecred(this.props.route.params.emailorphone)
+            this.dummiedata().then(data => {
+                console.log(data)
+                this.props.navigation.replace('Tabbars', { data })
+            })
+            // this.props.navigation.replace(this.props.route.params.to)
+        }).catch(err => {
+            this.props.navigation.goBack()
+            console.log(`ERROR: ${err}`)
+        })
+    }
+
 
     // API CALLS -> verify create new account
-    async verifysignupapifunc(emailMobile, userId, otp) {
+    async verifysignupapifunc(emailMobile, otp) {
 
         return new Promise((resolve, reject) => {
             axios.post('/verifySignup', {
                 emailMobile,
-                userId,
                 otp
             }).then((res) => {
                 if (res.status == 200) {
-                    resolve('Success')
+                    resolve(res.data.token)
                 } else {
-                    reject('OTP Already verified')
+                    reject('Something went wrong')
                 }
             }).catch(() => {
                 reject('response from server:400, Some error occured')
             })
-
         })
     }
 
@@ -698,6 +778,19 @@ export default class Splash extends React.Component {
     }
 
 
+
+    async clearalldata() {
+        return AsyncStorage.getAllKeys()
+            .then(keys => AsyncStorage.multiRemove(keys))
+            .then(() => alert('success'));
+    }
+
+
+    logoutfunc() {
+        this.clearalldata().then(() => {
+            this.props.navigation.replace("LoginSignupchoose")
+        })
+    }
 
 
     // Tabbars

@@ -105,7 +105,7 @@ export default class Home extends React.Component {
 
                         <TouchableOpacity
                             onPress={() => {
-                                this.props.props.navigation.push('Splash', { to: 'Profile', from: 'Tabbars' })
+                                this.props.props.navigation.push('Settings')
                             }}
                         >
                             <Ionicon name='settings-outline' size={24} color='#1F4966' />

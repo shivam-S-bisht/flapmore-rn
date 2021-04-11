@@ -56,6 +56,9 @@ export default class Settings extends React.Component{
                     >
                         <TouchableOpacity
                             style={styles.profiledetailstouchable}
+                            onPress={() => {
+                                this.props.navigation.push("Splash", {from: "Settings", to: "Profile"})
+                            }}
                         >
                             <Maticon name='account-outline' size={30} color='black' />
                             <Text

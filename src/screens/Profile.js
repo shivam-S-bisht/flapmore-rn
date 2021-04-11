@@ -313,7 +313,7 @@ export default class Profile extends React.Component {
                     <Matirialicon name='logout' size={30} color='#767391' />
                     <TouchableOpacity
                         onPress={() => {
-
+                            console.log(this.props.navigation.replace("splash", {from: "Profile"}))
                         }}
                     >
                         <Text
